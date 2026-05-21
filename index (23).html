@@ -397,6 +397,54 @@ footer{padding:48px clamp(20px,4vw,64px) 34px;border-top:1px solid var(--line);
   *{animation-duration:.001ms!important;transition-duration:.001ms!important}
   .reveal{opacity:1;transform:none}
 }
+
+/* ── WHITE THEME ── */
+html.light{
+  --amber:#d97706;--amber-s:#f59e0b;--amber-w:#92400e;--ember:#c2410c;
+  --ink:#1a1510;--ink-d:rgba(26,21,16,.65);--ink-m:rgba(26,21,16,.42);
+  --ink-f:rgba(26,21,16,.15);--line:rgba(26,21,16,.1);--glass:rgba(248,245,240,.92);
+}
+html.light body{background:#f8f5f0}
+html.light #loader{background:#f8f5f0}
+html.light #nav{background:linear-gradient(180deg,rgba(248,245,240,.92) 0%,transparent 100%)}
+html.light #nav-mob{background:rgba(240,236,229,.98)}
+html.light #nav-mob a:hover{color:var(--amber)}
+html.light .mqw{background:rgba(248,245,240,.96)}
+html.light .sec{background:rgba(248,245,240,.96)}
+html.light .cert-f{background:rgba(255,252,247,.97);border-color:rgba(217,119,6,.2);box-shadow:inset 0 0 40px rgba(0,0,0,.03)}
+html.light .cert-f::before{background:linear-gradient(135deg,rgba(217,119,6,.04) 0%,transparent 45%,rgba(196,72,10,.02) 100%)}
+html.light .cert-b{background:rgba(252,249,244,.98);border-color:rgba(217,119,6,.25);box-shadow:inset 0 0 40px rgba(0,0,0,.03)}
+html.light .cert-b::before{background:linear-gradient(135deg,rgba(217,119,6,.04) 0%,transparent 50%)}
+html.light .cert-card:hover .cert-f,html.light .cert-card:hover .cert-b{border-color:rgba(217,119,6,.45);box-shadow:0 0 32px rgba(217,119,6,.14),inset 0 0 30px rgba(217,119,6,.03)}
+html.light footer{background:rgba(248,245,240,.98)}
+html.light .proj-preview{background:rgba(252,249,244,.97)}
+html.light .proj-preview-thumb{background:#e8e2d8}
+html.light .proj-preview-title{color:rgba(180,83,9,.4)}
+html.light #contact::before{background:radial-gradient(circle,rgba(217,119,6,.09),transparent 60%)}
+html.light .cap::before{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(217,119,6,.05),transparent 55%)}
+html.light #hero-title{text-shadow:none}
+html.light .hero-sub{text-shadow:none}
+html.light .hero-cv-btn:hover{color:#fff}
+html.light .cta-btn:hover{color:#fff}
+html.light .portrait-frame{box-shadow:0 0 40px rgba(217,119,6,.06),inset 0 0 30px rgba(0,0,0,.04)}
+html.light .portrait-frame::after{box-shadow:inset 0 0 40px rgba(217,119,6,.06),0 0 50px rgba(217,119,6,.03)}
+html.light #grain{mix-blend-mode:multiply;opacity:.18}
+html.light #cur{mix-blend-mode:multiply;background:radial-gradient(circle at 35% 35%,#fff8e0,var(--amber-s) 40%,var(--amber) 75%,transparent);box-shadow:0 0 10px 3px rgba(217,119,6,.4),0 0 28px 8px rgba(217,119,6,.15)}
+html.light #cur.h{background:radial-gradient(circle,rgba(217,119,6,.1),transparent 70%);box-shadow:0 0 80px 20px rgba(217,119,6,.07)}
+html.light #cur-r{border-color:rgba(217,119,6,.3);mix-blend-mode:multiply}
+
+/* THEME TOGGLE BUTTON */
+.theme-btn{width:34px;height:34px;border-radius:50%;
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+  color:var(--ink-m);transition:color .3s,border-color .3s;flex-shrink:0}
+.theme-btn:hover{color:var(--amber);border-color:rgba(245,158,11,.4)}
+html.light .theme-btn:hover{border-color:rgba(217,119,6,.4)}
+.theme-btn svg{width:15px;height:15px}
+.theme-btn .t-moon{display:block}
+.theme-btn .t-sun{display:none}
+html.light .theme-btn .t-moon{display:none}
+html.light .theme-btn .t-sun{display:block}
+body,#loader,.sec,.mqw,.cert-f,.cert-b,footer,.proj-preview{transition:background-color .45s ease}
 </style>
 </head>
 <body>
@@ -444,6 +492,10 @@ footer{padding:48px clamp(20px,4vw,64px) 34px;border-top:1px solid var(--line);
         <ellipse cx="962.57" cy="767.1" rx="123.42" ry="123.49"/>
       </svg>
     </div>
+    <button class="theme-btn" id="theme-btn" aria-label="Toggle theme">
+      <svg class="t-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="t-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
     <button class="nav-ham" id="ham-btn" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
@@ -1809,6 +1861,23 @@ function animate(){
   renderer.render(scene,camera);
 }
 if(!PRM)animate();else renderer.render(scene,camera);
+
+/* ── THEME TOGGLE ── */
+var themeBtn=document.getElementById('theme-btn');
+var htmlEl=document.documentElement;
+var isLight=localStorage.getItem('theme')==='light';
+function applyTheme(light){
+  htmlEl.classList.toggle('light',light);
+  renderer.setClearColor(light?0xf8f5f0:0x000000,1);
+}
+applyTheme(isLight);
+if(themeBtn){
+  themeBtn.addEventListener('click',function(){
+    isLight=!isLight;
+    applyTheme(isLight);
+    localStorage.setItem('theme',isLight?'light':'dark');
+  });
+}
 })();
 </script>
 </body>
