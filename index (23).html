@@ -398,6 +398,14 @@ footer{padding:48px clamp(20px,4vw,64px) 34px;border-top:1px solid var(--line);
   .reveal{opacity:1;transform:none}
 }
 
+/* Caps section — pure CSS background replaces base64 image for both themes */
+#cap-bg img{display:none!important}
+#cap-bg{background-color:#000;background-image:
+  linear-gradient(rgba(245,158,11,.032) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(245,158,11,.032) 1px,transparent 1px),
+  radial-gradient(ellipse 65% 55% at 50% 50%,rgba(245,158,11,.065) 0%,transparent 65%);
+  background-size:80px 80px,80px 80px,100% 100%}
+
 /* ── WHITE THEME ── */
 html.light{
   --amber:#d97706;--amber-s:#f59e0b;--amber-w:#92400e;--ember:#c2410c;
@@ -422,16 +430,40 @@ html.light .proj-preview-thumb{background:#e8e2d8}
 html.light .proj-preview-title{color:rgba(180,83,9,.4)}
 html.light #contact::before{background:radial-gradient(circle,rgba(217,119,6,.09),transparent 60%)}
 html.light .cap::before{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(217,119,6,.05),transparent 55%)}
-html.light #hero-title{text-shadow:none}
-html.light .hero-sub{text-shadow:none}
+/* Hero: cream text-halo so dark text stays readable over the dark 3D eclipse */
+html.light #hero-title{text-shadow:0 0 38px rgba(248,245,240,.94),0 0 76px rgba(248,245,240,.78)}
+html.light .hero-sub{text-shadow:0 0 20px rgba(248,245,240,.92),0 0 40px rgba(248,245,240,.78)}
+html.light .hero-eyebrow{text-shadow:0 0 14px rgba(248,245,240,.92)}
 html.light .hero-cv-btn:hover{color:#fff}
 html.light .cta-btn:hover{color:#fff}
 html.light .portrait-frame{box-shadow:0 0 40px rgba(217,119,6,.06),inset 0 0 30px rgba(0,0,0,.04)}
 html.light .portrait-frame::after{box-shadow:inset 0 0 40px rgba(217,119,6,.06),0 0 50px rgba(217,119,6,.03)}
-html.light #grain{mix-blend-mode:multiply;opacity:.18}
+/* Grain: soft-light avoids the pixel-multiply artifacts on metallic/high-contrast images */
+html.light #grain{mix-blend-mode:soft-light;opacity:.14}
 html.light #cur{mix-blend-mode:multiply;background:radial-gradient(circle at 35% 35%,#fff8e0,var(--amber-s) 40%,var(--amber) 75%,transparent);box-shadow:0 0 10px 3px rgba(217,119,6,.4),0 0 28px 8px rgba(217,119,6,.15)}
 html.light #cur.h{background:radial-gradient(circle,rgba(217,119,6,.1),transparent 70%);box-shadow:0 0 80px 20px rgba(217,119,6,.07)}
 html.light #cur-r{border-color:rgba(217,119,6,.3);mix-blend-mode:multiply}
+/* Caps section — light mode overrides */
+html.light #caps{background:#f8f5f0!important}
+html.light #cap-bg{background-color:#f8f5f0;background-image:
+  linear-gradient(rgba(26,21,16,.052) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(26,21,16,.052) 1px,transparent 1px),
+  radial-gradient(ellipse 65% 55% at 50% 50%,rgba(217,119,6,.07) 0%,transparent 65%);
+  background-size:80px 80px,80px 80px,100% 100%}
+html.light #cap-bg::after{background:radial-gradient(ellipse 90% 80% at 50% 50%,transparent 20%,rgba(248,245,240,.55) 100%)}
+html.light #cap-grain{mix-blend-mode:soft-light;opacity:.13}
+html.light #cap-cur{mix-blend-mode:multiply}
+html.light #cap-ambient{mix-blend-mode:soft-light}
+html.light .cap-pn{color:#1a1510}
+html.light .cap-pn .cap-ac{color:#92400e}
+html.light .cap-desc{color:rgba(26,21,16,.65)}
+html.light .cap-pi{color:#d97706}
+html.light #cap-cn{color:#1a1510}
+html.light #cap-wm{color:#d97706}
+html.light .cap-ring text{fill:rgba(26,21,16,.12)}
+html.light .cap-glow-gold{filter:drop-shadow(0 0 40px rgba(217,119,6,.32)) drop-shadow(0 20px 40px rgba(0,0,0,.15))}
+html.light .cap-glow-blue{filter:drop-shadow(0 0 40px rgba(56,189,248,.32)) drop-shadow(0 20px 40px rgba(0,0,0,.15))}
+html.light .cap-glow-gold2{filter:drop-shadow(0 0 35px rgba(217,119,6,.28)) drop-shadow(0 20px 40px rgba(0,0,0,.15))}
 
 /* THEME TOGGLE BUTTON */
 .theme-btn{width:34px;height:34px;border-radius:50%;
