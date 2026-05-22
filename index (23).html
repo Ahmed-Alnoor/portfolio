@@ -478,9 +478,18 @@ html.light .theme-btn:hover{border-color:rgba(217,119,6,.4)}
 .theme-btn .t-sun{display:none}
 html.light .theme-btn .t-moon{display:none}
 html.light .theme-btn .t-sun{display:block}
-/* Electric wave canvas */
+/* Electric ring canvas — decoration only, no fill */
 #theme-wave{position:fixed;inset:0;z-index:9998;pointer-events:none}
-body,#loader,.sec,.mqw,.cert-f,.cert-b,footer,.proj-preview{transition:background-color .45s ease}
+/* View Transition — clip-path circular reveal from button */
+::view-transition-old(root){animation:none;z-index:1}
+::view-transition-new(root){
+  animation:vt-expand .92s cubic-bezier(.4,0,.2,1) forwards;
+  clip-path:circle(0px at var(--vt-x,50vw) var(--vt-y,60px));
+  z-index:2
+}
+@keyframes vt-expand{
+  to{clip-path:circle(250vmax at var(--vt-x,50vw) var(--vt-y,60px))}
+}
 </style>
 </head>
 <body>
@@ -1899,7 +1908,7 @@ function animate(){
 }
 if(!PRM)animate();else renderer.render(scene,camera);
 
-/* ── THEME TOGGLE — dual-ring electric ripple ── */
+/* ── THEME TOGGLE — View Transition reveal + electric rings ── */
 var themeBtn=document.getElementById('theme-btn');
 var themeWave=document.getElementById('theme-wave');
 var htmlEl=document.documentElement;
@@ -1911,31 +1920,23 @@ function applyTheme(light){
   renderer.setClearColor(light?0xf8f5f0:0x000000,1);
 }
 
-/* easing curves */
-function _eio(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;}
-function _eout(t){return 1-Math.pow(1-t,3);}
-
-function electricRipple(ox,oy,toLight){
-  if(waveRunning||!themeWave){applyTheme(toLight);return;}
-  waveRunning=true;
-  var W=themeWave.width=window.innerWidth;
-  var H=themeWave.height=window.innerHeight;
+/* Decorative electric rings — NO fill, page visible through */
+function drawRings(ox,oy,dur){
+  if(!themeWave)return;
+  themeWave.width=window.innerWidth;
+  themeWave.height=window.innerHeight;
   var ctx=themeWave.getContext('2d');
-  var maxR=Math.hypot(Math.max(ox,W-ox),Math.max(oy,H-oy))+70;
-  var DUR=1050;                               /* total ms */
-  var fc=toLight?'248,245,240':'6,5,3';       /* fill rgb */
-  var applied=false,t0=null;
+  var W=themeWave.width,H=themeWave.height;
+  var maxR=Math.hypot(Math.max(ox,W-ox),Math.max(oy,H-oy))+60;
+  var t0=null;
 
-  /* time-based sinusoidal noise for jagged electric edge */
   function nz(r,a,t){
-    if(r<4)return r;
+    if(r<3)return r;
     return r
       +Math.sin(a*7 +t*3.8)*Math.min(r*.040,16)
       +Math.sin(a*15+t*6.1)*Math.min(r*.026,10)
       +Math.sin(a*27-t*5.0)*Math.min(r*.016, 6);
   }
-
-  /* build a jagged circle path, no drawing */
   function mkPath(r,t,N){
     ctx.beginPath();
     for(var i=0;i<=N;i++){
@@ -1945,99 +1946,47 @@ function electricRipple(ox,oy,toLight){
     }
     ctx.closePath();
   }
-
-  /* amber glow stroke — call after mkPath */
-  function glowStroke(outerAlpha,innerAlpha){
-    ctx.save();
-    ctx.lineWidth=3.8;
-    ctx.strokeStyle='rgba(245,158,11,'+outerAlpha+')';
-    ctx.shadowColor='rgba(245,158,11,1)';
-    ctx.shadowBlur=34;
-    ctx.stroke();
-    ctx.lineWidth=1.4;
-    ctx.strokeStyle='rgba(255,238,100,'+innerAlpha+')';
-    ctx.shadowBlur=12;
-    ctx.stroke();
-    ctx.restore();
-  }
+  function eout(t){return 1-Math.pow(1-t,3);}
 
   function frame(ts){
     if(!t0)t0=ts;
-    var prog=Math.min((ts-t0)/DUR,1);
-    var T=prog*10;                            /* noise time scalar */
+    var prog=Math.min((ts-t0)/dur,1);
+    var T=prog*10;
     ctx.clearRect(0,0,W,H);
 
-    /* ── WAVE 1 — solid fill, smooth eio ── */
-    var pW1=_eio(prog);
-    var rW1=pW1*maxR;
-    if(!applied&&pW1>=.48){applied=true;applyTheme(toLight);}
-
-    if(rW1>1){
-      mkPath(rW1,T,320);
-      /* radial gradient: opaque center → feathered edge (3D depth) */
-      var gW=ctx.createRadialGradient(ox,oy,0,ox,oy,rW1);
-      var q='rgba('+fc+',';
-      gW.addColorStop(0,  q+'1)');
-      gW.addColorStop(.78,q+'1)');
-      gW.addColorStop(.93,q+'.92)');
-      gW.addColorStop(1,  q+'0)');
-      ctx.fillStyle=gW; ctx.fill();
-      /* edge glow fades as wave nears screen boundary */
-      var fW1=Math.max(0,1-pW1*.95)*.72;
-      if(fW1>.02){mkPath(rW1,T,320);glowStroke(fW1,fW1*1.1);}
+    /* Ring A — mid speed */
+    var pA=eout(Math.min(prog*1.28,1));
+    var rA=pA*maxR,fA=Math.max(0,1-pA*.93);
+    if(rA>1&&fA>.01){
+      mkPath(rA,T*1.1,340);
+      ctx.save();
+      ctx.lineWidth=4;ctx.strokeStyle='rgba(245,158,11,'+(0.68*fA)+')';
+      ctx.shadowColor='rgba(245,158,11,1)';ctx.shadowBlur=30;ctx.stroke();
+      ctx.lineWidth=1.4;ctx.strokeStyle='rgba(255,235,100,'+(0.82*fA)+')';
+      ctx.shadowBlur=10;ctx.stroke();ctx.restore();
     }
 
-    /* ── WAVE 2 — second fill, eio with 18% delay ── */
-    var p2raw=Math.max(0,(prog-.18)/.82);
-    var pW2=_eio(Math.min(p2raw,1));
-    var rW2=pW2*maxR;
-
-    if(rW2>1){
-      mkPath(rW2,T*.85,300);
-      /* slightly warmer/cooler shade so band between W1 & W2 is visible */
-      var shade=toLight?'252,249,244':'14,11,8';
-      var gW2=ctx.createRadialGradient(ox,oy,0,ox,oy,rW2);
-      var q2='rgba('+shade+',';
-      gW2.addColorStop(0,  q2+'1)');
-      gW2.addColorStop(.75,q2+'1)');
-      gW2.addColorStop(.92,q2+'.88)');
-      gW2.addColorStop(1,  q2+'0)');
-      ctx.fillStyle=gW2; ctx.fill();
-      var fW2=Math.max(0,1-pW2*.95)*.55;
-      if(fW2>.02){mkPath(rW2,T*.85,300);glowStroke(fW2*.85,fW2);}
-    }
-
-    /* ── RING A — races between the two fill waves ── */
-    var pRA=_eout(Math.min(prog*1.32,1));
-    var rRA=pRA*maxR;
-    var fRA=Math.max(0,1-pRA*.92);
-    if(rRA>1&&fRA>.01){
-      mkPath(rRA,T*1.15,350);
-      glowStroke(fRA*.8,fRA*.95);
-    }
-
-    /* ── RING B — leading electric edge + sparks ── */
-    var pRB=_eout(Math.min(prog*1.68,1));
-    var rRB=pRB*maxR;
-    var fRB=Math.max(0,1-pRB*.94);
-    if(rRB>1&&fRB>.01){
-      mkPath(rRB,T*1.45,368);
-      glowStroke(Math.min(fRB*1.3,1),Math.min(fRB*1.5,1));
-      /* spark tendrils shooting outward from leading ring */
-      if(fRB>.14){
+    /* Ring B — fastest, leading edge + sparks */
+    var pB=eout(Math.min(prog*1.65,1));
+    var rB=pB*maxR,fB=Math.max(0,1-pB*.94);
+    if(rB>1&&fB>.01){
+      mkPath(rB,T*1.42,362);
+      ctx.save();
+      ctx.lineWidth=3.5;ctx.strokeStyle='rgba(245,158,11,'+(0.78*fB)+')';
+      ctx.shadowColor='rgba(245,158,11,1)';ctx.shadowBlur=36;ctx.stroke();
+      ctx.lineWidth=1.3;ctx.strokeStyle='rgba(255,240,120,'+(0.9*fB)+')';
+      ctx.shadowBlur=12;ctx.stroke();ctx.restore();
+      if(fB>.13){
         ctx.save();
         for(var s=0;s<20;s++){
-          var sa=(s/20)*Math.PI*2+T*.68;
-          var nr=nz(rRB,sa,T*1.45);
-          var sx=ox+Math.cos(sa)*nr, sy=oy+Math.sin(sa)*nr;
-          var sl=(5+Math.sin(T*2.5+s*2.1)*5)*fRB;
+          var sa=(s/20)*Math.PI*2+T*.66;
+          var nr=nz(rB,sa,T*1.42);
+          var sl=(5+Math.sin(T*2.4+s*2.1)*5)*fB;
           ctx.beginPath();
-          ctx.moveTo(sx,sy);
-          ctx.lineTo(sx+Math.cos(sa)*sl, sy+Math.sin(sa)*sl);
-          ctx.strokeStyle='rgba(255,238,110,'+(0.78*fRB)+')';
-          ctx.lineWidth=1.6;
-          ctx.shadowColor='rgba(245,158,11,.9)';
-          ctx.shadowBlur=8;
+          ctx.moveTo(ox+Math.cos(sa)*nr,oy+Math.sin(sa)*nr);
+          ctx.lineTo(ox+Math.cos(sa)*(nr+sl),oy+Math.sin(sa)*(nr+sl));
+          ctx.strokeStyle='rgba(255,238,110,'+(0.76*fB)+')';
+          ctx.lineWidth=1.5;ctx.shadowColor='rgba(245,158,11,.9)';ctx.shadowBlur=8;
           ctx.stroke();
         }
         ctx.restore();
@@ -2045,11 +1994,7 @@ function electricRipple(ox,oy,toLight){
     }
 
     if(prog<1){requestAnimationFrame(frame);}
-    else{
-      if(!applied)applyTheme(toLight);
-      ctx.clearRect(0,0,W,H);
-      waveRunning=false;
-    }
+    else{ctx.clearRect(0,0,W,H);waveRunning=false;}
   }
   requestAnimationFrame(frame);
 }
@@ -2060,8 +2005,22 @@ if(themeBtn){
     if(waveRunning)return;
     isLight=!isLight;
     localStorage.setItem('theme',isLight?'light':'dark');
-    var r=themeBtn.getBoundingClientRect();
-    electricRipple(r.left+r.width/2,r.top+r.height/2,isLight);
+    var rect=themeBtn.getBoundingClientRect();
+    var ox=rect.left+rect.width/2,oy=rect.top+rect.height/2;
+    /* pass origin to CSS so ::view-transition-new clip-path starts here */
+    htmlEl.style.setProperty('--vt-x',ox+'px');
+    htmlEl.style.setProperty('--vt-y',oy+'px');
+    waveRunning=true;
+    if(document.startViewTransition){
+      /* View Transitions API: old theme stays visible as a screenshot;
+         new theme is clipped to an expanding circle from the button */
+      var vt=document.startViewTransition(function(){applyTheme(isLight);});
+      vt.ready.then(function(){drawRings(ox,oy,950);}).catch(function(){drawRings(ox,oy,950);});
+      vt.finished.then(function(){waveRunning=false;}).catch(function(){waveRunning=false;});
+    } else {
+      applyTheme(isLight);
+      drawRings(ox,oy,950);
+    }
   });
 }
 })();
