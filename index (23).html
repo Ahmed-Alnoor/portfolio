@@ -483,7 +483,7 @@ html.light .theme-btn .t-sun{display:block}
 /* View Transition — clip-path circular reveal from button */
 ::view-transition-old(root){animation:none;z-index:1}
 ::view-transition-new(root){
-  animation:vt-expand 1.7s cubic-bezier(.4,0,.2,1) forwards;
+  animation:vt-expand 3s cubic-bezier(.2,0,.2,1) forwards;
   clip-path:circle(0px at var(--vt-x,50vw) var(--vt-y,60px));
   z-index:2
 }
@@ -2015,11 +2015,11 @@ if(themeBtn){
       /* View Transitions API: old theme stays visible as a screenshot;
          new theme is clipped to an expanding circle from the button */
       var vt=document.startViewTransition(function(){applyTheme(isLight);});
-      vt.ready.then(function(){drawRings(ox,oy,1700);}).catch(function(){drawRings(ox,oy,1700);});
+      vt.ready.then(function(){drawRings(ox,oy,3000);}).catch(function(){drawRings(ox,oy,3000);});
       vt.finished.then(function(){waveRunning=false;}).catch(function(){waveRunning=false;});
     } else {
       applyTheme(isLight);
-      drawRings(ox,oy,1700);
+      drawRings(ox,oy,3000);
     }
   });
 }
