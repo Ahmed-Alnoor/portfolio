@@ -490,6 +490,100 @@ html.light .theme-btn .t-sun{display:block}
 @keyframes vt-expand{
   to{clip-path:circle(250vmax at var(--vt-x,50vw) var(--vt-y,60px))}
 }
+
+/* ── SITE FOOTER — skills & tools ── */
+#site-footer{
+  display:block!important;padding:0!important;
+  position:relative;overflow:hidden;
+  background:#070503;
+  border-top:1px solid rgba(245,158,11,.18);
+}
+html.light #site-footer{background:#070503!important;border-top-color:rgba(245,158,11,.22)!important}
+#footer-laser{
+  position:absolute;inset:0;width:100%;height:100%;
+  display:block;pointer-events:none;z-index:0;
+}
+.ft-inner{
+  position:relative;z-index:1;
+  max-width:1180px;margin:0 auto;
+  padding:80px clamp(24px,5vw,80px) 52px;
+  font-family:'Geist Mono',monospace;
+  color:rgba(245,240,232,.65);
+}
+.ft-top{text-align:center;margin-bottom:64px}
+.ft-eyebrow2{
+  display:block;font-size:9px;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(245,158,11,.5);margin-bottom:14px;
+}
+.ft-title2{
+  font-family:'Geist',sans-serif;font-size:clamp(28px,5vw,50px);
+  font-weight:300;letter-spacing:-.025em;
+  color:rgba(245,240,232,.95);margin:0 0 12px;
+}
+.ft-sub2{
+  font-size:11px;letter-spacing:.06em;
+  color:rgba(245,240,232,.28);margin:0 auto;max-width:380px;
+}
+.ft-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:48px 72px;margin-bottom:60px;
+}
+@media(max-width:700px){.ft-grid{grid-template-columns:1fr}}
+.ft-col-label{
+  font-size:8px;letter-spacing:.32em;text-transform:uppercase;
+  color:rgba(245,158,11,.4);margin:0 0 18px;
+  padding-bottom:12px;border-bottom:1px solid rgba(245,158,11,.1);
+}
+.ft-skills{
+  list-style:none;padding:0;margin:0;
+  display:flex;flex-wrap:wrap;gap:8px;
+}
+.ft-skill{
+  padding:5px 14px;border-radius:2px;
+  border:1px solid rgba(245,158,11,.18);
+  font-size:10px;letter-spacing:.08em;
+  color:rgba(245,240,232,.62);
+  background:rgba(245,158,11,.03);
+  transition:border-color .22s,color .22s,background .22s;
+  cursor:default;
+}
+.ft-skill:hover{
+  border-color:rgba(245,158,11,.5);
+  color:rgba(245,240,232,1);
+  background:rgba(245,158,11,.08);
+}
+.ft-tools{display:flex;flex-wrap:wrap;align-items:baseline;}
+.ft-tool{
+  font-size:10px;letter-spacing:.06em;
+  color:rgba(245,240,232,.38);white-space:nowrap;
+}
+.ft-tool::after{content:' · ';color:rgba(245,158,11,.2);margin:0 4px;}
+.ft-tool:last-child::after{display:none}
+.ft-bottom{
+  padding-top:28px;border-top:1px solid rgba(245,158,11,.1);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:18px;
+}
+.ft-social{display:flex;gap:22px;}
+.ft-soc-link{
+  display:flex;align-items:center;gap:8px;
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(245,240,232,.48);text-decoration:none;
+  transition:color .22s;
+}
+.ft-soc-link:hover{color:rgba(245,158,11,1);}
+.ft-soc-link svg{width:14px;height:14px;fill:currentColor;flex-shrink:0}
+.ft-copy2{
+  font-size:8px;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(245,240,232,.2);text-align:center;
+}
+.ft-links2{display:flex;gap:18px;}
+.ft-links2 a{
+  font-size:8px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(245,240,232,.28);text-decoration:none;
+  transition:color .22s;
+}
+.ft-links2 a:hover{color:rgba(245,158,11,.8);}
 </style>
 </head>
 <body>
@@ -1342,15 +1436,92 @@ html.light .theme-btn .t-sun{display:block}
   </div>
 </section>
 </div>
-<footer>
-  <div>© Ahmed Mohammed · MMXXVI · Brand Architect</div>
-  <div class="foot-links">
-    <a href="https://linkedin.com/in/ahmed-alnoor" target="_blank" rel="noopener">LinkedIn</a>
-    <a href="mailto:ahmed.m.alnoor@gmail.com">Email</a>
-    <a href="tel:+971561185206">Phone</a>
-    <a href="https://drive.google.com/uc?export=download&id=1llaNKuZHGHz4BUCwpUzm0zyAGH62NBed" download="Ahmed_Alnoor_CV.pdf" target="_blank" rel="noopener">CV</a>
+<footer id="site-footer">
+  <canvas id="footer-laser" aria-hidden="true"></canvas>
+  <div class="ft-inner">
+
+    <div class="ft-top">
+      <span class="ft-eyebrow2">Arsenal</span>
+      <h2 class="ft-title2">Skills &amp; Tools</h2>
+      <p class="ft-sub2">The capabilities that build brand ecosystems forward.</p>
+    </div>
+
+    <div class="ft-grid">
+      <div>
+        <p class="ft-col-label">Capabilities</p>
+        <ul class="ft-skills">
+          <li class="ft-skill">Project Management</li>
+          <li class="ft-skill">Google Shopping Ads</li>
+          <li class="ft-skill">Influencer Marketing</li>
+          <li class="ft-skill">Marketing Communication</li>
+          <li class="ft-skill">CRM Systems &amp; Marketing Material</li>
+          <li class="ft-skill">Product Marketing</li>
+          <li class="ft-skill">Communication &amp; Collaboration</li>
+          <li class="ft-skill">Email Marketing</li>
+          <li class="ft-skill">Content Marketing / Planning</li>
+          <li class="ft-skill">Web Analytics</li>
+          <li class="ft-skill">Paid Ads Strategy &amp; Tools</li>
+          <li class="ft-skill">WhatsApp Campaigns</li>
+          <li class="ft-skill">Strategic &amp; Line Marketing</li>
+          <li class="ft-skill">Social Media Advertising</li>
+          <li class="ft-skill">Social Media Content Creation</li>
+          <li class="ft-skill">Facebook Ads &amp; Promotions</li>
+          <li class="ft-skill">Snapchat Ads / TikTok Ads</li>
+          <li class="ft-skill">SMS Campaigns</li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-label">Platforms &amp; Tools</p>
+        <div class="ft-tools">
+          <span class="ft-tool">Meta Business Suite</span>
+          <span class="ft-tool">Google Ads</span>
+          <span class="ft-tool">LinkedIn Campaign Manager</span>
+          <span class="ft-tool">TikTok Ads Manager</span>
+          <span class="ft-tool">Google Analytics 4</span>
+          <span class="ft-tool">Google Search Console</span>
+          <span class="ft-tool">SEMrush</span>
+          <span class="ft-tool">Ahrefs</span>
+          <span class="ft-tool">Hotjar</span>
+          <span class="ft-tool">Google Tag Manager</span>
+          <span class="ft-tool">Canva</span>
+          <span class="ft-tool">Later</span>
+          <span class="ft-tool">Hootsuite</span>
+          <span class="ft-tool">WordPress</span>
+          <span class="ft-tool">Shopify</span>
+          <span class="ft-tool">Zoho CRM</span>
+          <span class="ft-tool">HubSpot CRM</span>
+          <span class="ft-tool">Mailchimp</span>
+          <span class="ft-tool">WhatsApp Business API</span>
+          <span class="ft-tool">Trello</span>
+          <span class="ft-tool">Asana</span>
+          <span class="ft-tool">Google Workspace</span>
+          <span class="ft-tool">Slack</span>
+          <span class="ft-tool">Power BI</span>
+          <span class="ft-tool">Google Data Studio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ft-bottom">
+      <div class="ft-social">
+        <a href="https://www.instagram.com/a7med_gin" target="_blank" rel="noopener" class="ft-soc-link">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          <span>@a7med_gin</span>
+        </a>
+        <a href="https://www.linkedin.com/in/ahmedgin" target="_blank" rel="noopener" class="ft-soc-link">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          <span>Ahmed Gin</span>
+        </a>
+      </div>
+      <div class="ft-copy2">© Ahmed Mohammed · MMXXVI · Brand Architect UAE</div>
+      <div class="ft-links2">
+        <a href="mailto:ahmed.m.alnoor@gmail.com">Email</a>
+        <a href="tel:+971561185206">Phone</a>
+        <a href="https://drive.google.com/uc?export=download&id=1llaNKuZHGHz4BUCwpUzm0zyAGH62NBed" download="Ahmed_Alnoor_CV.pdf" target="_blank" rel="noopener">CV</a>
+      </div>
+    </div>
+
   </div>
-  <div>Built with intention</div>
 </footer>
 <canvas id="theme-wave"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
@@ -2023,6 +2194,293 @@ if(themeBtn){
     }
   });
 }
+})();
+</script>
+<script>
+/* LaserFlow footer — vanilla JS port of ReactBits LaserFlow */
+(function(){
+  var mount=document.getElementById('site-footer');
+  var canvas=document.getElementById('footer-laser');
+  if(!mount||!canvas||typeof THREE==='undefined')return;
+
+  var VERT='precision highp float;\nattribute vec3 position;\nvoid main(){gl_Position=vec4(position,1.0);}';
+
+  var FRAG=`
+#ifdef GL_ES
+#extension GL_OES_standard_derivatives : enable
+#endif
+precision highp float;
+precision mediump int;
+uniform float iTime;
+uniform vec3 iResolution;
+uniform vec4 iMouse;
+uniform float uWispDensity;
+uniform float uTiltScale;
+uniform float uFlowTime;
+uniform float uFogTime;
+uniform float uBeamXFrac;
+uniform float uBeamYFrac;
+uniform float uFlowSpeed;
+uniform float uVLenFactor;
+uniform float uHLenFactor;
+uniform float uFogIntensity;
+uniform float uFogScale;
+uniform float uWSpeed;
+uniform float uWIntensity;
+uniform float uFlowStrength;
+uniform float uDecay;
+uniform float uFalloffStart;
+uniform float uFogFallSpeed;
+uniform vec3 uColor;
+uniform float uFade;
+#define PI 3.14159265359
+#define TWO_PI 6.28318530718
+#define EPS 1e-6
+#define EDGE_SOFT (DT_LOCAL*4.0)
+#define DT_LOCAL 0.0038
+#define TAP_RADIUS 6
+#define R_H 150.0
+#define R_V 150.0
+#define FLARE_HEIGHT 16.0
+#define FLARE_AMOUNT 8.0
+#define FLARE_EXP 2.0
+#define TOP_FADE_START 0.1
+#define TOP_FADE_EXP 1.0
+#define FLOW_PERIOD 0.5
+#define FLOW_SHARPNESS 1.5
+#define W_BASE_X 1.5
+#define W_LAYER_GAP 0.25
+#define W_LANES 10
+#define W_SIDE_DECAY 0.5
+#define W_HALF 0.01
+#define W_AA 0.15
+#define W_CELL 20.0
+#define W_SEG_MIN 0.01
+#define W_SEG_MAX 0.55
+#define W_CURVE_AMOUNT 15.0
+#define W_CURVE_RANGE (FLARE_HEIGHT-3.0)
+#define W_BOTTOM_EXP 10.0
+#define FOG_ON 1
+#define FOG_CONTRAST 1.2
+#define FOG_OCTAVES 5
+#define FOG_BOTTOM_BIAS 0.8
+#define FOG_TILT_MAX_X 0.35
+#define FOG_TILT_SHAPE 1.5
+#define FOG_BEAM_MIN 0.0
+#define FOG_BEAM_MAX 0.75
+#define FOG_MASK_GAMMA 0.5
+#define FOG_EXPAND_SHAPE 12.2
+#define FOG_EDGE_MIX 0.5
+#define HFOG_EDGE_START 0.20
+#define HFOG_EDGE_END 0.98
+#define HFOG_EDGE_GAMMA 1.4
+#define HFOG_Y_RADIUS 25.0
+#define HFOG_Y_SOFT 60.0
+#define EDGE_X0 0.22
+#define EDGE_X1 0.995
+#define EDGE_X_GAMMA 1.25
+#define EDGE_LUMA_T0 0.0
+#define EDGE_LUMA_T1 2.0
+#define DITHER_STRENGTH 1.0
+float g(float x){return x<=0.00031308?12.92*x:1.055*pow(x,1.0/2.4)-0.055;}
+float bs(vec2 p,vec2 q,float powr){float d=distance(p,q),f=powr*uFalloffStart,r=(f*f)/(d*d+EPS);return powr*min(1.0,r);}
+float bsa(vec2 p,vec2 q,float powr,vec2 s){vec2 d=p-q;float dd=(d.x*d.x)/(s.x*s.x)+(d.y*d.y)/(s.y*s.y),f=powr*uFalloffStart,r=(f*f)/(dd+EPS);return powr*min(1.0,r);}
+float tri01(float x){float f=fract(x);return 1.0-abs(f*2.0-1.0);}
+float tauWf(float t,float tmin,float tmax){float a=smoothstep(tmin,tmin+EDGE_SOFT,t),b=1.0-smoothstep(tmax-EDGE_SOFT,tmax,t);return max(0.0,a*b);}
+float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+34.123);return fract(p.x*p.y);}
+float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);float a=h21(i),b=h21(i+vec2(1,0)),c=h21(i+vec2(0,1)),d=h21(i+vec2(1,1));vec2 u=f*f*(3.0-2.0*f);return mix(mix(a,b,u.x),mix(c,d,u.x),u.y);}
+float fbm2(vec2 p){float v=0.0,amp=0.6;mat2 m=mat2(0.86,0.5,-0.5,0.86);for(int i=0;i<FOG_OCTAVES;++i){v+=amp*vnoise(p);p=m*p*2.03+17.1;amp*=0.52;}return v;}
+float rGate(float x,float l){float a=smoothstep(0.0,W_AA,x),b=1.0-smoothstep(l,l+W_AA,x);return max(0.0,a*b);}
+float flareY(float y){float t=clamp(1.0-(clamp(y,0.0,FLARE_HEIGHT)/max(FLARE_HEIGHT,EPS)),0.0,1.0);return pow(t,FLARE_EXP);}
+float vWisps(vec2 uv,float topF){
+  float y=uv.y,yf=(y+uFlowTime*uWSpeed)/W_CELL;
+  float dRaw=clamp(uWispDensity,0.0,2.0),d=dRaw<=0.0?1.0:dRaw;
+  float lanesF=floor(float(W_LANES)*min(d,1.0)+0.5);
+  int lanes=int(max(1.0,lanesF));
+  float sp=min(d,1.0),ep=max(d-1.0,0.0);
+  float fm=flareY(max(y,0.0)),rm=clamp(1.0-(y/max(W_CURVE_RANGE,EPS)),0.0,1.0),cm=fm*rm;
+  const float G=0.05;float xS=1.0+(FLARE_AMOUNT*W_CURVE_AMOUNT*G)*cm;
+  float sPix=clamp(y/R_V,0.0,1.0),bGain=pow(1.0-sPix,W_BOTTOM_EXP),sum=0.0;
+  for(int s=0;s<2;++s){
+    float sgn=s==0?-1.0:1.0;
+    for(int i=0;i<W_LANES;++i){
+      if(i>=lanes)break;
+      float off=W_BASE_X+float(i)*W_LAYER_GAP,xc=sgn*(off*xS);
+      float dx=abs(uv.x-xc),lat=1.0-smoothstep(W_HALF,W_HALF+W_AA,dx),amp=exp(-off*W_SIDE_DECAY);
+      float seed=h21(vec2(off,sgn*17.0)),yf2=yf+seed*7.0,ci=floor(yf2),fy=fract(yf2);
+      float seg=mix(W_SEG_MIN,W_SEG_MAX,h21(vec2(ci,off*2.3)));
+      float spR=h21(vec2(ci,off+sgn*31.0)),seg1=rGate(fy,seg)*step(spR,sp);
+      if(ep>0.0){float spR2=h21(vec2(ci*3.1+7.0,off*5.3+sgn*13.0));float f2=fract(fy+0.5);seg1+=rGate(f2,seg*0.9)*step(spR2,ep);}
+      sum+=amp*lat*seg1;
+    }
+  }
+  float span=smoothstep(-3.0,0.0,y)*(1.0-smoothstep(R_V-6.0,R_V,y));
+  return uWIntensity*sum*topF*bGain*span;
+}
+void mainImage(out vec4 fc,in vec2 frag){
+  vec2 C=iResolution.xy*.5;float invW=1.0/max(C.x,1.0);
+  vec2 sc=(512.0/iResolution.xy)*.4;
+  vec2 uv=(frag-C)*sc,off=vec2(uBeamXFrac*iResolution.x*sc.x,uBeamYFrac*iResolution.y*sc.y);
+  vec2 uvc=uv-off;
+  float a=0.0,b=0.0;
+  float basePhase=1.5*PI+uDecay*.5;float tauMin=basePhase-uDecay;float tauMax=basePhase;
+  float cx=clamp(uvc.x/(R_H*uHLenFactor),-1.0,1.0),tH=clamp(TWO_PI-acos(cx),tauMin,tauMax);
+  for(int k=-TAP_RADIUS;k<=TAP_RADIUS;++k){
+    float tu=tH+float(k)*DT_LOCAL,wt=tauWf(tu,tauMin,tauMax);if(wt<=0.0)continue;
+    float spd=max(abs(sin(tu)),0.02),u=clamp((basePhase-tu)/max(uDecay,EPS),0.0,1.0),env=pow(1.0-abs(u*2.0-1.0),0.8);
+    vec2 p=vec2((R_H*uHLenFactor)*cos(tu),0.0);
+    a+=wt*bs(uvc,p,env*spd);
+  }
+  float yPix=uvc.y,cy=clamp(-yPix/(R_V*uVLenFactor),-1.0,1.0),tV=clamp(TWO_PI-acos(cy),tauMin,tauMax);
+  for(int k=-TAP_RADIUS;k<=TAP_RADIUS;++k){
+    float tu=tV+float(k)*DT_LOCAL,wt=tauWf(tu,tauMin,tauMax);if(wt<=0.0)continue;
+    float yb=(-R_V)*cos(tu),s=clamp(yb/R_V,0.0,1.0),spd=max(abs(sin(tu)),0.02);
+    float env=pow(1.0-s,0.6)*spd;
+    float cap=1.0-smoothstep(TOP_FADE_START,1.0,s);cap=pow(cap,TOP_FADE_EXP);env*=cap;
+    float ph=s/max(FLOW_PERIOD,EPS)+uFlowTime*uFlowSpeed;
+    float fl=pow(tri01(ph),FLOW_SHARPNESS);
+    env*=mix(1.0-uFlowStrength,1.0,fl);
+    float yp=(-R_V*uVLenFactor)*cos(tu),m=pow(smoothstep(FLARE_HEIGHT,0.0,yp),FLARE_EXP),wx=1.0+FLARE_AMOUNT*m;
+    vec2 sig=vec2(wx,1.0),p=vec2(0.0,yp);
+    float mask=step(0.0,yp);
+    b+=wt*bsa(uvc,p,mask*env,sig);
+  }
+  float sPix=clamp(yPix/R_V,0.0,1.0),topA=pow(1.0-smoothstep(TOP_FADE_START,1.0,sPix),TOP_FADE_EXP);
+  float L=a+b*topA;
+  float w=vWisps(vec2(uvc.x,yPix),topA);
+  float fog=0.0;
+#if FOG_ON
+  vec2 fuv=uvc*uFogScale;
+  float mAct=step(1.0,length(iMouse.xy)),nx=((iMouse.x-C.x)*invW)*mAct;
+  float ax=abs(nx);
+  float stMag=mix(ax,pow(ax,FOG_TILT_SHAPE),0.35);
+  float st=sign(nx)*stMag*uTiltScale;
+  st=clamp(st,-FOG_TILT_MAX_X,FOG_TILT_MAX_X);
+  vec2 dir=normalize(vec2(st,1.0));
+  fuv+=uFogTime*uFogFallSpeed*dir;
+  vec2 prp=vec2(-dir.y,dir.x);
+  fuv+=prp*(0.08*sin(dot(uvc,prp)*0.08+uFogTime*0.9));
+  float n=fbm2(fuv+vec2(fbm2(fuv+vec2(7.3,2.1)),fbm2(fuv+vec2(-3.7,5.9)))*0.6);
+  n=pow(clamp(n,0.0,1.0),FOG_CONTRAST);
+  float pixW=1.0/max(iResolution.y,1.0);
+#ifdef GL_OES_standard_derivatives
+  float wL=max(fwidth(L),pixW);
+#else
+  float wL=pixW;
+#endif
+  float m0=pow(smoothstep(FOG_BEAM_MIN-wL,FOG_BEAM_MAX+wL,L),FOG_MASK_GAMMA);
+  float bm=1.0-pow(1.0-m0,FOG_EXPAND_SHAPE);bm=mix(bm*m0,bm,FOG_EDGE_MIX);
+  float yP=1.0-smoothstep(HFOG_Y_RADIUS,HFOG_Y_RADIUS+HFOG_Y_SOFT,abs(yPix));
+  float nxF=abs((frag.x-C.x)*invW),hE=1.0-smoothstep(HFOG_EDGE_START,HFOG_EDGE_END,nxF);hE=pow(clamp(hE,0.0,1.0),HFOG_EDGE_GAMMA);
+  float hW=mix(1.0,hE,clamp(yP,0.0,1.0));
+  float bBias=mix(1.0,1.0-sPix,FOG_BOTTOM_BIAS);
+  float radialFade=1.0-smoothstep(0.0,0.7,length(uvc)/120.0);
+  fog=n*uFogIntensity*1.8*bBias*bm*hW*radialFade;
+#endif
+  float LF=L+fog;
+  float dith=(h21(frag)-0.5)*(DITHER_STRENGTH/255.0);
+  float tone=g(LF+w);
+  vec3 col=tone*uColor+dith;
+  float alpha=clamp(g(L+w*0.6)+dith*0.6,0.0,1.0);
+  float nxE=abs((frag.x-C.x)*invW),xF=pow(clamp(1.0-smoothstep(EDGE_X0,EDGE_X1,nxE),0.0,1.0),EDGE_X_GAMMA);
+  float scene=LF+max(0.0,w)*0.5,hi=smoothstep(EDGE_LUMA_T0,EDGE_LUMA_T1,scene);
+  float eM=mix(xF,1.0,hi);
+  col*=eM;alpha*=eM;
+  col*=uFade;alpha*=uFade;
+  fc=vec4(col,alpha);
+}
+void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
+`;
+
+  var renderer=new THREE.WebGLRenderer({
+    canvas:canvas,antialias:false,alpha:false,depth:false,stencil:false,
+    powerPreference:'high-performance',premultipliedAlpha:false
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+  if(THREE.SRGBColorSpace)renderer.outputColorSpace=THREE.SRGBColorSpace;
+  renderer.setClearColor(0x070503,1);
+
+  var sc2=new THREE.Scene();
+  var cm2=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+  var geo2=new THREE.BufferGeometry();
+  geo2.setAttribute("position",new THREE.BufferAttribute(new Float32Array([-1,-1,0,3,-1,0,-1,3,0]),3));
+
+  var uni={
+    iTime:{value:0},
+    iResolution:{value:new THREE.Vector3(1,1,1)},
+    iMouse:{value:new THREE.Vector4(0,0,0,0)},
+    uWispDensity:{value:4.3},
+    uTiltScale:{value:0.01},
+    uFlowTime:{value:0},
+    uFogTime:{value:0},
+    uBeamXFrac:{value:0.0},
+    uBeamYFrac:{value:0.0},
+    uFlowSpeed:{value:0.35},
+    uVLenFactor:{value:2.0},
+    uHLenFactor:{value:1.08},
+    uFogIntensity:{value:0.0},
+    uFogScale:{value:0.12},
+    uWSpeed:{value:6.5},
+    uWIntensity:{value:20},
+    uFlowStrength:{value:0.69},
+    uDecay:{value:1.28},
+    uFalloffStart:{value:0.5},
+    uFogFallSpeed:{value:0.81},
+    uColor:{value:new THREE.Vector3(245/255,158/255,11/255)},
+    uFade:{value:0}
+  };
+
+  var mat2=new THREE.RawShaderMaterial({
+    vertexShader:VERT,fragmentShader:FRAG,uniforms:uni,
+    transparent:false,depthTest:false,depthWrite:false,
+    blending:THREE.NormalBlending
+  });
+  var mesh2=new THREE.Mesh(geo2,mat2);
+  mesh2.frustumCulled=false;
+  sc2.add(mesh2);
+
+  var clk2=new THREE.Clock();
+  var prevT2=0,fade2=0,hasFaded2=false,paused2=false,inView2=true,raf2=0;
+
+  function resize2(){
+    var w=mount.clientWidth||1,h=mount.clientHeight||1;
+    var pr=Math.min(window.devicePixelRatio||1,2);
+    renderer.setPixelRatio(pr);
+    renderer.setSize(w,h,false);
+    uni.iResolution.value.set(w*pr,h*pr,pr);
+  }
+  resize2();
+
+  var ro2=new ResizeObserver(resize2);
+  ro2.observe(mount);
+
+  var io2=new IntersectionObserver(function(e){
+    inView2=!!(e[0]&&e[0].isIntersecting);
+  },{threshold:0});
+  io2.observe(mount);
+
+  var mTgt2=new THREE.Vector2(0,0);
+  mount.addEventListener("pointermove",function(e){
+    var r=mount.getBoundingClientRect(),pr=Math.min(window.devicePixelRatio||1,2);
+    mTgt2.set((e.clientX-r.left)*pr,(r.height-(e.clientY-r.top))*pr);
+  },{passive:true});
+  mount.addEventListener("pointerleave",function(){mTgt2.set(0,0)},{passive:true});
+  document.addEventListener("visibilitychange",function(){paused2=document.hidden},{passive:true});
+
+  function animate2(){
+    raf2=requestAnimationFrame(animate2);
+    if(paused2||!inView2)return;
+    var t=clk2.getElapsedTime();
+    var dt=Math.min(Math.max(t-prevT2,0),0.033);
+    prevT2=t;
+    uni.iTime.value=t;
+    uni.uFlowTime.value+=dt;
+    uni.uFogTime.value+=dt;
+    if(!hasFaded2){fade2=Math.min(1,fade2+dt/1.5);uni.uFade.value=fade2;if(fade2>=1)hasFaded2=true;}
+    uni.iMouse.value.set(mTgt2.x,mTgt2.y,0,0);
+    renderer.render(sc2,cm2);
+  }
+  animate2();
 })();
 </script>
 </body>
