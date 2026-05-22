@@ -478,6 +478,8 @@ html.light .theme-btn:hover{border-color:rgba(217,119,6,.4)}
 .theme-btn .t-sun{display:none}
 html.light .theme-btn .t-moon{display:none}
 html.light .theme-btn .t-sun{display:block}
+/* Electric wave canvas */
+#theme-wave{position:fixed;inset:0;z-index:8999;pointer-events:none}
 body,#loader,.sec,.mqw,.cert-f,.cert-b,footer,.proj-preview{transition:background-color .45s ease}
 </style>
 </head>
@@ -1341,6 +1343,7 @@ body,#loader,.sec,.mqw,.cert-f,.cert-b,footer,.proj-preview{transition:backgroun
   </div>
   <div>Built with intention</div>
 </footer>
+<canvas id="theme-wave"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
 <script>
 (function(){
@@ -1896,20 +1899,96 @@ function animate(){
 }
 if(!PRM)animate();else renderer.render(scene,camera);
 
-/* ── THEME TOGGLE ── */
+/* ── THEME TOGGLE — electric wave ── */
 var themeBtn=document.getElementById('theme-btn');
+var themeWave=document.getElementById('theme-wave');
 var htmlEl=document.documentElement;
 var isLight=localStorage.getItem('theme')==='light';
+var waveRunning=false;
+
 function applyTheme(light){
   htmlEl.classList.toggle('light',light);
   renderer.setClearColor(light?0xf8f5f0:0x000000,1);
 }
+
+function electricWave(fromX,fromY,targetLight){
+  if(waveRunning||!themeWave){applyTheme(targetLight);return;}
+  waveRunning=true;
+  themeWave.width=innerWidth;
+  themeWave.height=innerHeight;
+  var ctx=themeWave.getContext('2d');
+  var maxR=Math.hypot(
+    Math.max(fromX,innerWidth-fromX),
+    Math.max(fromY,innerHeight-fromY)
+  )+80;
+  var r=0;
+  var speed=maxR/45;
+  var applied=false;
+  var fill=targetLight?'#f8f5f0':'#060503';
+  var POINTS=240;
+
+  function frame(){
+    ctx.clearRect(0,0,themeWave.width,themeWave.height);
+    if(r<2){r+=speed;requestAnimationFrame(frame);return;}
+
+    /* --- jagged electric circle --- */
+    ctx.beginPath();
+    for(var i=0;i<=POINTS;i++){
+      var a=(i/POINTS)*Math.PI*2;
+      var jag=
+        Math.sin(a*9 +r*.38)*10+
+        Math.sin(a*19+r*.65)*5+
+        Math.sin(a*4 +r*.20)*14;
+      var er=Math.max(1,r+jag);
+      var px=fromX+Math.cos(a)*er;
+      var py=fromY+Math.sin(a)*er;
+      i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+    }
+    ctx.closePath();
+
+    /* fill */
+    ctx.fillStyle=fill;
+    ctx.fill();
+
+    /* glowing amber edge — the "electricity" */
+    ctx.save();
+    ctx.strokeStyle='rgba(245,158,11,.9)';
+    ctx.lineWidth=3;
+    ctx.shadowColor='rgba(245,158,11,1)';
+    ctx.shadowBlur=18;
+    ctx.stroke();
+    /* second inner stroke for extra glow depth */
+    ctx.lineWidth=1.2;
+    ctx.shadowBlur=6;
+    ctx.strokeStyle='rgba(255,220,80,.95)';
+    ctx.stroke();
+    ctx.restore();
+
+    /* switch theme when wave is 42% across */
+    if(!applied&&r>maxR*.42){
+      applied=true;
+      applyTheme(targetLight);
+    }
+
+    r+=speed;
+    if(r<maxR+100){
+      requestAnimationFrame(frame);
+    } else {
+      ctx.clearRect(0,0,themeWave.width,themeWave.height);
+      waveRunning=false;
+    }
+  }
+  requestAnimationFrame(frame);
+}
+
 applyTheme(isLight);
 if(themeBtn){
   themeBtn.addEventListener('click',function(){
+    if(waveRunning)return;
     isLight=!isLight;
-    applyTheme(isLight);
     localStorage.setItem('theme',isLight?'light':'dark');
+    var r=themeBtn.getBoundingClientRect();
+    electricWave(r.left+r.width/2,r.top+r.height/2,isLight);
   });
 }
 })();
