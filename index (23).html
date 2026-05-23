@@ -2945,11 +2945,9 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   var btn=document.getElementById('music-btn');
   if(!playerEl||!btn)return;
 
-  /* Interstellar OST — "Cornfield Chase / No Time For Caution" medley
-     Official WaterTower Music upload. Swap videoId if needed. */
-  var VIDEO_ID='M3QJD5CKj6g';
+  var VIDEO_ID='kpz8lpoLvrA'; /* Interstellar OST */
 
-  var ytPlayer=null,apiReady=false,wantPlay=false,playing=false;
+  var ytPlayer=null,apiReady=false,playing=false,autoplayPending=false;
   var vol=0,rafVol=null;
 
   /* Load YouTube IFrame API */
@@ -2962,29 +2960,58 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     ytPlayer=new YT.Player('yt-hidden',{
       videoId:VIDEO_ID,
       playerVars:{
-        autoplay:0,controls:0,disablekb:1,
-        fs:0,iv_load_policy:3,modestbranding:1,
+        autoplay:1,   /* attempt autoplay — works when muted */
+        mute:1,       /* muted so browser allows autoplay */
+        controls:0,disablekb:1,fs:0,
+        iv_load_policy:3,modestbranding:1,
         playsinline:1,rel:0,loop:1,playlist:VIDEO_ID
       },
       events:{
         onReady:function(e){
-          e.target.setVolume(0);
-          if(wantPlay)doPlay();
+          e.target.playVideo();
+          /* Check after 900ms if autoplay actually started */
+          setTimeout(function(){
+            if(ytPlayer&&ytPlayer.getPlayerState()===1){
+              /* Playing (muted) — fade audio in */
+              playing=true;
+              playerEl.classList.add('playing');
+              fadeVol(38,3500);
+            } else {
+              /* Browser blocked autoplay — start on first interaction */
+              autoplayPending=true;
+            }
+          },900);
         },
         onStateChange:function(e){
-          /* loop: restart when ended */
-          if(e.data===0)e.target.playVideo();
+          if(e.data===0){e.target.playVideo();} /* loop */
         },
-        onError:function(){
-          /* silent fail — player just won't work */
-          console.warn('Interstellar OST: YouTube player error');
+        onError:function(e){
+          console.warn('Music player error:',e.data);
         }
       }
     });
   };
 
+  /* First-interaction fallback for browsers that block autoplay */
+  function onFirstInteract(){
+    if(!autoplayPending)return;
+    autoplayPending=false;
+    removeListeners();
+    doPlay();
+  }
+  function removeListeners(){
+    ['click','keydown','touchstart','scroll'].forEach(function(ev){
+      document.removeEventListener(ev,onFirstInteract,true);
+    });
+  }
+  ['click','keydown','touchstart','scroll'].forEach(function(ev){
+    document.addEventListener(ev,onFirstInteract,{once:true,passive:true,capture:true});
+  });
+
   function fadeVol(to,ms){
     if(rafVol){cancelAnimationFrame(rafVol);rafVol=null;}
+    /* Unmute first so volume changes audible */
+    if(ytPlayer&&typeof ytPlayer.unMute==='function')ytPlayer.unMute();
     var from=vol,t0=null;
     (function step(ts){
       if(!t0)t0=ts;
@@ -2993,35 +3020,35 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
       if(ytPlayer&&typeof ytPlayer.setVolume==='function')
         ytPlayer.setVolume(Math.round(vol));
       if(p<1){rafVol=requestAnimationFrame(step);}
-      else vol=to;
+      else{vol=to;}
     })(performance.now());
   }
 
   function doPlay(){
     if(!ytPlayer)return;
+    ytPlayer.unMute();
     ytPlayer.playVideo();
-    fadeVol(38,2200); /* gentle fade-in to 38% */
+    fadeVol(38,2500);
+    playing=true;
     playerEl.classList.add('playing');
   }
 
   function doStop(){
-    wantPlay=false;
-    fadeVol(0,900);
+    fadeVol(0,800);
     setTimeout(function(){
       if(ytPlayer&&typeof ytPlayer.pauseVideo==='function')
         ytPlayer.pauseVideo();
-    },950);
+    },850);
+    playing=false;
     playerEl.classList.remove('playing');
   }
 
   btn.addEventListener('click',function(){
-    playing=!playing;
-    if(playing){
-      wantPlay=true;
-      if(apiReady&&ytPlayer)doPlay();
-      /* else: onReady will call doPlay when API loads */
-    } else {
-      doStop();
+    if(playing){doStop();}
+    else{
+      autoplayPending=false;
+      removeListeners();
+      doPlay();
     }
   });
 })();
