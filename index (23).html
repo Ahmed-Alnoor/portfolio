@@ -59,11 +59,34 @@ a,button{cursor:none}
 @keyframes ldrSpin{to{transform:rotate(360deg)}}
 
 /* NAV */
-#nav{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nav-h);
   padding:0 clamp(20px,4vw,64px);display:flex;justify-content:space-between;align-items:center;
-  background:rgba(7,5,3,.72);
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);}
-html.light #nav{background:rgba(248,245,240,.78)}
+  /* liquid glass: strong blur + chroma boost + specular layering */
+  background:linear-gradient(135deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.025) 60%,rgba(255,255,255,.055) 100%);
+  backdrop-filter:blur(36px) saturate(220%) brightness(1.1);
+  -webkit-backdrop-filter:blur(36px) saturate(220%) brightness(1.1);
+  border-bottom:1px solid rgba(255,255,255,.09);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.18),
+    inset 0 -1px 0 rgba(255,255,255,.04),
+    0 8px 32px rgba(0,0,0,.22);
+}
+#nav::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(255,255,255,.07) 0%,transparent 55%);
+  pointer-events:none;
+}
+html.light #nav{
+  background:linear-gradient(135deg,rgba(255,255,255,.72) 0%,rgba(255,255,255,.50) 60%,rgba(255,255,255,.65) 100%);
+  backdrop-filter:blur(36px) saturate(180%) brightness(1.04);
+  -webkit-backdrop-filter:blur(36px) saturate(180%) brightness(1.04);
+  border-bottom:1px solid rgba(0,0,0,.07);
+  box-shadow:
+    inset 0 1.5px 0 rgba(255,255,255,.95),
+    inset 0 -1px 0 rgba(0,0,0,.04),
+    0 6px 24px rgba(0,0,0,.08);
+}
 .nav-wordmark{height:20px;color:var(--ink);opacity:.9;flex-shrink:0}
 .nav-wordmark svg{height:100%;width:auto}
 .nav-center{display:flex;gap:32px;font-family:'Geist Mono',monospace;font-size:11px;
@@ -2293,12 +2316,17 @@ document.querySelectorAll('.proj').forEach(function(proj){
   });
 });
 
-/* ── SMOOTH SCROLL ── */
+/* ── SMOOTH SCROLL — offset by fixed nav height ── */
 document.querySelectorAll('a[href^="#"]').forEach(function(a){
   a.addEventListener('click',function(e){
     var id=a.getAttribute('href');
     var el=document.querySelector(id);
-    if(el){e.preventDefault();el.scrollIntoView({behavior:'smooth'});}
+    if(el){
+      e.preventDefault();
+      var navH=parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))||70;
+      var top=el.getBoundingClientRect().top+window.scrollY-navH;
+      window.scrollTo({top:Math.max(0,top),behavior:'smooth'});
+    }
   });
 });
 
@@ -2491,18 +2519,24 @@ if(themeBtn){
     htmlEl.style.setProperty('--vt-x',ox+'px');
     htmlEl.style.setProperty('--vt-y',oy+'px');
     waveRunning=true;
+    /* Debounce only — 300ms prevents accidental double-tap */
+    setTimeout(function(){waveRunning=false;},300);
+    /* Save scroll so VT snapshot doesn't cause a page jump */
+    var savedY=window.scrollY;
     if(document.startViewTransition){
-      /* View Transitions API: old theme stays visible as a screenshot;
-         new theme is clipped to an expanding circle from the button */
       var vt=document.startViewTransition(function(){applyTheme(isLight);});
-      vt.ready.then(function(){drawRings(ox,oy,3000);}).catch(function(){drawRings(ox,oy,3000);});
-      vt.finished.then(function(){waveRunning=false;}).catch(function(){waveRunning=false;});
-      /* safety: reset if vt.finished stalls (tab hidden, animation suspended, etc.) */
-      setTimeout(function(){waveRunning=false;},4000);
+      vt.ready
+        .then(function(){
+          window.scrollTo({top:savedY,behavior:'instant'});
+          drawRings(ox,oy,3000);
+        })
+        .catch(function(){
+          window.scrollTo({top:savedY,behavior:'instant'});
+          drawRings(ox,oy,3000);
+        });
     } else {
       applyTheme(isLight);
       drawRings(ox,oy,3000);
-      setTimeout(function(){waveRunning=false;},4000);
     }
   });
 }
