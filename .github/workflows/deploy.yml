@@ -14,9 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy index file
-        run: cp "index (23).html" index.html
-
       - name: Push index.html to main
         run: |
           git config user.name "github-actions[bot]"

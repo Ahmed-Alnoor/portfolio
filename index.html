@@ -680,9 +680,103 @@ html.light .mqr-logo:hover svg{filter:none;transform:translateY(-2px) scale(1.08
 }
 .theme-btn.anim-light{animation:btn-to-light .62s cubic-bezier(.34,1.56,.64,1) both}
 .theme-btn.anim-dark {animation:btn-to-dark  .55s cubic-bezier(.34,1.56,.64,1) both}
+
+/* ── AMBIENT MUSIC PLAYER ── */
+#music-player{
+  position:fixed;bottom:28px;left:28px;z-index:200;
+  display:flex;align-items:center;gap:10px;
+}
+#music-btn{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  border:1px solid rgba(245,158,11,.22);
+  background:linear-gradient(135deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,.02) 100%);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 4px 18px rgba(0,0,0,.26);
+  color:var(--amber);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .3s,transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+}
+#music-btn:hover{
+  border-color:rgba(245,158,11,.48);
+  transform:scale(1.1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 4px 22px rgba(245,158,11,.18);
+}
+#music-btn svg{width:15px;height:15px;pointer-events:none}
+#music-btn .ico-note{display:block}
+#music-btn .ico-pause{display:none}
+#music-player.playing #music-btn .ico-note{display:none}
+#music-player.playing #music-btn .ico-pause{display:block}
+#music-player.playing #music-btn{
+  border-color:rgba(245,158,11,.4);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 0 0 6px rgba(245,158,11,.07),0 4px 18px rgba(0,0,0,.26);
+}
+.music-bars{
+  display:flex;align-items:flex-end;gap:2.5px;height:18px;
+  opacity:0;transform:translateX(-6px);
+  transition:opacity .45s,transform .45s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;
+}
+#music-player.playing .music-bars{opacity:1;transform:translateX(0)}
+.music-bars span{
+  display:block;width:2.5px;border-radius:2px;
+  background:var(--amber);opacity:.65;
+}
+.music-bars span:nth-child(1){animation:mbar 1.1s 0.00s ease-in-out infinite}
+.music-bars span:nth-child(2){animation:mbar 1.1s 0.18s ease-in-out infinite}
+.music-bars span:nth-child(3){animation:mbar 1.1s 0.36s ease-in-out infinite}
+.music-bars span:nth-child(4){animation:mbar 1.1s 0.12s ease-in-out infinite}
+.music-bars span:nth-child(5){animation:mbar 1.1s 0.28s ease-in-out infinite}
+@keyframes mbar{
+  0%,100%{height:3px;opacity:.3}
+  50%{height:18px;opacity:.8}
+}
+.music-label{
+  font-family:'Geist Mono',monospace;font-size:9px;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-m);white-space:nowrap;
+  opacity:0;transform:translateX(-4px);
+  transition:opacity .4s,transform .4s;pointer-events:none;
+}
+#music-player:hover .music-label,
+#music-player.playing .music-label{opacity:1;transform:translateX(0)}
+/* light mode */
+html.light #music-btn{
+  background:linear-gradient(135deg,rgba(255,255,255,.72),rgba(255,255,255,.46));
+  border-color:rgba(0,0,0,.1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 4px 14px rgba(0,0,0,.08);
+}
+html.light #music-player.playing #music-btn{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 0 0 6px rgba(245,158,11,.09),0 4px 14px rgba(0,0,0,.08);
+}
+/* hidden YT frame */
+#yt-hidden{position:fixed;bottom:0;right:0;width:2px;height:2px;opacity:.001;pointer-events:none;border:none;}
 </style>
 </head>
 <body>
+
+<!-- ── AMBIENT MUSIC PLAYER ── -->
+<div id="music-player" aria-label="Background music player">
+  <button id="music-btn" aria-label="Play Interstellar ambient music" title="Interstellar OST">
+    <!-- Music note icon (idle) -->
+    <svg class="ico-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/>
+      <circle cx="18" cy="16" r="3"/>
+    </svg>
+    <!-- Pause icon (playing) -->
+    <svg class="ico-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <rect x="6" y="4" width="4" height="16" rx="1"/>
+      <rect x="14" y="4" width="4" height="16" rx="1"/>
+    </svg>
+  </button>
+  <div class="music-bars" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <span class="music-label">Interstellar OST</span>
+</div>
+<div id="yt-hidden" aria-hidden="true"></div>
+
 <div id="loader">
   <div class="ldr-icon">
     <svg viewBox="400 100 1200 900" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -2843,6 +2937,122 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     l.addEventListener('mouseleave',leave,{passive:true});
   });
 })();
+</script>
+<script>
+/* ── INTERSTELLAR AMBIENT MUSIC — YouTube IFrame API ── */
+(function(){
+  var playerEl=document.getElementById('music-player');
+  var btn=document.getElementById('music-btn');
+  if(!playerEl||!btn)return;
+
+  var VIDEO_ID='kpz8lpoLvrA'; /* Interstellar OST */
+
+  var ytPlayer=null,apiReady=false,playing=false,autoplayPending=false;
+  var vol=0,rafVol=null;
+
+  /* Load YouTube IFrame API */
+  var tag=document.createElement('script');
+  tag.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+
+  window.onYouTubeIframeAPIReady=function(){
+    apiReady=true;
+    ytPlayer=new YT.Player('yt-hidden',{
+      videoId:VIDEO_ID,
+      playerVars:{
+        autoplay:1,   /* attempt autoplay — works when muted */
+        mute:1,       /* muted so browser allows autoplay */
+        controls:0,disablekb:1,fs:0,
+        iv_load_policy:3,modestbranding:1,
+        playsinline:1,rel:0,loop:1,playlist:VIDEO_ID
+      },
+      events:{
+        onReady:function(e){
+          e.target.playVideo();
+          /* Check after 900ms if autoplay actually started */
+          setTimeout(function(){
+            if(ytPlayer&&ytPlayer.getPlayerState()===1){
+              /* Playing (muted) — fade audio in */
+              playing=true;
+              playerEl.classList.add('playing');
+              fadeVol(100,1000);
+            } else {
+              /* Browser blocked autoplay — start on first interaction */
+              autoplayPending=true;
+            }
+          },900);
+        },
+        onStateChange:function(e){
+          if(e.data===0){e.target.playVideo();} /* loop */
+        },
+        onError:function(e){
+          console.warn('Music player error:',e.data);
+        }
+      }
+    });
+  };
+
+  /* First-interaction fallback for browsers that block autoplay */
+  function onFirstInteract(){
+    if(!autoplayPending)return;
+    autoplayPending=false;
+    removeListeners();
+    doPlay();
+  }
+  function removeListeners(){
+    ['click','keydown','touchstart','scroll'].forEach(function(ev){
+      document.removeEventListener(ev,onFirstInteract,true);
+    });
+  }
+  ['click','keydown','touchstart','scroll'].forEach(function(ev){
+    document.addEventListener(ev,onFirstInteract,{once:true,passive:true,capture:true});
+  });
+
+  function fadeVol(to,ms){
+    if(rafVol){cancelAnimationFrame(rafVol);rafVol=null;}
+    /* Unmute first so volume changes audible */
+    if(ytPlayer&&typeof ytPlayer.unMute==='function')ytPlayer.unMute();
+    var from=vol,t0=null;
+    (function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/ms,1);
+      vol=from+(to-from)*p;
+      if(ytPlayer&&typeof ytPlayer.setVolume==='function')
+        ytPlayer.setVolume(Math.round(vol));
+      if(p<1){rafVol=requestAnimationFrame(step);}
+      else{vol=to;}
+    })(performance.now());
+  }
+
+  function doPlay(){
+    if(!ytPlayer)return;
+    ytPlayer.unMute();
+    ytPlayer.playVideo();
+    fadeVol(100,800);
+    playing=true;
+    playerEl.classList.add('playing');
+  }
+
+  function doStop(){
+    fadeVol(0,800);
+    setTimeout(function(){
+      if(ytPlayer&&typeof ytPlayer.pauseVideo==='function')
+        ytPlayer.pauseVideo();
+    },850);
+    playing=false;
+    playerEl.classList.remove('playing');
+  }
+
+  btn.addEventListener('click',function(){
+    if(playing){doStop();}
+    else{
+      autoplayPending=false;
+      removeListeners();
+      doPlay();
+    }
+  });
+})();
+
 </script>
 </body>
 </html>
