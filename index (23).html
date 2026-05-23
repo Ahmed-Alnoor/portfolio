@@ -2497,9 +2497,12 @@ if(themeBtn){
       var vt=document.startViewTransition(function(){applyTheme(isLight);});
       vt.ready.then(function(){drawRings(ox,oy,3000);}).catch(function(){drawRings(ox,oy,3000);});
       vt.finished.then(function(){waveRunning=false;}).catch(function(){waveRunning=false;});
+      /* safety: reset if vt.finished stalls (tab hidden, animation suspended, etc.) */
+      setTimeout(function(){waveRunning=false;},4000);
     } else {
       applyTheme(isLight);
       drawRings(ox,oy,3000);
+      setTimeout(function(){waveRunning=false;},4000);
     }
   });
 }
