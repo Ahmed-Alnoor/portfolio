@@ -494,23 +494,25 @@ html.light .theme-btn .t-sun{display:block}
 /* ── SITE FOOTER — skills & tools ── */
 #site-footer{
   display:block!important;padding:0!important;
-  position:relative;overflow:hidden;
-  background:#070503;
+  position:relative;background:#070503;
   border-top:1px solid rgba(245,158,11,.18);
 }
 html.light #site-footer{background:#070503!important;border-top-color:rgba(245,158,11,.22)!important}
+/* ── Beam zone (top, fixed height) ── */
+.ft-beam-zone{
+  position:relative;height:clamp(280px,38vw,420px);
+  overflow:hidden;
+}
 #footer-laser{
   position:absolute;inset:0;width:100%;height:100%;
   display:block;pointer-events:none;z-index:0;
 }
-.ft-inner{
-  position:relative;z-index:1;
-  max-width:1180px;margin:0 auto;
-  padding:80px clamp(24px,5vw,80px) 52px;
-  font-family:'Geist Mono',monospace;
-  color:rgba(245,240,232,.65);
+.ft-beam-labels{
+  position:absolute;inset:0;z-index:1;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  pointer-events:none;
 }
-.ft-top{text-align:center;margin-bottom:64px}
 .ft-eyebrow2{
   display:block;font-size:9px;letter-spacing:.38em;text-transform:uppercase;
   color:rgba(245,158,11,.5);margin-bottom:14px;
@@ -518,11 +520,20 @@ html.light #site-footer{background:#070503!important;border-top-color:rgba(245,1
 .ft-title2{
   font-family:'Geist',sans-serif;font-size:clamp(28px,5vw,50px);
   font-weight:300;letter-spacing:-.025em;
-  color:rgba(245,240,232,.95);margin:0 0 12px;
+  color:rgba(245,240,232,.95);margin:0 0 12px;text-align:center;
 }
 .ft-sub2{
   font-size:11px;letter-spacing:.06em;
-  color:rgba(245,240,232,.28);margin:0 auto;max-width:380px;
+  color:rgba(245,240,232,.28);margin:0 auto;max-width:380px;text-align:center;
+}
+/* ── Content zone (below beam, no canvas background) ── */
+.ft-inner{
+  position:relative;z-index:1;
+  max-width:1180px;margin:0 auto;
+  padding:52px clamp(24px,5vw,80px) 52px;
+  font-family:'Geist Mono',monospace;
+  color:rgba(245,240,232,.65);
+  border-top:1px solid rgba(245,158,11,.1);
 }
 .ft-grid{
   display:grid;grid-template-columns:1fr 1fr;
@@ -1437,15 +1448,19 @@ html.light #site-footer{background:#070503!important;border-top-color:rgba(245,1
 </section>
 </div>
 <footer id="site-footer">
-  <canvas id="footer-laser" aria-hidden="true"></canvas>
-  <div class="ft-inner">
 
-    <div class="ft-top">
+  <!-- Laser beam zone -->
+  <div class="ft-beam-zone">
+    <canvas id="footer-laser" aria-hidden="true"></canvas>
+    <div class="ft-beam-labels">
       <span class="ft-eyebrow2">Arsenal</span>
       <h2 class="ft-title2">Skills &amp; Tools</h2>
       <p class="ft-sub2">The capabilities that build brand ecosystems forward.</p>
     </div>
+  </div>
 
+  <!-- Skills & tools content — below the beam horizon -->
+  <div class="ft-inner">
     <div class="ft-grid">
       <div>
         <p class="ft-col-label">Capabilities</p>
@@ -2199,7 +2214,7 @@ if(themeBtn){
 <script>
 /* LaserFlow footer — vanilla JS port of ReactBits LaserFlow */
 (function(){
-  var mount=document.getElementById('site-footer');
+  var mount=document.querySelector('.ft-beam-zone');
   var canvas=document.getElementById('footer-laser');
   if(!mount||!canvas||typeof THREE==='undefined')return;
 
