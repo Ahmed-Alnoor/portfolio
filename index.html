@@ -619,51 +619,42 @@ html.light #site-footer{background:#070503!important;border-top-color:rgba(245,1
 
 /* ── BRAND LOGOS MARQUEE ── */
 .mqr-section{
-  padding:clamp(40px,6vh,72px) 0;
+  padding:0;overflow:hidden;position:relative;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
-  position:relative;overflow:hidden;
 }
-.mqr-label{
-  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.32em;
-  text-transform:uppercase;color:var(--amber);
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:28px;padding:0 clamp(24px,5vw,80px);
-}
-.mqr-label::before{content:'';width:20px;height:1px;background:var(--amber)}
 .mqr-vp{
-  overflow:hidden;position:relative;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 100px,#000 calc(100% - 100px),transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0%,#000 100px,#000 calc(100% - 100px),transparent 100%);
 }
-.mqr-vp::before,.mqr-vp::after{
-  content:'';position:absolute;top:0;bottom:0;z-index:2;width:100px;pointer-events:none;
-}
-.mqr-vp::before{left:0;background:linear-gradient(to right,var(--bg) 0%,transparent 100%);}
-.mqr-vp::after{right:0;background:linear-gradient(to left,var(--bg) 0%,transparent 100%);}
 .mqr-track{
   display:flex;align-items:center;
-  width:max-content;
-  animation:mqr-scroll 36s linear infinite;
+  width:max-content;padding:20px 0;
+  animation:mqr-scroll 38s linear infinite;
+  will-change:transform;
 }
-.mqr-track.slow{animation-duration:90s;}
-@keyframes mqr-scroll{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-50%);}
-}
+.mqr-track.slow{animation-play-state:paused}
+@keyframes mqr-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .mqr-logo{
-  display:flex;align-items:center;justify-content:center;
-  padding:16px 32px;
-  cursor:default;flex-shrink:0;
+  padding:0 38px;display:flex;align-items:center;
+  flex-shrink:0;cursor:default;position:relative;
 }
 .mqr-logo svg{
-  height:22px;width:auto;display:block;
-  filter:grayscale(1) opacity(.28) brightness(1.7);
-  transition:filter .35s ease,transform .35s cubic-bezier(.34,1.56,.64,1);
+  height:26px;width:auto;display:block;
+  filter:grayscale(1) opacity(.28) brightness(1.6);
+  transition:filter .3s ease,transform .3s cubic-bezier(.34,1.56,.64,1);
 }
 .mqr-logo:hover svg{
   filter:none;
   transform:translateY(-2px) scale(1.08);
 }
-html.light .mqr-logo svg{filter:grayscale(1) opacity(.38) brightness(.45);}
+.mqr-logo::after{
+  content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);
+  width:3px;height:3px;border-radius:50%;
+  background:var(--line);opacity:.5;
+}
+html.light .mqr-logo svg{filter:grayscale(1) opacity(.35) brightness(.45);}
 html.light .mqr-logo:hover svg{filter:none;transform:translateY(-2px) scale(1.08);}
 
 /* ── THEME BUTTON: click animations ── */
@@ -1320,7 +1311,6 @@ html.light #music-btn{
 
 <!-- ── BRAND LOGOS MARQUEE ── -->
 <div class="mqr-section" aria-label="Platform expertise">
-  <div class="mqr-label">Platform Expertise</div>
   <div class="mqr-vp">
     <div class="mqr-track" id="mqr-track">
 <div class="mqr-logo" title="Meta"><svg viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
