@@ -1781,6 +1781,106 @@ html.light #music-btn{
   </div>
 </section>
 <!-- ============================================================
+     003.5 — MARKET INTELLIGENCE
+     ============================================================ -->
+<section class="sec" id="market">
+  <div class="s-idx">Market Intelligence</div>
+  <h2 class="s-ttl reveal">I read markets<br><span class="ac">before they speak.</span></h2>
+
+<style>
+/* ── MARKET INTELLIGENCE ── */
+#mi-wrap{margin-top:52px;perspective:1400px}
+#mi-card{
+  width:100%;max-width:1000px;margin:0 auto;
+  border-radius:22px;border:1.5px solid rgba(244,237,225,.09);
+  overflow:hidden;position:relative;
+  transform-origin:top center;
+  will-change:transform;
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.06),
+    0 24px 80px rgba(0,0,0,.65),
+    0 80px 140px rgba(0,0,0,.35);
+}
+#mi-img{width:100%;height:auto;display:block;filter:brightness(.88) saturate(1.15)}
+.mi-overlay{
+  position:absolute;bottom:0;left:0;right:0;height:60%;
+  background:linear-gradient(to top,rgba(6,5,3,.95) 0%,rgba(6,5,3,.5) 40%,transparent 100%);
+  pointer-events:none;
+}
+.mi-bottom{position:absolute;bottom:0;left:0;right:0;padding:28px 32px}
+.mi-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px}
+.mi-tag{
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(245,158,11,.82);
+  border:1px solid rgba(245,158,11,.22);border-radius:2px;
+  padding:5px 11px;
+  background:rgba(6,5,3,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.mi-quote{
+  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.28em;
+  color:rgba(244,237,225,.32);text-transform:uppercase;
+}
+.mi-body{
+  max-width:680px;margin:32px auto 0;
+  font-family:'Sora',sans-serif;font-size:clamp(14px,1.15vw,16px);
+  color:var(--ink-d);line-height:1.82;font-weight:200;text-align:center;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .85s var(--E) .15s,transform .85s var(--E) .15s;
+}
+#market.mi-in .mi-body{opacity:1;transform:translateY(0)}
+@media(max-width:767px){
+  #mi-card{border-radius:14px}
+  .mi-bottom{padding:18px 18px}
+  .mi-body{text-align:left;font-size:14px}
+}
+html.light #mi-card{border-color:rgba(0,0,0,.1);box-shadow:0 24px 80px rgba(0,0,0,.14),0 80px 140px rgba(0,0,0,.08)}
+html.light .mi-overlay{background:linear-gradient(to top,rgba(245,240,232,.96) 0%,rgba(245,240,232,.55) 40%,transparent 100%)}
+html.light .mi-tag{color:rgba(180,90,0,.85);border-color:rgba(180,90,0,.25);background:rgba(245,240,232,.6)}
+html.light .mi-quote{color:rgba(26,21,16,.28)}
+html.light #mi-img{filter:brightness(.93) saturate(1.1)}
+</style>
+
+  <div id="mi-wrap">
+    <div id="mi-card">
+      <img id="mi-img" src="assets/Arabic text.png" alt="Arabic calligraphy" draggable="false">
+      <div class="mi-overlay"></div>
+      <div class="mi-bottom">
+        <div class="mi-tags">
+          <span class="mi-tag">Real Estate</span>
+          <span class="mi-tag">Luxury Retail</span>
+          <span class="mi-tag">F&amp;B</span>
+          <span class="mi-tag">AI Ventures</span>
+          <span class="mi-tag">Fashion</span>
+          <span class="mi-tag">Hospitality</span>
+        </div>
+        <div class="mi-quote">UAE · Market Intelligence · Brand Strategy</div>
+      </div>
+    </div>
+    <p class="mi-body">The UAE isn't one market — it's six audiences, three timelines, and one window to get it right. I've spent years inside Sharjah's development corridors and Dubai's luxury demand cycles, learning the difference between a trend and a signal. That clarity is what I bring to every brief.</p>
+  </div>
+
+<script>
+(function(){
+  var section=document.getElementById('market');
+  var card=document.getElementById('mi-card');
+  if(!section||!card)return;
+  var done=false;
+  function tick(){
+    var rect=section.getBoundingClientRect();
+    var vh=window.innerHeight;
+    /* 0 when section top enters viewport bottom → 1 when section is centred */
+    var p=Math.max(0,Math.min(1,(vh-rect.top)/(vh*0.75+rect.height*0.45)));
+    var rotX=18*(1-Math.min(p*1.8,1));
+    card.style.transform='perspective(1400px) rotateX('+rotX.toFixed(2)+'deg)';
+    if(!done&&p>0.52){done=true;section.classList.add('mi-in');}
+  }
+  window.addEventListener('scroll',tick,{passive:true});
+  tick();
+})();
+</script>
+
+</section>
+<!-- ============================================================
      004 — THE ARTIST
      ============================================================ -->
 <section class="sec" id="artist">
