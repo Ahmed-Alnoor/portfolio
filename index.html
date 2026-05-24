@@ -619,48 +619,52 @@ html.light #site-footer{background:#070503!important;border-top-color:rgba(245,1
 
 /* ── BRAND LOGOS MARQUEE ── */
 .mqr-section{
-  padding:0;overflow:hidden;position:relative;
+  padding:clamp(40px,6vh,72px) 0;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
+  position:relative;overflow:hidden;
 }
+.mqr-label{
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--amber);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:28px;padding:0 clamp(24px,5vw,80px);
+}
+.mqr-label::before{content:'';width:20px;height:1px;background:var(--amber)}
 .mqr-vp{
-  overflow:hidden;
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 100px,#000 calc(100% - 100px),transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0%,#000 100px,#000 calc(100% - 100px),transparent 100%);
+  overflow:hidden;position:relative;
 }
+.mqr-vp::before,.mqr-vp::after{
+  content:'';position:absolute;top:0;bottom:0;z-index:2;width:100px;pointer-events:none;
+}
+.mqr-vp::before{left:0;background:linear-gradient(to right,var(--bg) 0%,transparent 100%);}
+.mqr-vp::after{right:0;background:linear-gradient(to left,var(--bg) 0%,transparent 100%);}
 .mqr-track{
   display:flex;align-items:center;
-  width:max-content;padding:20px 0;
-  animation:mqr-scroll 38s linear infinite;
-  will-change:transform;
+  width:max-content;
+  animation:mqr-scroll 36s linear infinite;
 }
-.mqr-track.slow{animation-play-state:paused}
-@keyframes mqr-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mqr-track.slow{animation-duration:90s;}
+@keyframes mqr-scroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
+}
 .mqr-logo{
-  padding:0 38px;display:flex;align-items:center;
-  flex-shrink:0;cursor:default;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  padding:16px 32px;
+  cursor:default;flex-shrink:0;
 }
 .mqr-logo svg{
-  height:26px;width:auto;display:block;
-  filter:grayscale(1) opacity(.28) brightness(1.6);
-  transition:filter .3s ease,transform .3s cubic-bezier(.34,1.56,.64,1);
+  height:22px;width:auto;display:block;
+  filter:grayscale(1) opacity(.28) brightness(1.7);
+  transition:filter .35s ease,transform .35s cubic-bezier(.34,1.56,.64,1);
 }
 .mqr-logo:hover svg{
   filter:none;
   transform:translateY(-2px) scale(1.08);
 }
-.mqr-logo::after{
-  content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);
-  width:3px;height:3px;border-radius:50%;
-  background:var(--line);opacity:.5;
-}
-html.light .mqr-logo svg{filter:grayscale(1) opacity(.35) brightness(.45);}
+html.light .mqr-logo svg{filter:grayscale(1) opacity(.38) brightness(.45);}
 html.light .mqr-logo:hover svg{filter:none;transform:translateY(-2px) scale(1.08);}
-
-/* ── CAPS 3-D TILT + DUST ── */
-#cap-stage{perspective:1200px}
-.cap-char{transition:transform .06s linear!important}
-#cap-dust{position:absolute;bottom:0;left:0;width:100%;height:38%;pointer-events:none;z-index:5}
 
 /* ── THEME BUTTON: click animations ── */
 @keyframes btn-to-light{
@@ -1123,7 +1127,6 @@ html.light #music-btn{
       <text><textPath href="#cap-c2">CAMPAIGN PLANNING · PROJECT MANAGEMENT · DATA ANALYSIS · ROI OPTIMIZATION · STRATEGY · </textPath></text></svg>
     </div>
     <img class="cap-char cap-glow-gold2" src="assets/Untitled design.png" alt="" draggable="false">
-    <canvas id="cap-dust"></canvas>
   </div>
 
 </div>
@@ -1306,133 +1309,6 @@ html.light #music-btn{
   // Dot clicks
   dots.forEach((d,i)=>d.addEventListener('click',()=>goTo(i)));
 
-  /* ── 3-D tilt for slides 0 & 1 ── */
-  let tX=0,tY=0;
-  root.addEventListener('mouseleave',()=>{tX=0;tY=0;});
-  const _origLoop=(function(){
-    const rw=()=>root.offsetWidth, rh=()=>root.offsetHeight;
-    const _old=loop; // not accessible; we patch the rAF instead
-  })();
-  // Patch: override the existing rAF loop's per-frame work
-  // We store a reference so our per-frame hook runs alongside
-  const _capTiltFrame=function(){
-    const w=root.offsetWidth, h=root.offsetHeight;
-    if(!w||!h)return;
-    const nx=(cx/w-0.5), ny=(cy/h-0.5);
-    tX+=((-ny*14)-tX)*0.07;
-    tY+=((nx*20)-tY)*0.07;
-    const aSlide=root.querySelector('.cap-slide.cap-sv');
-    if(aSlide){
-      const aImg=aSlide.querySelector('.cap-char');
-      if(aImg){
-        if(cur===2){
-          aImg.style.transform='';
-        } else {
-          aImg.style.transform='rotateX('+tX.toFixed(2)+'deg) rotateY('+tY.toFixed(2)+'deg) scale(1.04)';
-        }
-      }
-    }
-    requestAnimationFrame(_capTiltFrame);
-  };
-  requestAnimationFrame(_capTiltFrame);
-
-  /* ── Text scramble on slide change ── */
-  const _SCHARS='ABCDEFGHIJKLMNOPQRSTUVWXYZ·— ';
-  function scrambleTo(el,finalHTML,dur){
-    // Extract plain text (no html tags) for scramble, then snap to finalHTML
-    const tmp=document.createElement('div'); tmp.innerHTML=finalHTML;
-    const plain=tmp.textContent||'';
-    let start=null;
-    (function step(ts){
-      if(!start)start=ts;
-      const p=Math.min((ts-start)/dur,1);
-      const revealed=Math.floor(p*plain.length);
-      let out='';
-      for(let i=0;i<plain.length;i++){
-        if(i<revealed) out+=plain[i];
-        else if(plain[i]===' '||plain[i]==='
-') out+=plain[i];
-        else out+=_SCHARS[Math.floor(Math.random()*(_SCHARS.length-1))];
-      }
-      el.textContent=out;
-      if(p<1) requestAnimationFrame(step);
-      else el.innerHTML=finalHTML;
-    })(performance.now());
-  }
-  // Wrap updatePanels to add scramble
-  const _origUpdate=updatePanels;
-  // Re-define by storing original inline work via closure override
-  // (updatePanels is already defined above; we patch its setTimeout callback)
-  // Instead: add a MutationObserver on cap-pn to trigger scramble after content changes
-  (function(){
-    const pnEl=document.getElementById('cap-pn');
-    if(!pnEl)return;
-    let _lastHTML='';
-    const mo=new MutationObserver(()=>{
-      const h=pnEl.innerHTML;
-      if(h===_lastHTML)return;
-      _lastHTML=h;
-      const final=h;
-      scrambleTo(pnEl,final,520);
-    });
-    mo.observe(pnEl,{childList:true,subtree:true,characterData:true});
-  })();
-
-  /* ── Dust particles on slide 3 ── */
-  (function(){
-    const canvas=document.getElementById('cap-dust');
-    if(!canvas)return;
-    const ctx=canvas.getContext('2d');
-    const N=70;
-    const pts=[];
-    function resize(){
-      canvas.width=canvas.offsetWidth;
-      canvas.height=canvas.offsetHeight;
-    }
-    resize();
-    window.addEventListener('resize',resize,{passive:true});
-    for(let i=0;i<N;i++) pts.push({
-      x:Math.random()*2000,
-      y:Math.random()*canvas.height,
-      r:Math.random()*1.8+0.4,
-      vx:(Math.random()*0.6+0.2)*(Math.random()<.5?1:-1),
-      vy:(Math.random()-0.5)*0.25,
-      a:Math.random(),
-      da:(Math.random()*0.004+0.001)*(Math.random()<.5?1:-1),
-      hue:Math.random()*25+24
-    });
-    let wind=0,windT=0;
-    function drawDust(){
-      if(!canvas.offsetParent&&cur!==2){requestAnimationFrame(drawDust);return;}
-      canvas.width=canvas.offsetWidth;
-      canvas.height=canvas.offsetHeight||100;
-      const W=canvas.width, H=canvas.height;
-      ctx.clearRect(0,0,W,H);
-      // rolling wind gust
-      windT+=0.008;
-      wind=Math.sin(windT)*0.4+Math.sin(windT*2.3)*0.2;
-      pts.forEach(p=>{
-        p.x+=p.vx+wind;
-        p.y+=p.vy;
-        p.a+=p.da;
-        if(p.a>0.75||p.a<0){p.da*=-1;}
-        if(p.x>W+20) p.x=-20;
-        if(p.x<-20) p.x=W+20;
-        if(p.y>H+4) p.y=0;
-        if(p.y<-4) p.y=H+4;
-        // Fade near edges
-        const edgeFade=Math.min(p.x/80,1)*Math.min((W-p.x)/80,1);
-        const finalA=p.a*edgeFade*0.65;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle='hsla('+p.hue+',70%,68%,'+finalA+')';
-        ctx.fill();
-      });
-      requestAnimationFrame(drawDust);
-    }
-    drawDust();
-  })();
-
 })(); // end IIFE
 </script>
 
@@ -1444,6 +1320,7 @@ html.light #music-btn{
 
 <!-- ── BRAND LOGOS MARQUEE ── -->
 <div class="mqr-section" aria-label="Platform expertise">
+  <div class="mqr-label">Platform Expertise</div>
   <div class="mqr-vp">
     <div class="mqr-track" id="mqr-track">
 <div class="mqr-logo" title="Meta"><svg viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
