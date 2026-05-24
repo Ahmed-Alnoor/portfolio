@@ -1360,18 +1360,18 @@ html.light #music-btn{
   resize();
   window.addEventListener('resize',resize,{passive:true});
 
-  /* 24 small puff clouds — kicked up by hooves, drift backward */
+  /* 42 small puff clouds — kicked up by hooves, drift backward */
   var blobs=[];
-  for(var i=0;i<24;i++){
+  for(var i=0;i<42;i++){
     blobs.push({
       x:  0.32+Math.random()*0.36,   /* hoof-strike zone, centre-ish */
-      y:  0.55+Math.random()*0.38,
-      rx: 0.025+Math.random()*0.038, /* small — realistic hoof puff */
+      y:  0.22+Math.random()*0.30,   /* raised up — aligns with hoof height */
+      rx: 0.025+Math.random()*0.038,
       ry: 0.048+Math.random()*0.065,
-      spd:-(0.0007+Math.random()*0.001), /* drift left = backward */
+      spd:-(0.0007+Math.random()*0.001),
       vy: -(0.00015+Math.random()*0.00025),
       phase:Math.random()*Math.PI*2,
-      baseA:0.11+Math.random()*0.14,
+      baseA:0.044+Math.random()*0.052, /* lower opacity — more transparent */
       life:Math.random()
     });
   }
@@ -1390,7 +1390,7 @@ html.light #music-btn{
         b.life+=0.009;
         if(b.x<-0.12||b.life>1){
           b.x=0.30+Math.random()*0.38;
-          b.y=0.58+Math.random()*0.35;
+          b.y=0.22+Math.random()*0.30;
           b.life=0;
           b.spd=-(0.0007+Math.random()*0.001);
           b.vy=-(0.00015+Math.random()*0.00025);
