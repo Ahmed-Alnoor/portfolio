@@ -1109,6 +1109,7 @@ html.light #music-btn{
       <text><textPath href="#cap-c1">PAID MEDIA · CRM SYSTEMS · SEO · ANALYTICS · MARKETING AUTOMATION · DIGITAL GROWTH · </textPath></text></svg>
     </div>
     <img class="cap-char cap-glow-blue" src="assets/Me white.png" alt="" draggable="false">
+    <canvas id="cap-dust1" style="position:absolute;bottom:0;left:0;width:100%;height:42%;pointer-events:none;z-index:6"></canvas>
   </div>
 
   <!-- SLIDE 3: STRATEGY -->
@@ -1301,6 +1302,115 @@ html.light #music-btn{
   dots.forEach((d,i)=>d.addEventListener('click',()=>goTo(i)));
 
 })(); // end IIFE
+</script>
+<script>
+/* ── CAPS: 3-D tilt on all slides + horse dust (standalone, no IIFE touch) ── */
+(function(){
+  var root=document.getElementById('caps');
+  if(!root)return;
+
+  /* ── smooth mouse state ── */
+  var mx=0,my=0,inside=false;
+  var smx=0,smy=0;
+  var lastImg=null;
+
+  root.addEventListener('mousemove',function(e){
+    var r=root.getBoundingClientRect();
+    mx=e.clientX-r.left; my=e.clientY-r.top; inside=true;
+  },{passive:true});
+  root.addEventListener('mouseleave',function(){inside=false;},{passive:true});
+
+  /* ── 3-D tilt RAF ── */
+  (function tiltLoop(){
+    var W=root.offsetWidth, H=root.offsetHeight;
+    if(W&&H){
+      var tx=inside?(mx/W-0.5)*2:0;
+      var ty=inside?(my/H-0.5)*2:0;
+      smx+=(tx-smx)*0.06;
+      smy+=(ty-smy)*0.06;
+    }
+    var rotY=(smx*14).toFixed(2);
+    var rotX=(-smy*9).toFixed(2);
+
+    /* find active cap-char */
+    var aSlide=root.querySelector('.cap-slide.cap-sv');
+    var aImg=aSlide?aSlide.querySelector('.cap-char'):null;
+
+    if(aImg!==lastImg){
+      if(lastImg){lastImg.style.transform='';lastImg.style.transformOrigin='';}
+      lastImg=aImg;
+    }
+    if(aImg){
+      aImg.style.transformOrigin='center center';
+      aImg.style.transform='perspective(1200px) rotateY('+rotY+'deg) rotateX('+rotX+'deg) scale(1.035)';
+    }
+    requestAnimationFrame(tiltLoop);
+  })();
+
+  /* ── Horse dust (cap-s1) ── */
+  var canvas=document.getElementById('cap-dust1');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var W=0,H=0,pts=[];
+
+  function resize(){
+    W=canvas.width=canvas.offsetWidth||canvas.parentElement.offsetWidth||800;
+    H=canvas.height=canvas.offsetHeight||200;
+  }
+  resize();
+  window.addEventListener('resize',function(){resize();},{ passive:true});
+
+  function mkPt(){
+    /* spawn near bottom-centre — horse hooves area */
+    var spawnX=W*0.48+(Math.random()-0.5)*W*0.18;
+    var spawnY=H*0.72+Math.random()*H*0.22;
+    return{
+      x:spawnX, y:spawnY,
+      vx:-(Math.random()*1.1+0.3),   /* drift backward (left) */
+      vy:-(Math.random()*0.9+0.15),  /* kick upward */
+      r:Math.random()*2.2+0.6,
+      life:0,
+      maxLife:Math.floor(Math.random()*70+55),
+      hue:Math.random()*18+22        /* earthy amber/brown */
+    };
+  }
+
+  for(var i=0;i<65;i++){
+    var p=mkPt();
+    p.life=Math.floor(Math.random()*p.maxLife); /* stagger */
+    pts.push(p);
+  }
+
+  (function dustLoop(){
+    if(canvas.offsetWidth!==W||canvas.offsetHeight!==H)resize();
+    ctx.clearRect(0,0,W,H);
+
+    var s1=document.getElementById('cap-s1');
+    var visible=s1&&s1.classList.contains('cap-sv');
+
+    if(visible&&W&&H){
+      pts.forEach(function(p){
+        p.life++;
+        p.x+=p.vx;
+        p.y+=p.vy;
+        p.vy+=0.025;  /* gravity pulls back down */
+        p.vx*=0.985;  /* air resistance */
+
+        if(p.life>=p.maxLife){var np=mkPt();p.x=np.x;p.y=np.y;p.vx=np.vx;p.vy=np.vy;p.r=np.r;p.life=0;p.maxLife=np.maxLife;p.hue=np.hue;}
+
+        var t=p.life/p.maxLife;
+        /* fade in 0→0.2, fade out 0.2→1 */
+        var a=t<0.2?(t/0.2):(1-(t-0.2)/0.8);
+        a*=0.55;
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,6.2832);
+        ctx.fillStyle='hsla('+p.hue+',48%,60%,'+a.toFixed(3)+')';
+        ctx.fill();
+      });
+    }
+    requestAnimationFrame(dustLoop);
+  })();
+})();
 </script>
 
 </section>
