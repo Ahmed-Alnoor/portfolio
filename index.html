@@ -1785,7 +1785,7 @@ html.light #music-btn{
      ============================================================ -->
 <section class="sec" id="market">
   <div class="s-idx">Market Intelligence</div>
-  <h2 class="s-ttl reveal">I read markets<br><span class="ac">before they speak.</span></h2>
+  <h2 class="s-ttl reveal" style="text-align:center">Read the market <span class="ac">*</span></h2>
 
 <style>
 /* ── MARKET INTELLIGENCE ── */
@@ -1821,7 +1821,7 @@ html.light #music-btn{
   color:rgba(244,237,225,.32);text-transform:uppercase;
 }
 .mi-body{
-  max-width:680px;margin:32px auto 0;
+  max-width:680px;margin:0 auto 36px;
   font-family:'Sora',sans-serif;font-size:clamp(14px,1.15vw,16px);
   color:var(--ink-d);line-height:1.82;font-weight:200;text-align:center;
   opacity:0;transform:translateY(20px);
@@ -1841,6 +1841,7 @@ html.light #mi-img{filter:brightness(.93) saturate(1.1)}
 </style>
 
   <div id="mi-wrap">
+    <p class="mi-body">The UAE isn't one market — it's six audiences, three timelines, and one window to get it right. I've spent years inside Sharjah's development corridors and Dubai's luxury demand cycles, learning the difference between a trend and a signal. That clarity is what I bring to every brief.</p>
     <div id="mi-card">
       <img id="mi-img" src="assets/Arabic text.png" alt="Arabic calligraphy" draggable="false">
       <div class="mi-overlay"></div>
@@ -1856,7 +1857,6 @@ html.light #mi-img{filter:brightness(.93) saturate(1.1)}
         <div class="mi-quote">UAE · Market Intelligence · Brand Strategy</div>
       </div>
     </div>
-    <p class="mi-body">The UAE isn't one market — it's six audiences, three timelines, and one window to get it right. I've spent years inside Sharjah's development corridors and Dubai's luxury demand cycles, learning the difference between a trend and a signal. That clarity is what I bring to every brief.</p>
   </div>
 
 <script>
@@ -1868,11 +1868,11 @@ html.light #mi-img{filter:brightness(.93) saturate(1.1)}
   function tick(){
     var rect=section.getBoundingClientRect();
     var vh=window.innerHeight;
-    /* 0 when section top enters viewport bottom → 1 when section is centred */
-    var p=Math.max(0,Math.min(1,(vh-rect.top)/(vh*0.75+rect.height*0.45)));
-    var rotX=18*(1-Math.min(p*1.8,1));
+    /* 0 when section top hits viewport bottom, 1 when section bottom hits viewport bottom */
+    var p=Math.max(0,Math.min(1,(vh-rect.top)/rect.height));
+    var rotX=18*(1-p);
     card.style.transform='perspective(1400px) rotateX('+rotX.toFixed(2)+'deg)';
-    if(!done&&p>0.52){done=true;section.classList.add('mi-in');}
+    if(!done&&p>0.5){done=true;section.classList.add('mi-in');}
   }
   window.addEventListener('scroll',tick,{passive:true});
   tick();
