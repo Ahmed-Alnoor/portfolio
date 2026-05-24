@@ -1109,7 +1109,6 @@ html.light #music-btn{
       <text><textPath href="#cap-c1">PAID MEDIA · CRM SYSTEMS · SEO · ANALYTICS · MARKETING AUTOMATION · DIGITAL GROWTH · </textPath></text></svg>
     </div>
     <img class="cap-char cap-glow-blue" src="assets/Me white.png" alt="" draggable="false">
-    <canvas id="cap-dust1" style="position:absolute;bottom:0;left:0;width:100%;height:42%;pointer-events:none;z-index:6"></canvas>
   </div>
 
   <!-- SLIDE 3: STRATEGY -->
@@ -1119,6 +1118,7 @@ html.light #music-btn{
       <text><textPath href="#cap-c2">CAMPAIGN PLANNING · PROJECT MANAGEMENT · DATA ANALYSIS · ROI OPTIMIZATION · STRATEGY · </textPath></text></svg>
     </div>
     <img class="cap-char cap-glow-gold2" src="assets/Untitled design.png" alt="" draggable="false">
+    <canvas id="cap-dust1" style="position:absolute;bottom:0;left:0;width:100%;height:32%;pointer-events:none;z-index:6"></canvas>
   </div>
 
 </div>
@@ -1347,68 +1347,70 @@ html.light #music-btn{
     requestAnimationFrame(tiltLoop);
   })();
 
-  /* ── Horse dust (cap-s1) ── */
+  /* ── Ground fog on Strategic Systems (cap-s2) ── */
   var canvas=document.getElementById('cap-dust1');
   if(!canvas)return;
   var ctx=canvas.getContext('2d');
-  var W=0,H=0,pts=[];
+  var W=0,H=0;
 
   function resize(){
     W=canvas.width=canvas.offsetWidth||canvas.parentElement.offsetWidth||800;
-    H=canvas.height=canvas.offsetHeight||200;
+    H=canvas.height=canvas.offsetHeight||160;
   }
   resize();
-  window.addEventListener('resize',function(){resize();},{ passive:true});
+  window.addEventListener('resize',resize,{passive:true});
 
-  function mkPt(){
-    /* spawn near bottom-centre — horse hooves area */
-    var spawnX=W*0.48+(Math.random()-0.5)*W*0.18;
-    var spawnY=H*0.72+Math.random()*H*0.22;
-    return{
-      x:spawnX, y:spawnY,
-      vx:-(Math.random()*1.1+0.3),   /* drift backward (left) */
-      vy:-(Math.random()*0.9+0.15),  /* kick upward */
-      r:Math.random()*2.2+0.6,
-      life:0,
-      maxLife:Math.floor(Math.random()*70+55),
-      hue:Math.random()*18+22        /* earthy amber/brown */
-    };
+  /* 10 fog blobs — large soft ellipses drifting along the ground */
+  var blobs=[];
+  for(var i=0;i<10;i++){
+    blobs.push({
+      x: Math.random()*1.4-0.2,   /* normalised 0-1 across width, slight overflow */
+      y: 0.55+Math.random()*0.38, /* normalised, lower half of canvas */
+      rx: 0.14+Math.random()*0.18,/* normalised horizontal radius */
+      ry: 0.22+Math.random()*0.28,/* normalised vertical radius (taller than wide for cloud puff) */
+      spd: (0.00018+Math.random()*0.00025)*(Math.random()<0.5?1:-1), /* drift speed */
+      phase: Math.random()*Math.PI*2,
+      baseA: 0.07+Math.random()*0.09
+    });
   }
 
-  for(var i=0;i<65;i++){
-    var p=mkPt();
-    p.life=Math.floor(Math.random()*p.maxLife); /* stagger */
-    pts.push(p);
-  }
-
-  (function dustLoop(){
+  var t=0;
+  (function fogLoop(){
     if(canvas.offsetWidth!==W||canvas.offsetHeight!==H)resize();
     ctx.clearRect(0,0,W,H);
 
-    var s1=document.getElementById('cap-s1');
-    var visible=s1&&s1.classList.contains('cap-sv');
+    var s2=document.getElementById('cap-s2');
+    if(s2&&s2.classList.contains('cap-sv')&&W&&H){
+      t+=0.008;
+      blobs.forEach(function(b){
+        b.x+=b.spd;
+        if(b.x>1.3) b.x=-0.3;
+        if(b.x<-0.3) b.x=1.3;
 
-    if(visible&&W&&H){
-      pts.forEach(function(p){
-        p.life++;
-        p.x+=p.vx;
-        p.y+=p.vy;
-        p.vy+=0.025;  /* gravity pulls back down */
-        p.vx*=0.985;  /* air resistance */
+        /* gentle vertical bob */
+        var bx=b.x*W;
+        var by=(b.y+Math.sin(t+b.phase)*0.04)*H;
+        var rx=b.rx*W;
+        var ry=b.ry*H;
+        /* pulse alpha slightly */
+        var a=b.baseA*(0.75+0.25*Math.sin(t*0.7+b.phase));
 
-        if(p.life>=p.maxLife){var np=mkPt();p.x=np.x;p.y=np.y;p.vx=np.vx;p.vy=np.vy;p.r=np.r;p.life=0;p.maxLife=np.maxLife;p.hue=np.hue;}
+        /* draw as soft ellipse filled with radial gradient */
+        var gx=bx, gy=by-(ry*0.25); /* gradient centre offset upward */
+        var grad=ctx.createRadialGradient(gx,gy,0,gx,gy,Math.max(rx,ry)*1.1);
+        grad.addColorStop(0,  'rgba(230,210,175,'+a.toFixed(3)+')');
+        grad.addColorStop(0.45,'rgba(210,185,145,'+(a*0.45).toFixed(3)+')');
+        grad.addColorStop(1,  'rgba(190,165,120,0)');
 
-        var t=p.life/p.maxLife;
-        /* fade in 0→0.2, fade out 0.2→1 */
-        var a=t<0.2?(t/0.2):(1-(t-0.2)/0.8);
-        a*=0.55;
+        ctx.save();
         ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,6.2832);
-        ctx.fillStyle='hsla('+p.hue+',48%,60%,'+a.toFixed(3)+')';
+        ctx.ellipse(bx,by,rx,ry,0,0,Math.PI*2);
+        ctx.fillStyle=grad;
         ctx.fill();
+        ctx.restore();
       });
     }
-    requestAnimationFrame(dustLoop);
+    requestAnimationFrame(fogLoop);
   })();
 })();
 </script>
