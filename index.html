@@ -1109,7 +1109,6 @@ html.light #music-btn{
       <text><textPath href="#cap-c1">PAID MEDIA · CRM SYSTEMS · SEO · ANALYTICS · MARKETING AUTOMATION · DIGITAL GROWTH · </textPath></text></svg>
     </div>
     <img class="cap-char cap-glow-blue" src="assets/Me white.png" alt="" draggable="false">
-    <canvas id="cap-horse-fog" style="position:absolute;bottom:0;left:0;width:100%;height:36%;pointer-events:none;z-index:6"></canvas>
   </div>
 
   <!-- SLIDE 3: STRATEGY -->
@@ -1348,7 +1347,7 @@ html.light #music-btn{
     requestAnimationFrame(tiltLoop);
   })();
 
-  /* ── Ground fog on Strategic Systems (cap-s2) ── */
+  /* ── Horse running dust — cap-s2 (3rd slide, Untitled design.png) ── */
   var canvas=document.getElementById('cap-dust1');
   if(!canvas)return;
   var ctx=canvas.getContext('2d');
@@ -1361,123 +1360,64 @@ html.light #music-btn{
   resize();
   window.addEventListener('resize',resize,{passive:true});
 
-  /* 10 fog blobs — large soft ellipses drifting along the ground */
+  /* 24 small puff clouds — kicked up by hooves, drift backward */
   var blobs=[];
-  for(var i=0;i<10;i++){
+  for(var i=0;i<24;i++){
     blobs.push({
-      x: Math.random()*1.4-0.2,   /* normalised 0-1 across width, slight overflow */
-      y: 0.55+Math.random()*0.38, /* normalised, lower half of canvas */
-      rx: 0.14+Math.random()*0.18,/* normalised horizontal radius */
-      ry: 0.22+Math.random()*0.28,/* normalised vertical radius (taller than wide for cloud puff) */
-      spd: (0.00018+Math.random()*0.00025)*(Math.random()<0.5?1:-1), /* drift speed */
-      phase: Math.random()*Math.PI*2,
-      baseA: 0.07+Math.random()*0.09
+      x:  0.32+Math.random()*0.36,   /* hoof-strike zone, centre-ish */
+      y:  0.55+Math.random()*0.38,
+      rx: 0.025+Math.random()*0.038, /* small — realistic hoof puff */
+      ry: 0.048+Math.random()*0.065,
+      spd:-(0.0007+Math.random()*0.001), /* drift left = backward */
+      vy: -(0.00015+Math.random()*0.00025),
+      phase:Math.random()*Math.PI*2,
+      baseA:0.11+Math.random()*0.14,
+      life:Math.random()
     });
   }
 
   var t=0;
-  (function fogLoop(){
+  (function horseLoop(){
     if(canvas.offsetWidth!==W||canvas.offsetHeight!==H)resize();
     ctx.clearRect(0,0,W,H);
 
     var s2=document.getElementById('cap-s2');
     if(s2&&s2.classList.contains('cap-sv')&&W&&H){
-      t+=0.008;
+      t+=0.012;
       blobs.forEach(function(b){
         b.x+=b.spd;
-        if(b.x>1.3) b.x=-0.3;
-        if(b.x<-0.3) b.x=1.3;
-
-        /* gentle vertical bob */
+        b.y+=b.vy;
+        b.life+=0.009;
+        if(b.x<-0.12||b.life>1){
+          b.x=0.30+Math.random()*0.38;
+          b.y=0.58+Math.random()*0.35;
+          b.life=0;
+          b.spd=-(0.0007+Math.random()*0.001);
+          b.vy=-(0.00015+Math.random()*0.00025);
+          b.rx=0.025+Math.random()*0.038;
+          b.ry=0.048+Math.random()*0.065;
+        }
         var bx=b.x*W;
-        var by=(b.y+Math.sin(t+b.phase)*0.04)*H;
-        var rx=b.rx*W;
-        var ry=b.ry*H;
-        /* pulse alpha slightly */
-        var a=b.baseA*(0.75+0.25*Math.sin(t*0.7+b.phase));
-
-        /* draw as soft ellipse filled with radial gradient */
-        var gx=bx, gy=by-(ry*0.25); /* gradient centre offset upward */
-        var grad=ctx.createRadialGradient(gx,gy,0,gx,gy,Math.max(rx,ry)*1.1);
-        grad.addColorStop(0,  'rgba(230,210,175,'+a.toFixed(3)+')');
-        grad.addColorStop(0.45,'rgba(210,185,145,'+(a*0.45).toFixed(3)+')');
-        grad.addColorStop(1,  'rgba(190,165,120,0)');
-
+        var by=(b.y+Math.sin(t+b.phase)*0.022)*H;
+        var rx=b.rx*W, ry=b.ry*H;
+        /* fade in 0→0.2, hold, fade out 0.7→1 */
+        var lf=b.life;
+        var a=lf<0.2?(lf/0.2):lf>0.7?((1-lf)/0.3):1;
+        a*=b.baseA;
+        var gr=ctx.createRadialGradient(bx,by-ry*0.2,0,bx,by,Math.max(rx,ry)*1.15);
+        gr.addColorStop(0,  'rgba(232,212,172,'+a.toFixed(3)+')');
+        gr.addColorStop(0.5,'rgba(210,188,145,'+(a*0.38).toFixed(3)+')');
+        gr.addColorStop(1,  'rgba(190,165,120,0)');
         ctx.save();
         ctx.beginPath();
         ctx.ellipse(bx,by,rx,ry,0,0,Math.PI*2);
-        ctx.fillStyle=grad;
+        ctx.fillStyle=gr;
         ctx.fill();
         ctx.restore();
       });
     }
-    requestAnimationFrame(fogLoop);
+    requestAnimationFrame(horseLoop);
   })();
-
-  /* ── Horse running dust clouds (cap-s1) ── */
-  var hc=document.getElementById('cap-horse-fog');
-  if(hc){
-    var hx=hc.getContext('2d');
-    var HW=0,HH=0;
-    function hResize(){HW=hc.width=hc.offsetWidth||800;HH=hc.height=hc.offsetHeight||150;}
-    hResize();
-    window.addEventListener('resize',hResize,{passive:true});
-
-    /* smaller, more numerous puff clouds — kicked up by hooves */
-    var hBlobs=[];
-    for(var j=0;j<22;j++){
-      hBlobs.push({
-        x:0.35+Math.random()*0.30,  /* centre-ish — hoof strike zone */
-        y:0.60+Math.random()*0.35,
-        rx:0.028+Math.random()*0.042, /* small horizontal radius */
-        ry:0.055+Math.random()*0.075, /* small vertical radius */
-        spd:-(0.0006+Math.random()*0.0009), /* drift left (backward) */
-        vy:-(0.0002+Math.random()*0.0003),  /* slow upward rise */
-        phase:Math.random()*Math.PI*2,
-        baseA:0.10+Math.random()*0.13,
-        life:Math.random()           /* stagger 0-1 */
-      });
-    }
-    var ht=0;
-    (function horseLoop(){
-      if(hc.offsetWidth!==HW||hc.offsetHeight!==HH)hResize();
-      hx.clearRect(0,0,HW,HH);
-      var s1=document.getElementById('cap-s1');
-      if(s1&&s1.classList.contains('cap-sv')&&HW&&HH){
-        ht+=0.012;
-        hBlobs.forEach(function(b){
-          b.x+=b.spd;
-          b.y+=b.vy;
-          b.life+=0.008;
-          /* respawn when drifted far left or faded out */
-          if(b.x<-0.15||b.life>1){
-            b.x=0.30+Math.random()*0.32;
-            b.y=0.62+Math.random()*0.32;
-            b.life=0;
-            b.spd=-(0.0006+Math.random()*0.0009);
-            b.vy=-(0.0002+Math.random()*0.0003);
-          }
-          var bx=b.x*HW, by=(b.y+Math.sin(ht+b.phase)*0.025)*HH;
-          var rx=b.rx*HW, ry=b.ry*HH;
-          /* life arc: fade in 0→0.25, sustain, fade out 0.7→1 */
-          var t=b.life;
-          var a=t<0.25?(t/0.25):t>0.7?((1-t)/0.3):1;
-          a*=b.baseA;
-          var gr=hx.createRadialGradient(bx,by-ry*0.2,0,bx,by,Math.max(rx,ry)*1.2);
-          gr.addColorStop(0,  'rgba(235,215,175,'+a.toFixed(3)+')');
-          gr.addColorStop(0.5,'rgba(215,192,148,'+(a*0.35).toFixed(3)+')');
-          gr.addColorStop(1,  'rgba(195,170,125,0)');
-          hx.save();
-          hx.beginPath();
-          hx.ellipse(bx,by,rx,ry,0,0,Math.PI*2);
-          hx.fillStyle=gr;
-          hx.fill();
-          hx.restore();
-        });
-      }
-      requestAnimationFrame(horseLoop);
-    })();
-  }
 
 })();
 </script>
