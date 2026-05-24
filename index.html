@@ -619,49 +619,52 @@ html.light #site-footer{background:#070503!important;border-top-color:rgba(245,1
 
 /* ── BRAND LOGOS MARQUEE ── */
 .mqr-section{
-  padding:clamp(40px,6vh,72px) clamp(24px,5vw,80px);
+  padding:clamp(40px,6vh,72px) 0;
   border-top:1px solid var(--line);
   border-bottom:1px solid var(--line);
-  position:relative;
+  position:relative;overflow:hidden;
 }
 .mqr-label{
   font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.32em;
   text-transform:uppercase;color:var(--amber);
-  display:flex;align-items:center;gap:10px;margin-bottom:36px;
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:28px;padding:0 clamp(24px,5vw,80px);
 }
 .mqr-label::before{content:'';width:20px;height:1px;background:var(--amber)}
-.mqr-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
-  gap:8px;
+.mqr-vp{
+  overflow:hidden;position:relative;
+}
+.mqr-vp::before,.mqr-vp::after{
+  content:'';position:absolute;top:0;bottom:0;z-index:2;width:100px;pointer-events:none;
+}
+.mqr-vp::before{left:0;background:linear-gradient(to right,var(--bg) 0%,transparent 100%);}
+.mqr-vp::after{right:0;background:linear-gradient(to left,var(--bg) 0%,transparent 100%);}
+.mqr-track{
+  display:flex;align-items:center;
+  width:max-content;
+  animation:mqr-scroll 36s linear infinite;
+}
+.mqr-track.slow{animation-duration:90s;}
+@keyframes mqr-scroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(-50%);}
 }
 .mqr-logo{
   display:flex;align-items:center;justify-content:center;
-  padding:18px 14px;border-radius:6px;
-  border:1px solid transparent;
-  cursor:default;position:relative;
-  opacity:0;transform:translateY(18px);
-  transition:border-color .3s,background .3s;
-}
-.mqr-logo.brand-visible{
-  opacity:1;transform:translateY(0);
-  transition:opacity .55s var(--E),transform .55s var(--E),border-color .3s,background .3s;
-}
-.mqr-logo:hover{
-  border-color:var(--line);
-  background:rgba(245,158,11,.04);
+  padding:16px 32px;
+  cursor:default;flex-shrink:0;
 }
 .mqr-logo svg{
   height:22px;width:auto;display:block;
-  filter:grayscale(1) opacity(.3) brightness(1.6);
-  transition:filter .3s ease,transform .3s cubic-bezier(.34,1.56,.64,1);
+  filter:grayscale(1) opacity(.28) brightness(1.7);
+  transition:filter .35s ease,transform .35s cubic-bezier(.34,1.56,.64,1);
 }
 .mqr-logo:hover svg{
   filter:none;
-  transform:translateY(-2px) scale(1.06);
+  transform:translateY(-2px) scale(1.08);
 }
 html.light .mqr-logo svg{filter:grayscale(1) opacity(.38) brightness(.45);}
-html.light .mqr-logo:hover svg{filter:none;transform:translateY(-2px) scale(1.06);}
+html.light .mqr-logo:hover svg{filter:none;transform:translateY(-2px) scale(1.08);}
 
 /* ── THEME BUTTON: click animations ── */
 @keyframes btn-to-light{
@@ -1318,7 +1321,8 @@ html.light #music-btn{
 <!-- ── BRAND LOGOS MARQUEE ── -->
 <div class="mqr-section" aria-label="Platform expertise">
   <div class="mqr-label">Platform Expertise</div>
-  <div class="mqr-grid" id="mqr-grid">
+  <div class="mqr-vp">
+    <div class="mqr-track" id="mqr-track">
 <div class="mqr-logo" title="Meta"><svg viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <path d="M7,12 C7,5.5 16.5,2.5 22.5,2.5 C27,2.5 30,6 34,12 C38,18 41,21.5 45.5,21.5 C50,21.5 61,18.5 61,12 C61,5.5 50,2.5 45.5,2.5 C41,2.5 38,6 34,12 C30,18 27,21.5 22.5,21.5 C16.5,21.5 7,18.5 7,12 Z" fill="#0082FB"/>
 </svg></div>
@@ -1428,6 +1432,116 @@ html.light #music-btn{
   <rect x="12" y="11" width="4" height="13" rx="1" fill="#242424"/>
   <rect x="18" y="6" width="4" height="18" rx="1" fill="#242424"/>
 </svg></div>
+<div class="mqr-logo" title="Meta"><svg viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M7,12 C7,5.5 16.5,2.5 22.5,2.5 C27,2.5 30,6 34,12 C38,18 41,21.5 45.5,21.5 C50,21.5 61,18.5 61,12 C61,5.5 50,2.5 45.5,2.5 C41,2.5 38,6 34,12 C30,18 27,21.5 22.5,21.5 C16.5,21.5 7,18.5 7,12 Z" fill="#0082FB"/>
+</svg></div>
+      <div class="mqr-logo" title="Google"><svg viewBox="0 0 86 26" xmlns="http://www.w3.org/2000/svg">
+  <text y="22" font-size="22" font-weight="700" font-family="Arial,Helvetica,sans-serif">
+    <tspan fill="#4285F4">G</tspan><tspan fill="#EA4335">o</tspan><tspan fill="#FBBC05">o</tspan><tspan fill="#4285F4">g</tspan><tspan fill="#34A853">l</tspan><tspan fill="#EA4335">e</tspan>
+  </text>
+</svg></div>
+      <div class="mqr-logo" title="LinkedIn"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <rect width="28" height="28" rx="5" fill="#0A66C2"/>
+  <rect x="6" y="11" width="4" height="12" fill="white"/>
+  <circle cx="8" cy="7.5" r="2.5" fill="white"/>
+  <path d="M14,11 h4 v2 c1-2 3-2.5 4.5-2.5 C25,10.5 22,13 22,16 v7 h-4 V16 c0-1.5-.5-3-2-3 s-2,1.5-2,3 v7 h-4 z" fill="white"/>
+</svg></div>
+      <div class="mqr-logo" title="TikTok"><svg viewBox="0 0 74 26" xmlns="http://www.w3.org/2000/svg">
+  <text y="22" font-size="20" font-weight="800" font-family="Arial,Helvetica,sans-serif" letter-spacing="-0.5">
+    <tspan fill="#EE1D52">Tik</tspan><tspan fill="#010101">Tok</tspan>
+  </text>
+</svg></div>
+      <div class="mqr-logo" title="Instagram"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="ig-rg" cx="30%" cy="107%" r="130%">
+      <stop offset="0%" stop-color="#FED373"/>
+      <stop offset="20%" stop-color="#F15245"/>
+      <stop offset="45%" stop-color="#D92E7F"/>
+      <stop offset="70%" stop-color="#9B36B7"/>
+      <stop offset="100%" stop-color="#515BD4"/>
+    </radialGradient>
+  </defs>
+  <rect x="1" y="1" width="26" height="26" rx="7" fill="url(#ig-rg)"/>
+  <circle cx="14" cy="14" r="5.5" fill="none" stroke="white" stroke-width="2.2"/>
+  <circle cx="20.5" cy="7.5" r="1.7" fill="white"/>
+</svg></div>
+      <div class="mqr-logo" title="WhatsApp"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="14" cy="14" r="13" fill="#25D366"/>
+  <path d="M14,6.5 C9.9,6.5 6.5,9.9 6.5,14 C6.5,15.4 6.9,16.8 7.6,17.9 L6.5,21.5 L10.1,20.4 C11.2,21.1 12.6,21.5 14,21.5 C18.1,21.5 21.5,18.1 21.5,14 C21.5,9.9 18.1,6.5 14,6.5 Z" fill="white"/>
+  <path d="M11,11 c-.3,0-.7.1-.9.4 -.7.7-.7,2.2.7,3.6 1.5,1.6 3.5,2.5 5,2 .5-.1.9-.4 1.1-.8 l.2-.5 c.1-.2,0-.4-.1-.5 l-1.2-.8 c-.2-.1-.4-.1-.5.1 l-.4.5 c-.1.1-.2.1-.3.1 -1-.4-2-1.3-2-1.3 0,0-.9-1-.4-1.8 0,0 .2-.3.1-.5 l-.8-1.2 c-.1-.2-.3-.2-.5-.1 z" fill="#25D366"/>
+</svg></div>
+      <div class="mqr-logo" title="Canva"><svg viewBox="0 0 72 26" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="13" cy="13" r="13" fill="#00C4CC"/>
+  <text x="9.5" y="18" fill="white" font-size="14" font-weight="800" font-family="Arial">C</text>
+  <text x="32" y="21" fill="#00C4CC" font-size="17" font-weight="700" font-family="Arial,Helvetica,sans-serif">Canva</text>
+</svg></div>
+      <div class="mqr-logo" title="HubSpot"><svg viewBox="0 0 90 26" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="13" cy="13" r="5" fill="#FF7A59"/>
+  <circle cx="13" cy="4" r="3" fill="#FF7A59"/>
+  <line x1="13" y1="7" x2="13" y2="8" stroke="#FF7A59" stroke-width="2"/>
+  <line x1="4" y1="13" x2="8" y2="13" stroke="#FF7A59" stroke-width="2"/>
+  <line x1="18" y1="13" x2="22" y2="13" stroke="#FF7A59" stroke-width="2"/>
+  <text x="28" y="19" fill="#33475B" font-size="15" font-weight="700" font-family="Arial">HubSpot</text>
+</svg></div>
+      <div class="mqr-logo" title="Mailchimp"><svg viewBox="0 0 92 26" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="2" width="22" height="22" rx="3" fill="#FFE01B"/>
+  <text x="3" y="20" fill="#241C15" font-size="17" font-weight="800" font-family="Arial">M</text>
+  <text x="28" y="20" fill="#241C15" font-size="14" font-weight="600" font-family="Arial">Mailchimp</text>
+</svg></div>
+      <div class="mqr-logo" title="Slack"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <rect x="3" y="3" width="8" height="8" rx="2" fill="#E01E5A"/>
+  <rect x="17" y="3" width="8" height="8" rx="2" fill="#ECB22E"/>
+  <rect x="3" y="17" width="8" height="8" rx="2" fill="#2EB67D"/>
+  <rect x="17" y="17" width="8" height="8" rx="2" fill="#36C5F0"/>
+</svg></div>
+      <div class="mqr-logo" title="WordPress"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="14" cy="14" r="13" fill="#21759B"/>
+  <text x="5" y="20" fill="white" font-size="14" font-weight="800" font-family="Arial">WP</text>
+</svg></div>
+      <div class="mqr-logo" title="Shopify"><svg viewBox="0 0 74 26" xmlns="http://www.w3.org/2000/svg">
+  <path d="M13,2 L19,4 L19,22 L7,22 L7,4 Z" fill="#96BF48"/>
+  <path d="M16,4 C16,4 14,3.5 13,5 C12,6.5 11,11 11,11 L17,11 C17,11 16,6.5 16,4 Z" fill="white"/>
+  <rect x="11" y="15" width="6" height="4" rx="1" fill="white"/>
+  <text x="24" y="20" fill="#96BF48" font-size="15" font-weight="700" font-family="Arial">Shopify</text>
+</svg></div>
+      <div class="mqr-logo" title="Analytics"><svg viewBox="0 0 100 28" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1" y="16" width="6" height="10" rx="1" fill="#F9AB00"/>
+  <rect x="10" y="10" width="6" height="16" rx="1" fill="#F9AB00"/>
+  <rect x="19" y="4" width="6" height="22" rx="1" fill="#E37400"/>
+  <text x="32" y="21" fill="#E37400" font-size="14" font-weight="600" font-family="Arial">Analytics</text>
+</svg></div>
+      <div class="mqr-logo" title="SEMrush"><svg viewBox="0 0 80 24" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="12" cy="12" r="11" fill="#FF642D"/>
+  <circle cx="12" cy="12" r="7" fill="none" stroke="white" stroke-width="2"/>
+  <circle cx="12" cy="12" r="3" fill="white"/>
+  <line x1="19" y1="5" x2="23" y2="1" stroke="#FF642D" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="30" y="18" fill="#FF642D" font-size="14" font-weight="700" font-family="Arial">SEMrush</text>
+</svg></div>
+      <div class="mqr-logo" title="Hootsuite"><svg viewBox="0 0 90 26" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="10" cy="9" r="4" fill="#143059"/>
+  <circle cx="22" cy="9" r="4" fill="#143059"/>
+  <circle cx="10" cy="9" r="1.8" fill="white"/>
+  <circle cx="22" cy="9" r="1.8" fill="white"/>
+  <path d="M6,13 Q14,20 26,13" fill="none" stroke="#143059" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="32" y="20" fill="#143059" font-size="13" font-weight="700" font-family="Arial">Hootsuite</text>
+</svg></div>
+      <div class="mqr-logo" title="Trello"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <rect width="28" height="28" rx="5" fill="#0052CC"/>
+  <rect x="4" y="4" width="8" height="15" rx="2" fill="white"/>
+  <rect x="16" y="4" width="8" height="10" rx="2" fill="white"/>
+</svg></div>
+      <div class="mqr-logo" title="Asana"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="14" cy="9" r="6" fill="#F06A6A"/>
+  <circle cx="6" cy="21" r="6" fill="#F06A6A"/>
+  <circle cx="22" cy="21" r="6" fill="#F06A6A"/>
+</svg></div>
+      <div class="mqr-logo" title="Power BI"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+  <rect width="28" height="28" rx="4" fill="#F2C811"/>
+  <rect x="6" y="16" width="4" height="8" rx="1" fill="#242424"/>
+  <rect x="12" y="11" width="4" height="13" rx="1" fill="#242424"/>
+  <rect x="18" y="6" width="4" height="18" rx="1" fill="#242424"/>
+</svg></div>
+    </div>
   </div>
 </div>
 
@@ -1669,7 +1783,7 @@ html.light .studio-img-slot{box-shadow:0 18px 48px rgba(0,0,0,.18)}
 
   <div class="studio-card-wrap">
     <div class="studio-img-slot" id="studio-slot">
-      <img src="assets/black.png" alt="" id="studio-img" draggable="false">
+      <img src="assets/Me black.png" alt="" id="studio-img" draggable="false">
     </div>
   </div>
 
@@ -1690,8 +1804,8 @@ html.light .studio-img-slot{box-shadow:0 18px 48px rgba(0,0,0,.18)}
 <script>
 (function(){
   var SLIDES=[
-    {img:'assets/black.png',            counter:'01 / 03',category:'Identity',num:'01',title:'The Shadow', desc:'Where silence speaks loudest — identity rendered in contrast and light, stripped to its essential truth.'},
-    {img:'assets/white.png',            counter:'02 / 03',category:'Heritage',num:'02',title:'The Pursuit',desc:'Motion as metaphor — culture, strength, and momentum captured in a single relentless frame.'},
+    {img:'assets/Me black.png',            counter:'01 / 03',category:'Identity',num:'01',title:'The Shadow', desc:'Where silence speaks loudest — identity rendered in contrast and light, stripped to its essential truth.'},
+    {img:'assets/Me white.png',            counter:'02 / 03',category:'Heritage',num:'02',title:'The Pursuit',desc:'Motion as metaphor — culture, strength, and momentum captured in a single relentless frame.'},
     {img:'assets/Untitled design.png',  counter:'03 / 03',category:'Vision',  num:'03',title:'The Form',   desc:'Classical permanence meets digital light — where ancient form is reborn through a modern lens.'}
   ];
   var cur=0,busy=false;
@@ -2972,24 +3086,7 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   statEls.forEach(function(el){io.observe(el);});
 })();
 
-/* ── BRANDS STAGGERED ENTRANCE ── */
-(function(){
-  var logos=document.querySelectorAll('#mqr-grid .mqr-logo');
-  if(!logos.length)return;
-  var io=new IntersectionObserver(function(entries){
-    if(!entries[0].isIntersecting)return;
-    io.disconnect();
-    logos.forEach(function(logo,i){
-      setTimeout(function(){
-        logo.classList.add('brand-visible');
-      },i*55);
-    });
-  },{threshold:.2});
-  var grid=document.getElementById('mqr-grid');
-  if(grid)io.observe(grid);
-})();
 
-/* ── END ADDITIONS ── */
 /* ── CORNFIELD CHASE — HTML5 Audio ── */
 (function(){
   var playerEl=document.getElementById('music-player');
