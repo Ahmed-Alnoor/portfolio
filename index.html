@@ -1894,14 +1894,12 @@ html.light #mi-img,html.light #jn-img{filter:brightness(.93) saturate(1.1)}
 })();
 </script>
 
-<script>
-window.makeColorBends('mi-canvas','mi-card');
-window.makeColorBends('jn-canvas','jn-card');
-</script>
-
 </section>
-<!-- ============================================================
-     004 — THE ARTIST
+
+<script>
+/* ── ColorBends WebGL factory ── */
+window.makeColorBends=function(canvasId,cardId){
+  var canvas=document.getElementById(canvasId);
   if(!canvas)return;
   var ctxOpts={alpha:true,premultipliedAlpha:true};
   var gl=canvas.getContext('webgl',ctxOpts)||canvas.getContext('experimental-webgl',ctxOpts);
@@ -2091,10 +2089,11 @@ window.makeColorBends('jn-canvas','jn-card');
     gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
     requestAnimationFrame(draw);
   })(t0);
-}; /* end window.makeColorBends */
+};
+window.makeColorBends('mi-canvas','mi-card');
+window.makeColorBends('jn-canvas','jn-card');
 </script>
 
-</section>
 <!-- ============================================================
      004 — THE ARTIST
      ============================================================ -->
