@@ -1908,10 +1908,10 @@ html.light #mi-img{filter:brightness(.93) saturate(1.1)}
     '  float w=sin(p.y*5.0+uT*0.5)*0.14+cos(p.x*3.2+uT*0.35)*0.09;',
     /* bands (frequency=1.7, bandWidth=3 → wide soft blends) */
     '  float t=fract((p.x+w)*1.7+uT*0.08)*3.0;',
-    /* colours: #EAB308 #EC4899 #F97316 */
-    '  vec3 c1=vec3(0.918,0.702,0.031);',
-    '  vec3 c2=vec3(0.925,0.282,0.600);',
-    '  vec3 c3=vec3(0.976,0.451,0.086);',
+    /* colours: #f59e0b #fbbf24 #ff6a1a */
+    '  vec3 c1=vec3(0.961,0.620,0.043);',
+    '  vec3 c2=vec3(0.984,0.749,0.141);',
+    '  vec3 c3=vec3(1.000,0.416,0.102);',
     /* smooth 3-way blend — wider softness for bandWidth=3 */
     '  float soft=0.45;',
     '  vec3 col=mix(c1,c2,smoothstep(1.0-soft,1.0+soft,t));',
