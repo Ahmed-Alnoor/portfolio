@@ -1813,6 +1813,11 @@ html.light #music-btn{
 }
 #mi-canvas,#jn-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
 #mi-img,#jn-img{width:100%;height:auto;display:block;position:relative;z-index:1;filter:brightness(.95) saturate(1.1)}
+.mi-overlay{
+  position:absolute;bottom:0;left:0;right:0;height:60%;
+  background:linear-gradient(to top,rgba(6,5,3,.95) 0%,rgba(6,5,3,.5) 40%,transparent 100%);
+  pointer-events:none;z-index:2;
+}
 @media(max-width:767px){
   #mi-card,#jn-card{border-radius:14px}
   #jn-wrap{margin-top:18px}
@@ -1820,6 +1825,7 @@ html.light #music-btn{
 }
 html.light #mi-card,
 html.light #jn-card{background:#f0ebe2;border-color:rgba(0,0,0,.1);box-shadow:0 24px 80px rgba(0,0,0,.14),0 80px 140px rgba(0,0,0,.08)}
+html.light .mi-overlay{background:linear-gradient(to top,rgba(245,240,232,.96) 0%,rgba(245,240,232,.55) 40%,transparent 100%)}
 html.light #mi-img,html.light #jn-img{filter:brightness(.93) saturate(1.1)}
 </style>
 
@@ -1829,6 +1835,7 @@ html.light #mi-img,html.light #jn-img{filter:brightness(.93) saturate(1.1)}
     <div id="mi-card">
       <canvas id="mi-canvas"></canvas>
       <img id="mi-img" src="assets/Arabic text.png" alt="Arabic calligraphy" draggable="false">
+      <div class="mi-overlay"></div>
     </div>
   </div>
 
@@ -1836,6 +1843,7 @@ html.light #mi-img,html.light #jn-img{filter:brightness(.93) saturate(1.1)}
     <div id="jn-card">
       <canvas id="jn-canvas"></canvas>
       <img id="jn-img" src="assets/Portrait with shadow.png" alt="Ahmed — Sudan, Turkey, UAE" draggable="false">
+      <div class="mi-overlay"></div>
     </div>
   </div>
 
