@@ -1883,9 +1883,9 @@ html.light #mi-img{filter:brightness(.93) saturate(1.1)}
 </script>
 
 <script>
-/* ── ColorBends WebGL — exact port of ColorBends.jsx (React Bits) ── */
-(function(){
-  var canvas=document.getElementById('mi-canvas');
+/* ── ColorBends WebGL factory — reused by all ColorBends cards ── */
+window.makeColorBends=function(canvasId,cardId){
+  var canvas=document.getElementById(canvasId);
   if(!canvas)return;
   var ctxOpts={alpha:true,premultipliedAlpha:true};
   var gl=canvas.getContext('webgl',ctxOpts)||canvas.getContext('experimental-webgl',ctxOpts);
@@ -2051,7 +2051,7 @@ html.light #mi-img{filter:brightness(.93) saturate(1.1)}
 
   /* pointer tracking — NDC [-1,1] with smooth lerp (matches component) */
   var pxt=0,pyt=0,pxc=0,pyc=0;
-  var card=document.getElementById('mi-card');
+  var card=document.getElementById(cardId);
   if(card){
     card.addEventListener('pointermove',function(e){
       var r=card.getBoundingClientRect();
@@ -2075,7 +2075,90 @@ html.light #mi-img{filter:brightness(.93) saturate(1.1)}
     gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
     requestAnimationFrame(draw);
   })(t0);
+}; /* end window.makeColorBends */
+window.makeColorBends('mi-canvas','mi-card');
+</script>
+
+</section>
+<!-- ============================================================
+     003b — BUILT ACROSS BORDERS
+     ============================================================ -->
+<section class="sec" id="journey">
+<div class="s-idx">Built Across Borders</div>
+<h2 class="s-ttl reveal" style="text-align:center">Three markets. One standard. <span class="ac">*</span></h2>
+
+<style>
+#jn-wrap{margin-top:52px;perspective:1400px}
+#jn-card{
+  width:100%;max-width:1000px;margin:0 auto;
+  border-radius:22px;border:1.5px solid rgba(244,237,225,.09);
+  overflow:hidden;position:relative;
+  transform-origin:top center;
+  will-change:transform;
+  background:#080503;
+  box-shadow:
+    0 0 0 1px rgba(245,158,11,.06),
+    0 24px 80px rgba(0,0,0,.65),
+    0 80px 140px rgba(0,0,0,.35);
+}
+#jn-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block}
+#jn-img{width:100%;height:auto;display:block;position:relative;z-index:1;filter:brightness(.95) saturate(1.05)}
+.jn-body{
+  max-width:680px;margin:0 auto 36px;
+  font-family:'Sora',sans-serif;font-size:clamp(14px,1.15vw,16px);
+  color:var(--ink-d);line-height:1.82;font-weight:200;text-align:center;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .85s var(--E) .15s,transform .85s var(--E) .15s;
+}
+#journey.jn-in .jn-body{opacity:1;transform:translateY(0)}
+@media(max-width:767px){
+  #jn-card{border-radius:14px}
+  .jn-body{text-align:left;font-size:14px}
+}
+html.light #jn-card{background:#f0ebe2;border-color:rgba(0,0,0,.1);box-shadow:0 24px 80px rgba(0,0,0,.14),0 80px 140px rgba(0,0,0,.08)}
+html.light #jn-img{filter:brightness(.93) saturate(1.05)}
+</style>
+
+  <div id="jn-wrap">
+    <p class="jn-body">Every instinct I carry was sharpened somewhere specific. Sudan taught me how to build meaning before budget — a culture of resilience that lives in how I read a room. Turkey sharpened the edge: navigating two worlds, two languages, two sets of expectations in a single brief. The UAE is where all of it converged into a practice.</p>
+    <div id="jn-card">
+      <canvas id="jn-canvas"></canvas>
+      <img id="jn-img" src="assets/Portrait with shadow.png" alt="Ahmed — Sudan, Turkey, UAE" draggable="false">
+      <div class="mi-overlay"></div>
+      <div class="mi-bottom">
+        <div class="mi-tags">
+          <span class="mi-tag">Sudan</span>
+          <span class="mi-tag">Turkey</span>
+          <span class="mi-tag">UAE</span>
+          <span class="mi-tag">Brand Identity</span>
+          <span class="mi-tag">Cultural Strategy</span>
+        </div>
+        <div class="mi-quote">Khartoum · Istanbul · Dubai</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  var section=document.getElementById('journey');
+  var card=document.getElementById('jn-card');
+  if(!section||!card)return;
+  var done=false;
+  function tick(){
+    var rect=section.getBoundingClientRect();
+    var vh=window.innerHeight;
+    var p=Math.max(0,Math.min(1,(vh-rect.top)/rect.height));
+    var rotX=18*(1-p);
+    card.style.transform='perspective(1400px) rotateX('+rotX.toFixed(2)+'deg)';
+    if(!done&&p>0.5){done=true;section.classList.add('jn-in');}
+  }
+  window.addEventListener('scroll',tick,{passive:true});
+  tick();
 })();
+</script>
+
+<script>
+window.makeColorBends('jn-canvas','jn-card');
 </script>
 
 </section>
