@@ -768,6 +768,39 @@ html.light #music-btn{
   border-color:rgba(245,158,11,.28);
   box-shadow:inset 0 1px 0 rgba(255,255,255,.92);
 }
+/* ── Volume control ── */
+.vol-wrap{display:flex;align-items:center;gap:6px;position:relative;z-index:1}
+.vol-btn{
+  width:22px;height:22px;border:none;background:none;padding:0;
+  color:var(--amber);opacity:.65;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:opacity .2s;
+}
+.vol-btn:hover{opacity:1}
+.vol-btn .vol-ico-off{display:none}
+.vol-btn.muted .vol-ico-on{display:none}
+.vol-btn.muted .vol-ico-off{display:block}
+.vol-slider{
+  -webkit-appearance:none;appearance:none;
+  width:68px;height:2px;border-radius:2px;
+  background:rgba(245,158,11,.18);outline:none;cursor:pointer;
+  transition:background .2s;
+}
+.vol-slider:hover{background:rgba(245,158,11,.3)}
+.vol-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:11px;height:11px;border-radius:50%;
+  background:var(--amber);cursor:pointer;
+  box-shadow:0 0 6px rgba(245,158,11,.5);
+  transition:transform .15s;
+}
+.vol-slider:hover::-webkit-slider-thumb{transform:scale(1.25)}
+.vol-slider::-moz-range-thumb{
+  width:11px;height:11px;border-radius:50%;
+  background:var(--amber);border:none;cursor:pointer;
+}
+html.light .vol-slider{background:rgba(180,90,0,.2)}
+html.light .vol-btn{color:rgba(180,90,0,.8)}
 
 /* ── iPAD & TOUCH OPTIMIZATIONS ── */
 
@@ -813,8 +846,8 @@ html.light #music-btn{
 <body>
 
 <!-- ── AMBIENT MUSIC PLAYER ── -->
-<div id="music-player" aria-label="Background music player">
-  <button id="music-btn" aria-label="Play Cornfield Chase" title="Cornfield Chase — Interstellar OST">
+<div id="music-player" aria-label="Music player">
+  <button id="music-btn" aria-label="Play music" title="Music">
     <svg class="ico-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
       <path d="M9 18V5l12-2v13"/>
       <circle cx="6" cy="18" r="3"/>
@@ -829,11 +862,24 @@ html.light #music-btn{
     <div class="music-bars" aria-hidden="true">
       <span></span><span></span><span></span><span></span><span></span>
     </div>
-    <span class="music-label">Cornfield Chase</span>
+    <span class="music-label">Music</span>
+  </div>
+  <div class="vol-wrap">
+    <button class="vol-btn" id="vol-btn" aria-label="Toggle mute" title="Volume">
+      <svg class="vol-ico-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="13" height="13">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+      </svg>
+      <svg class="vol-ico-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="13" height="13">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+        <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+      </svg>
+    </button>
+    <input type="range" class="vol-slider" id="vol-slider" min="0" max="100" value="80" step="1" aria-label="Volume">
   </div>
 </div>
 <audio id="music-audio" loop preload="auto">
-  <source src="assets/cornfield-chase.m4a" type="audio/mp4">
+  <source src="assets/music.m4a" type="audio/mp4">
 </audio>
 
 <div id="loader">
@@ -3317,9 +3363,13 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   var playerEl=document.getElementById('music-player');
   var btn=document.getElementById('music-btn');
   var audio=document.getElementById('music-audio');
+  var volSlider=document.getElementById('vol-slider');
+  var volBtn=document.getElementById('vol-btn');
   if(!playerEl||!btn||!audio)return;
 
   var playing=false, unlocked=false, rafVol=null;
+  var userVol=0.8; /* user's chosen volume, 0–1 */
+  audio.volume=0;
 
   function fadeVol(to,ms){
     if(rafVol){cancelAnimationFrame(rafVol);rafVol=null;}
@@ -3342,8 +3392,8 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     audio.volume=0;
     audio.play().then(function(){
       setUI(true);
-      fadeVol(1,1600);
-    }).catch(function(){/* blocked — button still works */});
+      fadeVol(userVol,1600);
+    }).catch(function(){});
   }
 
   function doStop(){
@@ -3353,15 +3403,39 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     setTimeout(function(){if(!playing)audio.pause();},750);
   }
 
+  /* ── Volume slider ── */
+  if(volSlider){
+    volSlider.value=Math.round(userVol*100);
+    volSlider.addEventListener('input',function(){
+      userVol=this.value/100;
+      if(playing){if(rafVol){cancelAnimationFrame(rafVol);rafVol=null;}audio.volume=userVol;}
+      if(volBtn)volBtn.classList.toggle('muted',userVol===0);
+    });
+  }
+  if(volBtn){
+    volBtn.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(audio.volume>0){
+        userVol=audio.volume;
+        audio.volume=0;
+        if(volSlider)volSlider.value=0;
+        volBtn.classList.add('muted');
+      } else {
+        userVol=userVol||0.8;
+        if(playing)audio.volume=userVol;
+        if(volSlider)volSlider.value=Math.round(userVol*100);
+        volBtn.classList.remove('muted');
+      }
+    });
+  }
+
   /* ── Unlock on first real interaction ── */
   function onUnlock(e){
-    /* always remove listeners first */
     ['click','pointerdown','keydown','touchstart'].forEach(function(ev){
       document.removeEventListener(ev,onUnlock,true);
     });
     if(unlocked)return;
     unlocked=true;
-    /* don't auto-play if the triggering event was the music button itself */
     if(e.target===btn||btn.contains(e.target))return;
     if(!playing)tryPlay();
   }
@@ -3369,10 +3443,18 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     document.addEventListener(ev,onUnlock,{capture:true,passive:true});
   });
 
-  /* ── Resume after tab becomes visible again ── */
+  /* ── Pause when tab hidden, resume when visible ── */
   document.addEventListener('visibilitychange',function(){
-    if(!document.hidden&&unlocked&&!playing)tryPlay();
+    if(document.hidden){
+      if(playing){audio.pause();}
+    } else {
+      if(unlocked&&playing){audio.play().catch(function(){});}
+      else if(unlocked&&!playing){tryPlay();}
+    }
   });
+
+  /* ── Stop when user closes / navigates away ── */
+  window.addEventListener('pagehide',function(){audio.pause();});
 
   /* ── Button ── */
   btn.addEventListener('click',function(e){
@@ -3381,8 +3463,40 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     if(playing)doStop();else tryPlay();
   });
 
-  /* ── Try autoplay immediately (works if browser permits) ── */
+  /* ── Auto-play on load ── */
   tryPlay();
+})();
+
+/* ── Click sound — calm PS-style blip ── */
+(function(){
+  var actx=null;
+  function getCtx(){
+    if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();
+    return actx;
+  }
+  function playClick(){
+    try{
+      var ctx=getCtx();
+      if(ctx.state==='suspended')ctx.resume();
+      var gain=ctx.createGain();
+      gain.connect(ctx.destination);
+      gain.gain.setValueAtTime(0.06,ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.09);
+      var osc=ctx.createOscillator();
+      osc.type='sine';
+      osc.frequency.setValueAtTime(900,ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(520,ctx.currentTime+0.07);
+      osc.connect(gain);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime+0.09);
+    }catch(e){}
+  }
+  document.addEventListener('pointerdown',function(e){
+    var t=e.target;
+    if(t.closest('button,a,.proj-header,.cap,.art-panel,.cert-card,.theme-btn,.nav-ham,.nav-item,input[type=range]')){
+      playClick();
+    }
+  },{capture:true,passive:true});
 })();
 </script>
 </body>
