@@ -455,23 +455,13 @@ html.light #contact::before{background:radial-gradient(circle,rgba(217,119,6,.09
 html.light .cap::before{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(217,119,6,.05),transparent 55%)}
 /* Hero: cream text-halo so dark text stays readable over the dark 3D eclipse */
 html.light #hero-title{text-shadow:none}
-html.light .t-ch:not(.sp){
-  background:linear-gradient(158deg,#1c1208 0%,#2e1a08 30%,#1c1208 60%,#100c06 100%);
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 2px 6px rgba(0,0,0,.12))}
-html.light .t-ch.warm{
-  background:none!important;-webkit-background-clip:unset!important;background-clip:unset!important;
-  -webkit-text-fill-color:var(--amber)!important;
-  filter:drop-shadow(0 0 18px rgba(217,119,6,.45))!important}
-html.light .hero-sub{color:rgba(30,20,8,.72);text-shadow:none}
-html.light .hero-eyebrow{text-shadow:none;color:rgba(80,60,20,.6)}
-html.light .hero-eyebrow::before,html.light .hero-eyebrow::after{background:rgba(80,60,20,.3)}
+html.light .t-ch:not(.sp){filter:drop-shadow(0 2px 12px rgba(0,0,0,.28)) drop-shadow(0 0 40px rgba(255,255,255,.18))}
+html.light .hero-sub{text-shadow:0 0 20px rgba(248,245,240,.92),0 0 40px rgba(248,245,240,.78)}
+html.light .hero-eyebrow{text-shadow:none;color:rgba(80,90,100,.7)}
+html.light .hero-eyebrow::before,html.light .hero-eyebrow::after{background:rgba(80,90,100,.35)}
 html.light #vanta-bg::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 110% 60% at 72% -5%,rgba(255,240,160,.5) 0%,rgba(255,250,220,.2) 35%,transparent 70%),
-    linear-gradient(180deg,rgba(255,252,240,.22) 0%,transparent 45%)}
+  background:linear-gradient(180deg,rgba(255,255,255,.65) 0%,rgba(255,255,255,.1) 35%,transparent 60%)}
 html.light .hero-cv-btn:hover{color:#fff}
 html.light .cta-btn:hover{color:#fff}
 html.light .portrait-frame{
@@ -3090,13 +3080,13 @@ function _initVanta(){
     gyroControls:false,
     minHeight:200,
     minWidth:200,
-    backgroundColor:0xfffdf8,
-    skyColor:0xfff8e8,
-    cloudColor:0xffffff,
-    cloudShadowColor:0xe0d0b0,
-    sunColor:0xffe040,
-    sunGlareColor:0xfff0a0,
-    sunlightColor:0xffd030,
+    backgroundColor:0xffffff,
+    skyColor:0xb0d8f0,
+    cloudColor:0xddeaf8,
+    cloudShadowColor:0x5878a0,
+    sunColor:0xff9919,
+    sunGlareColor:0xff6633,
+    sunlightColor:0xff9933,
     speed:1
   });
 }
