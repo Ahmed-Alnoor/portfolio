@@ -1043,27 +1043,28 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 /* Slide states */
 .cap-slide.cap-sh{opacity:0;pointer-events:none}
 .cap-slide.cap-sv{opacity:1}
-.cap-slide.cap-se{animation:cap-en .9s cubic-bezier(.19,1,.22,1) forwards}
-.cap-slide.cap-sx{animation:cap-ex .65s cubic-bezier(.19,1,.22,1) forwards}
-/* Image: new slide zooms in from front (scale down to fit), old fades to back */
-@keyframes cap-en{0%{opacity:0;transform:scale(1.18)}100%{opacity:1;transform:scale(1)}}
-@keyframes cap-ex{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.86)}}
+.cap-slide.cap-se{animation:cap-en .7s cubic-bezier(.22,1,.36,1) forwards}
+.cap-slide.cap-sx{animation:cap-ex .48s cubic-bezier(.4,0,.6,1) forwards}
+/* Carousel: entire slide exits left, next enters from right */
+@keyframes cap-en{from{opacity:0;transform:translateX(54vw)}to{opacity:1;transform:translateX(0)}}
+@keyframes cap-ex{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(-54vw)}}
 
-/* Background: subtle cross-fade only */
-@keyframes cap-bg-out{from{opacity:1}to{opacity:.3}}
-@keyframes cap-bg-in{from{opacity:.3}to{opacity:1}}
-#cap-bg.cap-bg-out{animation:cap-bg-out .45s ease forwards}
-#cap-bg.cap-bg-in{animation:cap-bg-in .85s ease forwards}
+/* Background: parallax — drifts right as content scrolls left */
+@keyframes cap-bg-out{from{transform:translateX(0)}to{transform:translateX(70px)}}
+@keyframes cap-bg-in{from{transform:translateX(-70px)}to{transform:translateX(0)}}
+#cap-bg{will-change:transform}
+#cap-bg.cap-bg-out{animation:cap-bg-out .48s cubic-bezier(.4,0,.6,1) forwards}
+#cap-bg.cap-bg-in{animation:cap-bg-in .75s cubic-bezier(.22,1,.36,1) forwards}
 
-/* Panels: exit left, enter from right (from ring/center direction) — no blur */
-@keyframes cap-pl-out{0%{transform:translateY(-50%) translateX(0);opacity:1}40%{opacity:0}100%{transform:translateY(-50%) translateX(-72px);opacity:0}}
-@keyframes cap-pl-in{0%{transform:translateY(-50%) translateX(72px);opacity:0}30%{opacity:1}100%{transform:translateY(-50%) translateX(0);opacity:1}}
-#cap-pl.cap-pl-out{animation:cap-pl-out .45s cubic-bezier(.4,0,.2,1) forwards}
-#cap-pl.cap-pl-in{animation:cap-pl-in .75s cubic-bezier(.19,1,.22,1) forwards}
-@keyframes cap-pr-out{0%{transform:translateY(-50%) translateX(0);opacity:1}40%{opacity:0}100%{transform:translateY(-50%) translateX(-60px);opacity:0}}
-@keyframes cap-pr-in{0%{transform:translateY(-50%) translateX(60px);opacity:0}30%{opacity:1}100%{transform:translateY(-50%) translateX(0);opacity:1}}
-#cap-pr.cap-pr-out{animation:cap-pr-out .45s cubic-bezier(.4,0,.2,1) forwards}
-#cap-pr.cap-pr-in{animation:cap-pr-in .75s cubic-bezier(.19,1,.22,1) .06s forwards}
+/* Text panels: same left-exit / right-enter as the rest of the slide */
+@keyframes cap-pl-out{0%{transform:translateY(-50%) translateX(0);opacity:1}30%{opacity:0}100%{transform:translateY(-50%) translateX(-90px);opacity:0}}
+@keyframes cap-pl-in{0%{transform:translateY(-50%) translateX(90px);opacity:0}28%{opacity:1}100%{transform:translateY(-50%) translateX(0);opacity:1}}
+#cap-pl.cap-pl-out{animation:cap-pl-out .48s cubic-bezier(.4,0,.6,1) forwards}
+#cap-pl.cap-pl-in{animation:cap-pl-in .7s cubic-bezier(.22,1,.36,1) forwards}
+@keyframes cap-pr-out{0%{transform:translateY(-50%) translateX(0);opacity:1}30%{opacity:0}100%{transform:translateY(-50%) translateX(-80px);opacity:0}}
+@keyframes cap-pr-in{0%{transform:translateY(-50%) translateX(80px);opacity:0}28%{opacity:1}100%{transform:translateY(-50%) translateX(0);opacity:1}}
+#cap-pr.cap-pr-out{animation:cap-pr-out .48s cubic-bezier(.4,0,.6,1) forwards}
+#cap-pr.cap-pr-in{animation:cap-pr-in .7s cubic-bezier(.22,1,.36,1) .05s forwards}
 
 /* Left panel */
 #cap-pl{position:absolute;left:clamp(24px,4vw,64px);top:50%;transform:translateY(-50%);z-index:20;max-width:310px}
@@ -1298,20 +1299,16 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
     overlay.classList.remove('cap-fl','cap-flb');
     void overlay.offsetWidth;
     overlay.classList.add(b?'cap-flb':'cap-fl');
-    // Image: old fades to back
+    // Whole slide exits left; bg drifts right (parallax)
     slides[prev].classList.add('cap-sx'); slides[prev].classList.remove('cap-sv');
-    // Background: dim
     bg.classList.remove('cap-bg-in'); void bg.offsetWidth; bg.classList.add('cap-bg-out');
-    // Panels: strip cap-pin now so old text fades out before sliding
     panelL.classList.remove('cap-pin','cap-pl-in'); void panelL.offsetWidth; panelL.classList.add('cap-pl-out');
     panelR.classList.remove('cap-p2in','cap-pr-in'); void panelR.offsetWidth; panelR.classList.add('cap-pr-out');
     setTimeout(()=>{
-      // Image: new zooms in from front
+      // Next slide enters from right; bg drifts back left
       slides[prev].classList.add('cap-sh'); slides[prev].classList.remove('cap-sx');
       slides[next].classList.remove('cap-sh'); slides[next].classList.add('cap-se','cap-sv');
-      // Background: brighten
       bg.classList.remove('cap-bg-out'); void bg.offsetWidth; bg.classList.add('cap-bg-in');
-      // Panels: enter from ring/center side
       panelL.classList.remove('cap-pl-out'); void panelL.offsetWidth; panelL.classList.add('cap-pl-in');
       panelR.classList.remove('cap-pr-out'); void panelR.offsetWidth; panelR.classList.add('cap-pr-in');
       updatePanels(next);
