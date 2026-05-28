@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && ([ -f lanyard.bundle ] && mv lanyard.bundle lanyard.bundle.js || true)",
     "preview": "vite preview"
   },
   "dependencies": {

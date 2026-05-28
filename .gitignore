@@ -2,3 +2,4 @@ node_modules/
 dist/
 .DS_Store
 *.local
+# lanyard.bundle.js is intentionally committed (pre-built static asset)

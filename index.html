@@ -842,11 +842,14 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 /* iPad landscape + portrait shared: smooth momentum scroll on iOS */
 #scroll-body{-webkit-overflow-scrolling:touch}
 
+/* ── LANYARD WRAPPER (injected by bundle) ── */
+.lanyard-wrapper{position:relative;z-index:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;}
+
 /* ── LANYARD SECTION ── */
 #lanyard-section{
   position:relative;background:#070503;
   border-top:1px solid rgba(245,158,11,.1);
-  height:620px;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;
 }
 #lanyard-section .ln-eyebrow{
   position:absolute;top:clamp(24px,4vw,44px);left:50%;transform:translateX(-50%);
@@ -854,13 +857,16 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.38em;text-transform:uppercase;
   color:rgba(245,158,11,.4);white-space:nowrap;
 }
-#lanyard-section .ln-hint{
-  position:absolute;bottom:clamp(18px,3vw,32px);left:50%;transform:translateX(-50%);
-  z-index:2;pointer-events:none;
-  font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(245,240,232,.2);white-space:nowrap;
+#lanyard-root{width:100%;height:580px;flex-shrink:0;}
+.ln-cv-area{
+  position:relative;z-index:2;
+  width:100%;display:flex;justify-content:center;
+  padding:0 0 64px;
+  background:linear-gradient(to bottom,transparent,rgba(7,5,3,.96) 30%,#070503);
+  margin-top:-60px;
 }
-#lanyard-root{position:absolute;inset:0;}
+/* ensure folder CTA is visible over canvas */
+.ln-cv-area .ft-cv-cta{position:relative;z-index:3;}
 
 /* ── FOLDER CV CTA ── */
 .ft-cv-cta{
@@ -1029,14 +1035,6 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   </a>
   <div id="scroll-cue"><span>Scroll</span><div id="scl"></div></div>
 </section>
-
-<!-- Lanyard interactive card -->
-<section id="lanyard-section">
-  <div class="ln-eyebrow">Interactive Card — Drag Me</div>
-  <div id="lanyard-root"></div>
-  <div class="ln-hint">Click &amp; drag to play</div>
-</section>
-
 <section class="sec" id="about">
   <div class="s-idx">001 — About</div>
   <div class="about-inner">
@@ -2461,6 +2459,30 @@ window.makeColorBends('jn-canvas','jn-card');
     <div class="ci reveal" style="transition-delay:.26s"><div class="l">Availability</div><div class="v">Open to projects · 2026</div></div>
   </div>
 </section>
+
+<!-- ── Last section: Interactive card + Download CV ── -->
+<section id="lanyard-section">
+  <div class="ln-eyebrow">Interactive Card — Drag to play</div>
+  <div id="lanyard-root"></div>
+  <div class="ln-cv-area">
+    <div class="ft-cv-cta" id="cv-folder-cta" role="button" aria-label="Download CV">
+      <div class="ft-cv-eyebrow">Get My Resume</div>
+      <div class="ft-folder-scale">
+        <div class="folder" id="cv-folder" style="--folder-color:#f59e0b;--folder-back-color:#d97706;--paper-1:#e8e8e8;--paper-2:#f4f4f4;--paper-3:#ffffff;">
+          <div class="folder__back">
+            <div class="paper paper-1"></div>
+            <div class="paper paper-2"></div>
+            <div class="paper paper-3"></div>
+            <div class="folder__front"></div>
+            <div class="folder__front right"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ft-cv-label">Download CV</div>
+    </div>
+  </div>
+</section>
+
 </div>
 <footer id="site-footer">
 
@@ -2530,23 +2552,6 @@ window.makeColorBends('jn-canvas','jn-card');
           <span class="ft-tool">Google Data Studio</span>
         </div>
       </div>
-    </div>
-
-    <!-- CV Download Folder CTA -->
-    <div class="ft-cv-cta" id="cv-folder-cta" role="button" aria-label="Download CV">
-      <div class="ft-cv-eyebrow">Get My Resume</div>
-      <div class="ft-folder-scale">
-        <div class="folder" id="cv-folder" style="--folder-color:#f59e0b;--folder-back-color:#d97706;--paper-1:#e8e8e8;--paper-2:#f4f4f4;--paper-3:#ffffff;">
-          <div class="folder__back">
-            <div class="paper paper-1"></div>
-            <div class="paper paper-2"></div>
-            <div class="paper paper-3"></div>
-            <div class="folder__front"></div>
-            <div class="folder__front right"></div>
-          </div>
-        </div>
-      </div>
-      <div class="ft-cv-label">Download CV</div>
     </div>
 
     <div class="ft-bottom">
@@ -3653,6 +3658,6 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   });
 })();
 </script>
-<script type="module" src="/src/main.jsx"></script>
+<script defer src="/lanyard.bundle.js"></script>
 </body>
 </html>

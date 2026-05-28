@@ -9,11 +9,10 @@ import {
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 import * as THREE from 'three';
 
-import cardGLB from '../../assets/card.glb';
-import lanyardPng from '../../assets/lanyard.png';
-import portraitSrc from '../../assets/me-black.png';
-
-import './Lanyard.css';
+/* assets live in public/lanyard/ and are served at these paths */
+const cardGLB = '/lanyard/card.glb';
+const lanyardPng = '/lanyard/lanyard.png';
+const portraitSrc = '/lanyard/me-black.png';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
