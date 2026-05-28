@@ -1045,8 +1045,22 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 .cap-slide.cap-sv{opacity:1}
 .cap-slide.cap-se{animation:cap-en .9s cubic-bezier(.19,1,.22,1) forwards}
 .cap-slide.cap-sx{animation:cap-ex .65s cubic-bezier(.19,1,.22,1) forwards}
-@keyframes cap-en{from{opacity:0;transform:scale(1.06)}to{opacity:1;transform:scale(1)}}
-@keyframes cap-ex{from{opacity:1;transform:scale(1)}to{opacity:0;transform:scale(.93)}}
+@keyframes cap-en{from{opacity:0}to{opacity:1}}
+@keyframes cap-ex{from{opacity:1}to{opacity:0}}
+
+/* Parallax scroll: bg→right, text→left, motion blur */
+@keyframes cap-bg-out{from{transform:translateX(0);filter:blur(0) brightness(1)}to{transform:translateX(130px);filter:blur(16px) brightness(.65)}}
+@keyframes cap-bg-in{from{transform:translateX(-100px);filter:blur(16px) brightness(.65)}to{transform:translateX(0);filter:blur(0) brightness(1)}}
+#cap-bg.cap-bg-out{animation:cap-bg-out .55s cubic-bezier(.19,1,.22,1) forwards}
+#cap-bg.cap-bg-in{animation:cap-bg-in 1s cubic-bezier(.19,1,.22,1) forwards}
+@keyframes cap-pl-out{from{transform:translateY(-50%) translateX(0);filter:blur(0)}to{transform:translateY(-50%) translateX(-100px);filter:blur(14px)}}
+@keyframes cap-pl-in{from{transform:translateY(-50%) translateX(80px);filter:blur(14px)}to{transform:translateY(-50%) translateX(0);filter:blur(0)}}
+#cap-pl.cap-pl-out{animation:cap-pl-out .5s cubic-bezier(.19,1,.22,1) forwards}
+#cap-pl.cap-pl-in{animation:cap-pl-in 1s cubic-bezier(.19,1,.22,1) .05s forwards}
+@keyframes cap-pr-out{from{transform:translateY(-50%) translateX(0);filter:blur(0)}to{transform:translateY(-50%) translateX(-90px);filter:blur(14px)}}
+@keyframes cap-pr-in{from{transform:translateY(-50%) translateX(70px);filter:blur(14px)}to{transform:translateY(-50%) translateX(0);filter:blur(0)}}
+#cap-pr.cap-pr-out{animation:cap-pr-out .5s cubic-bezier(.19,1,.22,1) forwards}
+#cap-pr.cap-pr-in{animation:cap-pr-in 1s cubic-bezier(.19,1,.22,1) .1s forwards}
 
 /* Left panel */
 #cap-pl{position:absolute;left:clamp(24px,4vw,64px);top:50%;transform:translateY(-50%);z-index:20;max-width:310px}
@@ -1277,13 +1291,26 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
     busy=true;
     const prev=cur; cur=next;
     const b=chars[next].color==='blue';
+    const bg=document.getElementById('cap-bg');
     overlay.classList.remove('cap-fl','cap-flb');
     void overlay.offsetWidth;
     overlay.classList.add(b?'cap-flb':'cap-fl');
+    // Image: cross-fade out
     slides[prev].classList.add('cap-sx'); slides[prev].classList.remove('cap-sv');
+    // Background: slide right + blur
+    bg.classList.remove('cap-bg-in'); void bg.offsetWidth; bg.classList.add('cap-bg-out');
+    // Panels: slide left + blur
+    panelL.classList.remove('cap-pl-in'); void panelL.offsetWidth; panelL.classList.add('cap-pl-out');
+    panelR.classList.remove('cap-pr-in'); void panelR.offsetWidth; panelR.classList.add('cap-pr-out');
     setTimeout(()=>{
+      // Image: cross-fade in
       slides[prev].classList.add('cap-sh'); slides[prev].classList.remove('cap-sx');
       slides[next].classList.remove('cap-sh'); slides[next].classList.add('cap-se','cap-sv');
+      // Background: enter from left
+      bg.classList.remove('cap-bg-out'); void bg.offsetWidth; bg.classList.add('cap-bg-in');
+      // Panels: enter from right
+      panelL.classList.remove('cap-pl-out'); void panelL.offsetWidth; panelL.classList.add('cap-pl-in');
+      panelR.classList.remove('cap-pr-out'); void panelR.offsetWidth; panelR.classList.add('cap-pr-in');
       updatePanels(next);
       dots.forEach((d,i)=>{
         d.classList.remove('cap-ag','cap-ab');
