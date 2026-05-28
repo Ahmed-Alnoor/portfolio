@@ -128,18 +128,30 @@ html.light #nav{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   overflow:hidden;isolation:isolate;padding-top:var(--nav-h)}
 .hero-eyebrow{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.38em;
-  color:rgba(245,158,11,.8);text-transform:uppercase;margin-bottom:24px;
+  color:rgba(155,160,165,.68);text-transform:uppercase;margin-bottom:24px;
   display:flex;align-items:center;gap:14px;position:relative;z-index:10;
   opacity:0;animation:fU 1.2s var(--E) .4s forwards}
-.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:28px;height:1px;background:var(--amber)}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:28px;height:1px;background:rgba(155,160,165,.45)}
 #hero-title{position:relative;z-index:10;font-family:'Michroma',sans-serif;font-weight:400;
   font-size:clamp(28px,7.5vw,108px);line-height:.92;letter-spacing:-.01em;text-transform:uppercase;
-  text-align:center;text-shadow:0 4px 60px rgba(0,0,0,.8)}
+  text-align:center;text-shadow:none}
 .t-row{display:flex;justify-content:center;overflow:visible;white-space:nowrap}
-.t-ch{display:inline-block;will-change:transform;
-  transition:color .25s,text-shadow .25s,transform .6s var(--E);padding:0 .015em}
+.t-ch{display:inline-block;will-change:transform,filter;
+  transition:filter .28s,transform .6s var(--E);padding:0 .015em}
+.t-ch:not(.sp){
+  background:linear-gradient(158deg,
+    rgba(255,255,255,1) 0%,
+    rgba(210,232,255,.78) 28%,
+    rgba(255,255,255,.96) 56%,
+    rgba(195,222,255,.7) 100%);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 2px 10px rgba(255,255,255,.42)) drop-shadow(0 0 55px rgba(255,255,255,.14)) drop-shadow(0 3px 20px rgba(0,0,0,.22))}
 .t-ch.sp{width:.24em}
-.t-ch.warm{color:var(--amber-w);text-shadow:0 0 50px rgba(251,191,36,.45)}
+.t-ch.warm{
+  background:none!important;-webkit-background-clip:unset!important;background-clip:unset!important;
+  -webkit-text-fill-color:var(--amber-w)!important;
+  filter:drop-shadow(0 0 24px rgba(251,191,36,.5))!important}
 .hero-sub{position:relative;z-index:10;margin-top:26px;font-size:14px;color:var(--ink-d);
   letter-spacing:.04em;text-align:center;max-width:50ch;line-height:1.7;
   opacity:0;animation:fU 1.2s var(--E) 1.5s forwards;text-shadow:0 0 30px rgba(0,0,0,.9)}
@@ -442,9 +454,11 @@ html.light .proj-preview-title{color:rgba(180,83,9,.4)}
 html.light #contact::before{background:radial-gradient(circle,rgba(217,119,6,.09),transparent 60%)}
 html.light .cap::before{background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(217,119,6,.05),transparent 55%)}
 /* Hero: cream text-halo so dark text stays readable over the dark 3D eclipse */
-html.light #hero-title{text-shadow:0 0 38px rgba(248,245,240,.94),0 0 76px rgba(248,245,240,.78)}
+html.light #hero-title{text-shadow:none}
+html.light .t-ch:not(.sp){filter:drop-shadow(0 2px 12px rgba(0,0,0,.28)) drop-shadow(0 0 40px rgba(255,255,255,.18))}
 html.light .hero-sub{text-shadow:0 0 20px rgba(248,245,240,.92),0 0 40px rgba(248,245,240,.78)}
-html.light .hero-eyebrow{text-shadow:0 0 14px rgba(248,245,240,.92)}
+html.light .hero-eyebrow{text-shadow:none;color:rgba(80,90,100,.7)}
+html.light .hero-eyebrow::before,html.light .hero-eyebrow::after{background:rgba(80,90,100,.35)}
 html.light .hero-cv-btn:hover{color:#fff}
 html.light .cta-btn:hover{color:#fff}
 html.light .portrait-frame{
