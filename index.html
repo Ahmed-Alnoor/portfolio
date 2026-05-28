@@ -842,6 +842,26 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 /* iPad landscape + portrait shared: smooth momentum scroll on iOS */
 #scroll-body{-webkit-overflow-scrolling:touch}
 
+/* ── LANYARD SECTION ── */
+#lanyard-section{
+  position:relative;background:#070503;
+  border-top:1px solid rgba(245,158,11,.1);
+  height:620px;overflow:hidden;
+}
+#lanyard-section .ln-eyebrow{
+  position:absolute;top:clamp(24px,4vw,44px);left:50%;transform:translateX(-50%);
+  z-index:2;pointer-events:none;
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(245,158,11,.4);white-space:nowrap;
+}
+#lanyard-section .ln-hint{
+  position:absolute;bottom:clamp(18px,3vw,32px);left:50%;transform:translateX(-50%);
+  z-index:2;pointer-events:none;
+  font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(245,240,232,.2);white-space:nowrap;
+}
+#lanyard-root{position:absolute;inset:0;}
+
 /* ── FOLDER CV CTA ── */
 .ft-cv-cta{
   display:flex;flex-direction:column;align-items:center;
@@ -1009,6 +1029,14 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   </a>
   <div id="scroll-cue"><span>Scroll</span><div id="scl"></div></div>
 </section>
+
+<!-- Lanyard interactive card -->
+<section id="lanyard-section">
+  <div class="ln-eyebrow">Interactive Card — Drag Me</div>
+  <div id="lanyard-root"></div>
+  <div class="ln-hint">Click &amp; drag to play</div>
+</section>
+
 <section class="sec" id="about">
   <div class="s-idx">001 — About</div>
   <div class="about-inner">
@@ -3625,5 +3653,6 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   });
 })();
 </script>
+<script type="module" src="/src/main.jsx"></script>
 </body>
 </html>
