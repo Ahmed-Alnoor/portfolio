@@ -538,6 +538,8 @@ html.light .theme-btn .t-sun{display:block}
   border-top:1px solid rgba(245,158,11,.18);
 }
 html.light #site-footer{background:#070503!important;border-top-color:rgba(245,158,11,.22)!important}
+/* Vignette softened in light mode */
+html.light .plx-vig{background:radial-gradient(ellipse 80% 88% at 50% 52%,transparent 35%,rgba(0,0,0,.38) 100%)!important}
 /* ── Beam zone (top, fixed height) ── */
 .ft-beam-zone{
   position:relative;height:clamp(280px,38vw,420px);
@@ -4051,6 +4053,151 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     if(btn){btn.style.transform='translateY('+(-e*45)+'px)';btn.style.opacity=Math.max(0,1-e*3.2);}
     if(scue){scue.style.opacity=Math.max(0,1-e*4);}
   },{passive:true});
+})();
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════
+   3D PARALLAX DEPTH — portrait images
+   BG layer: moves opposite cursor  ±28px / ±22px
+   FG layer: moves with cursor      ±10px /  ±8px
+   LERP: 0.06  |  single RAF loop  |  mouse + gyro
+   ══════════════════════════════════════════════════ */
+(function(){
+  /* — Global cursor / gyro state — */
+  var _g={tx:0,ty:0};
+  window.addEventListener('mousemove',function(e){
+    _g.tx=(e.clientX/window.innerWidth)*2-1;
+    _g.ty=(e.clientY/window.innerHeight)*2-1;
+  },{passive:true});
+  if(typeof DeviceOrientationEvent!=='undefined'){
+    window.addEventListener('deviceorientation',function(e){
+      if(e.gamma!=null)_g.tx=Math.max(-1,Math.min(1,e.gamma/22));
+      if(e.beta!=null) _g.ty=Math.max(-1,Math.min(1,(e.beta-20)/28));
+    },{passive:true});
+  }
+
+  /* — Instance registry + single RAF — */
+  var _q=[];
+  (function loop(){
+    _q.forEach(function(I){
+      I.cx+=(_g.tx-I.cx)*0.06;
+      I.cy+=(_g.ty-I.cy)*0.06;
+      I.bg.style.transform='translate('+(-I.cx*I.bx).toFixed(2)+'px,'+(-I.cy*I.by).toFixed(2)+'px)';
+      I.fg.style.transform='translate('+(I.cx*I.fx).toFixed(2)+'px,'+(I.cy*I.fy).toFixed(2)+'px)';
+    });
+    requestAnimationFrame(loop);
+  })();
+
+  function reg(bg,fg,bx,by,fx,fy){_q.push({bg:bg,fg:fg,bx:bx,by:by,fx:fx,fy:fy,cx:0,cy:0});}
+
+  /* — Layer factory helpers — */
+  function absDiv(z,extra){
+    var d=document.createElement('div');
+    d.style.cssText='position:absolute;width:116%;height:116%;top:-8%;left:-8%;will-change:transform;z-index:'+z+(extra?';'+extra:'');
+    return d;
+  }
+  function layerImg(src,filt,objPos){
+    var i=document.createElement('img');
+    i.src=src; i.draggable=false; i.setAttribute('aria-hidden','true');
+    i.style.cssText='width:100%;height:100%;object-fit:contain;display:block;object-position:'+(objPos||'bottom center')+(filt?';filter:'+filt:'');
+    return i;
+  }
+  function vignette(z){
+    var v=document.createElement('div');
+    v.className='plx-vig';
+    v.style.cssText='position:absolute;inset:0;z-index:'+z+';pointer-events:none;background:radial-gradient(ellipse 80% 88% at 50% 52%,transparent 28%,rgba(0,0,0,.78) 100%)';
+    return v;
+  }
+
+  /* ── 1. ABOUT PORTRAIT ── */
+  (function(){
+    var frame=document.getElementById('portrait-frame');
+    var img=document.getElementById('img-portrait');
+    if(!frame||!img)return;
+    function build(){
+      /* Set aspect ratio so the frame keeps its size with absolute children */
+      if(img.naturalWidth&&img.naturalHeight)
+        frame.style.aspectRatio=img.naturalWidth+'/'+img.naturalHeight;
+      frame.style.background='#000';
+      frame.style.minHeight='280px';
+
+      /* Kill float animation */
+      img.style.animation='none';
+      img.style.width='100%';img.style.height='100%';
+      img.style.objectFit='contain';img.style.objectPosition='bottom center';
+      img.style.display='block';img.style.filter='';
+
+      /* BG — darkened + blurred clone */
+      var bg=absDiv(1);
+      bg.appendChild(layerImg(img.src,'brightness(.38) blur(3.5px)','bottom center'));
+
+      /* FG — move original img into absolute layer */
+      var fg=absDiv(2);
+      frame.insertBefore(fg,img);
+      fg.appendChild(img);
+      frame.insertBefore(bg,fg);
+      frame.appendChild(vignette(3));
+
+      reg(bg,fg,28,22,10,8);
+    }
+    if(img.complete&&img.naturalWidth>0)build();
+    else img.addEventListener('load',build,{once:true});
+  })();
+
+  /* ── 2. EXPERTISE CAP-CHAR IMAGES (3 slides) ── */
+  (function(){
+    document.querySelectorAll('.cap-char').forEach(function(img){
+      var slide=img.closest('.cap-slide');
+      if(!slide)return;
+
+      /* BG — absolute full-slide layer, flex-end so image sits at bottom */
+      var bg=document.createElement('div');
+      bg.style.cssText='position:absolute;inset:0;z-index:3;pointer-events:none;will-change:transform;display:flex;align-items:flex-end;justify-content:center;overflow:hidden';
+      var bgI=document.createElement('img');
+      bgI.src=img.src; bgI.draggable=false; bgI.setAttribute('aria-hidden','true');
+      bgI.style.cssText='height:92%;max-height:840px;width:auto;object-fit:contain;object-position:bottom;display:block;filter:brightness(.28) blur(4px)';
+      bg.appendChild(bgI);
+
+      /* FG — absolute full-slide wrapper around the existing cap-char img */
+      var fg=document.createElement('div');
+      fg.style.cssText='position:absolute;inset:0;z-index:4;pointer-events:none;will-change:transform;display:flex;align-items:flex-end;justify-content:center';
+      slide.insertBefore(fg,img);
+      fg.appendChild(img);
+      slide.insertBefore(bg,fg);
+
+      reg(bg,fg,30,24,12,9);
+    });
+  })();
+
+  /* ── 3. MARKET SECTION — jn-img (Portrait with shadow) ── */
+  (function(){
+    var card=document.getElementById('jn-card');
+    var img=document.getElementById('jn-img');
+    if(!card||!img)return;
+    function build(){
+      card.style.background='#000';
+
+      /* BG — absolute blurred clone */
+      var bg=absDiv(1);
+      bg.appendChild(layerImg(img.src,'brightness(.38) blur(3.5px)','center center'));
+
+      /* FG — keep img in normal flow (sets card height); wrapper is inline-block
+         so translate doesn't break layout flow */
+      var fg=document.createElement('div');
+      fg.style.cssText='display:block;position:relative;z-index:2;will-change:transform;overflow:hidden';
+      img.style.cssText='width:100%;height:auto;display:block;filter:brightness(.95) saturate(1.1)';
+      card.insertBefore(fg,img);
+      fg.appendChild(img);
+      card.insertBefore(bg,fg);
+      card.appendChild(vignette(4));
+
+      reg(bg,fg,24,18,8,6);
+    }
+    if(img.complete&&img.naturalWidth>0)build();
+    else img.addEventListener('load',build,{once:true});
+  })();
+
 })();
 </script>
 </body>
