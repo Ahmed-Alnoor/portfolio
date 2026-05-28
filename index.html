@@ -855,6 +855,51 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 
 /* iPad landscape + portrait shared: smooth momentum scroll on iOS */
 #scroll-body{-webkit-overflow-scrolling:touch}
+
+/* ── PAGE PROGRESS BAR ── */
+#pg-bar{position:fixed;top:0;left:0;height:2px;width:0;z-index:300;pointer-events:none;
+  background:linear-gradient(90deg,var(--amber),var(--amber-s),var(--ember));
+  box-shadow:0 0 8px rgba(245,158,11,.5);transition:width .06s linear}
+
+/* ── EXPERIENCE TIMELINE ── */
+#experience{max-width:1400px}
+.exp-list{margin-top:56px;display:flex;flex-direction:column}
+.exp-item{display:grid;grid-template-columns:200px 1fr;gap:0 48px;padding:36px 0;
+  border-top:1px solid var(--line);position:relative}
+.exp-item:last-child{border-bottom:1px solid var(--line)}
+.exp-period{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;
+  color:var(--ink-m);text-transform:uppercase;padding-top:4px;line-height:1.6}
+.exp-current{display:inline-block;margin-top:6px;padding:3px 8px;font-size:9px;
+  letter-spacing:.18em;border:1px solid rgba(245,158,11,.3);color:var(--amber);
+  border-radius:2px;text-transform:uppercase}
+.exp-co{font-family:'Michroma',sans-serif;font-size:clamp(15px,1.5vw,22px);
+  text-transform:uppercase;color:var(--ink);line-height:1.1;margin-bottom:8px}
+.exp-role{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.24em;
+  color:var(--amber);text-transform:uppercase;margin-bottom:14px}
+.exp-blurb{font-size:13px;color:var(--ink-d);line-height:1.7;max-width:52ch;margin-bottom:16px}
+.exp-metrics{display:flex;flex-wrap:wrap;gap:8px}
+.exp-m{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;padding:4px 11px;border:1px solid rgba(245,158,11,.18);
+  color:rgba(245,158,11,.7);border-radius:2px}
+@media(max-width:640px){
+  .exp-item{grid-template-columns:1fr;gap:10px}
+  .exp-period{padding-top:0}
+}
+
+/* ── STAT COUNTER: animated number reveal ── */
+.stat-n .sn-val{display:inline}
+.stat{border-top:1px solid var(--line);padding-top:12px;transition:border-color .4s}
+.about-stats.in .stat{border-color:rgba(245,158,11,.25)}
+
+/* ── CONTACT SECTION UPGRADE ── */
+.cta-t{font-family:'Michroma',sans-serif;font-weight:400;
+  font-size:clamp(32px,5.5vw,84px);line-height:.94;text-transform:uppercase;
+  margin-bottom:44px;letter-spacing:-.01em}
+.cta-avail{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.3em;
+  color:rgba(245,158,11,.85);text-transform:uppercase;margin-bottom:32px;
+  display:flex;align-items:center;gap:12px}
+.cta-avail::before{content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--amber);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -896,6 +941,7 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   <source src="assets/music.m4a" type="audio/mp4">
 </audio>
 
+<div id="pg-bar"></div>
 <div id="loader">
   <div class="ldr-icon">
     <svg viewBox="400 100 1200 900" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
@@ -914,6 +960,7 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 <div id="nav-mob" role="dialog" aria-modal="true" aria-label="Navigation">
   <a href="#about">About</a>
   <a href="#caps">Expertise</a>
+  <a href="#experience">Experience</a>
   <a href="#work">Work</a>
   <a href="#artist">Artist</a>
   <a href="#certs">Credentials</a>
@@ -929,6 +976,7 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   <nav class="nav-center">
     <a href="#about">About</a>
     <a href="#caps">Expertise</a>
+    <a href="#experience">Experience</a>
     <a href="#work">Work</a>
     <a href="#artist">Artist</a>
     <a href="#certs">Credentials</a>
@@ -954,8 +1002,8 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
     <div class="t-row" id="row2"></div>
   </div>
   <p class="hero-sub">
-    Senior Marketing Communication &amp; Brand Strategy —<br>
-    Building ecosystems that <em>look premium, communicate clearly, and perform.</em>
+    7 years · 11:1 ROI · 25% engagement growth —<br>
+    building brand ecosystems that <em>look premium, communicate clearly, and perform.</em>
   </p>
   <a class="hero-cv-btn" href="https://drive.google.com/uc?export=download&id=1llaNKuZHGHz4BUCwpUzm0zyAGH62NBed" download="Ahmed_Alnoor_CV.pdf" target="_blank" rel="noopener">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -975,19 +1023,87 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
       <div class="about-role reveal" style="transition-delay:.1s">Senior Marketing Communication &amp; Brand Strategy</div>
       <h1 class="about-name reveal" style="transition-delay:.18s">Ahmed<br>Mohammed</h1>
       <p class="about-bio reveal" style="transition-delay:.26s">
-        I don't separate strategy from creativity — I run them <em>in the same breath.</em><br><br>
-        From real estate to fashion to AI tools, I build brand ecosystems where
-        <strong>identity, storytelling, digital marketing, and automation</strong> work as one connected system.
+        7 years across the UAE's most demanding sectors — government, sports, healthcare, retail. I don't separate strategy from creativity — I run them <em>in the same breath.</em><br><br>
+        From a <strong>6–8% brand awareness lift</strong> across five government-linked branches to campaigns that delivered <strong>11:1 ROI</strong>, I build ecosystems where identity, digital marketing, and automation work as one connected system.
       </p>
       <div class="about-stats reveal" style="transition-delay:.34s">
-        <div class="stat"><div class="stat-n" data-target="6" data-suffix="+">6<sup>+</sup></div><div class="stat-l">Industries</div></div>
-        <div class="stat"><div class="stat-n" data-target="12" data-suffix="+">12<sup>+</sup></div><div class="stat-l">Projects</div></div>
-        <div class="stat"><div class="stat-n" data-target="5" data-suffix="">5</div><div class="stat-l">Disciplines</div></div>
+        <div class="stat"><div class="stat-n" data-count="7" data-suffix="+"><span class="sn-val">7</span><sup>+</sup></div><div class="stat-l">Yrs Experience</div></div>
+        <div class="stat"><div class="stat-n" data-count="11" data-suffix=":1"><span class="sn-val">11</span><sup>:1</sup></div><div class="stat-l">Avg. ROI</div></div>
+        <div class="stat"><div class="stat-n" data-count="25" data-suffix="%"><span class="sn-val">25</span><sup>%</sup></div><div class="stat-l">Engagement ↑</div></div>
       </div>
       <div class="about-contact reveal" style="transition-delay:.42s">
         <a href="mailto:ahmed.m.alnoor@gmail.com">ahmed.m.alnoor@gmail.com</a>
         <a href="tel:+971561185206">+971 56 118 5206</a>
-        <a href="https://linkedin.com/in/ahmed-alnoor" target="_blank" rel="noopener">LinkedIn Profile</a>
+        <a href="https://www.linkedin.com/in/ahmedalnoor" target="_blank" rel="noopener">LinkedIn — Ahmed Alnoor ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec" id="experience">
+  <div class="s-idx">002 — Experience</div>
+  <h2 class="s-ttl reveal">Where I've <span class="ac">delivered.</span></h2>
+  <div class="exp-list">
+    <div class="exp-item reveal">
+      <div class="exp-left">
+        <div class="exp-period">Apr 2024 — Present<br><span class="exp-current">Current</span></div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-co">Ontime Group · S-Government</div>
+        <div class="exp-role">Sr. Marketing &amp; Communication Specialist</div>
+        <p class="exp-blurb">Led 360° marketing across 5 UAE branches — Mercato, Mazaya, Al Manara, Oud Metha, Golden Cube. Managed multi-platform paid campaigns, government partner comms, and IPS / Gitex / Dubai Boat Show activations.</p>
+        <div class="exp-metrics">
+          <span class="exp-m">11:1 Avg. ROI</span>
+          <span class="exp-m">22% Engagement ↑</span>
+          <span class="exp-m">15–20% CPL ↓</span>
+          <span class="exp-m">18% Event Conversion ↑</span>
+          <span class="exp-m">6–8% Brand Awareness ↑</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item reveal" style="transition-delay:.08s">
+      <div class="exp-left">
+        <div class="exp-period">Mar 2022 — Apr 2024</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-co">Diversity Sports Tournaments</div>
+        <div class="exp-role">Sr. Marketing Executive</div>
+        <p class="exp-blurb">Full-scale 360° campaigns for sports tournaments and academies across UAE. Led World Mini Football Championship marketing, digital paid strategy, and event branding.</p>
+        <div class="exp-metrics">
+          <span class="exp-m">5x ROAS</span>
+          <span class="exp-m">115% Attendance Target</span>
+          <span class="exp-m">65% Organic Traffic ↑</span>
+          <span class="exp-m">35% Social Engagement ↑</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item reveal" style="transition-delay:.16s">
+      <div class="exp-left">
+        <div class="exp-period">Mar 2021 — Mar 2022</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-co">Natural Clinic · Healthcare</div>
+        <div class="exp-role">Digital Marketing Specialist</div>
+        <p class="exp-blurb">Led full rebrand and digital strategy for an aesthetic healthcare clinic. Expanded into medical tourism through international expos in Turkey and targeted multi-channel campaigns.</p>
+        <div class="exp-metrics">
+          <span class="exp-m">20% Brand Awareness ↑</span>
+          <span class="exp-m">18% CAC ↓</span>
+          <span class="exp-m">20% Web Traffic ↑</span>
+        </div>
+      </div>
+    </div>
+    <div class="exp-item reveal" style="transition-delay:.24s">
+      <div class="exp-left">
+        <div class="exp-period">Aug 2019 — Mar 2021</div>
+      </div>
+      <div class="exp-right">
+        <div class="exp-co">Azza Group · Retail &amp; Logistics</div>
+        <div class="exp-role">Marketing Executive</div>
+        <p class="exp-blurb">Retail promotions, seasonal campaigns, social content, and in-store event execution across UAE. Built foundational skills in paid media, content creation, and campaign reporting.</p>
+        <div class="exp-metrics">
+          <span class="exp-m">Social Media</span>
+          <span class="exp-m">Event Marketing</span>
+          <span class="exp-m">Content Creation</span>
+        </div>
       </div>
     </div>
   </div>
@@ -2394,7 +2510,8 @@ window.makeColorBends('jn-canvas','jn-card');
 </section>
 <section class="sec" id="contact">
   <div class="s-idx">006 — Let's Build</div>
-  <h2 class="cta-t reveal">Have a brand<br>waiting to <span class="ac">perform?</span></h2>
+  <div class="cta-avail reveal">Available now · Full-time · UAE</div>
+<h2 class="cta-t reveal" style="transition-delay:.1s">Ready to deliver<br>results from <span class="ac">day one.</span></h2>
   <div class="cta-btns">
     <a href="mailto:ahmed.m.alnoor@gmail.com" class="cta-btn reveal" style="transition-delay:.12s">
       Email me
@@ -2411,7 +2528,7 @@ window.makeColorBends('jn-canvas','jn-card');
   <div class="cta-info">
     <div class="ci reveal" style="transition-delay:.1s"><div class="l">Based in</div><div class="v">UAE</div></div>
     <div class="ci reveal" style="transition-delay:.18s"><div class="l">Email</div><div class="v">ahmed.m.alnoor@gmail.com</div></div>
-    <div class="ci reveal" style="transition-delay:.26s"><div class="l">Availability</div><div class="v">Open to projects · 2026</div></div>
+    <div class="ci reveal" style="transition-delay:.26s"><div class="l">Availability</div><div class="v">Available Now · Full-time Roles</div></div>
   </div>
 </section>
 </div>
@@ -3592,6 +3709,63 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
       playClick();
     }
   },{capture:true,passive:true});
+})();
+</script>
+<script>
+/* ── PAGE PROGRESS BAR ── */
+(function(){
+  var bar=document.getElementById('pg-bar');
+  if(!bar)return;
+  window.addEventListener('scroll',function(){
+    var total=document.body.scrollHeight-window.innerHeight;
+    bar.style.width=(total>0?(window.scrollY/total)*100:0)+'%';
+  },{passive:true});
+})();
+
+/* ── STAT COUNTER ANIMATION ── */
+(function(){
+  var statsEl=document.querySelector('.about-stats');
+  if(!statsEl)return;
+  var done=false;
+  var observer=new IntersectionObserver(function(entries){
+    if(entries[0].isIntersecting&&!done){
+      done=true;
+      statsEl.querySelectorAll('.stat-n[data-count]').forEach(function(el){
+        var target=parseInt(el.dataset.count,10);
+        var valEl=el.querySelector('.sn-val');
+        if(!valEl)return;
+        var start=performance.now();
+        var dur=1800;
+        (function tick(now){
+          var p=Math.min((now-start)/dur,1);
+          var ease=1-Math.pow(1-p,3);
+          valEl.textContent=Math.round(ease*target);
+          if(p<1)requestAnimationFrame(tick);
+          else valEl.textContent=target;
+        })(start);
+      });
+    }
+  },{threshold:0.5});
+  observer.observe(statsEl);
+})();
+
+/* ── HERO SCROLL PARALLAX ── */
+(function(){
+  var title=document.getElementById('hero-title');
+  var eyebrow=document.querySelector('.hero-eyebrow');
+  var sub=document.querySelector('.hero-sub');
+  var btn=document.querySelector('.hero-cv-btn');
+  var scue=document.getElementById('scroll-cue');
+  window.addEventListener('scroll',function(){
+    var s=window.scrollY,h=window.innerHeight;
+    if(s>h)return;
+    var p=s/h,e=p*p*(3-2*p);
+    if(title){title.style.transform='translateY('+(-e*90)+'px)';title.style.opacity=Math.max(0,1-e*2.4);}
+    if(eyebrow){eyebrow.style.transform='translateY('+(-e*55)+'px)';eyebrow.style.opacity=Math.max(0,1-e*3);}
+    if(sub){sub.style.transform='translateY('+(-e*65)+'px)';sub.style.opacity=Math.max(0,1-e*2.8);}
+    if(btn){btn.style.transform='translateY('+(-e*45)+'px)';btn.style.opacity=Math.max(0,1-e*3.2);}
+    if(scue){scue.style.opacity=Math.max(0,1-e*4);}
+  },{passive:true});
 })();
 </script>
 </body>
