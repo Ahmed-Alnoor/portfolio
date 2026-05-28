@@ -896,6 +896,7 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 <div id="cur"></div>
 <div id="cur-r"></div>
 <canvas id="three-canvas"></canvas>
+<div id="vanta-bg" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none;"></div>
 <div id="nav-mob" role="dialog" aria-modal="true" aria-label="Navigation">
   <a href="#about">About</a>
   <a href="#caps">Expertise</a>
@@ -2493,6 +2494,7 @@ window.makeColorBends('jn-canvas','jn-card');
 </footer>
 <canvas id="theme-wave"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.clouds.min.js" defer></script>
 <script>
 (function(){
 'use strict';
@@ -2928,9 +2930,61 @@ var htmlEl=document.documentElement;
 var isLight=localStorage.getItem('theme')==='light';
 var waveRunning=false;
 
+/* ── Vanta clouds (light mode background) ── */
+var _vantaEffect=null;
+var _vantaReady=false;
+
+function _initVanta(){
+  var bg=document.getElementById('vanta-bg');
+  if(!bg||_vantaEffect||!window.VANTA)return;
+  bg.style.display='block';
+  _vantaEffect=VANTA.CLOUDS({
+    el:bg,
+    THREE:window.THREE,
+    mouseControls:true,
+    touchControls:true,
+    gyroControls:false,
+    minHeight:200,
+    minWidth:200,
+    backgroundColor:0xf8f5f0,
+    skyColor:0x8ec5d6,
+    cloudColor:0xfafafa,
+    cloudShadowColor:0xc4a882,
+    sunColor:0xe8a020,
+    sunGlareColor:0xfbbf24,
+    sunlightColor:0xfed7aa,
+    speed:1.2
+  });
+}
+
+function _destroyVanta(){
+  if(_vantaEffect){_vantaEffect.destroy();_vantaEffect=null;}
+  var bg=document.getElementById('vanta-bg');
+  if(bg)bg.style.display='none';
+}
+
+function _loadVanta(cb){
+  if(_vantaReady){cb();return;}
+  /* Vanta script is already in the DOM (defer) — poll until VANTA is available */
+  var tries=0;
+  var poll=setInterval(function(){
+    tries++;
+    if(window.VANTA){clearInterval(poll);_vantaReady=true;cb();}
+    else if(tries>60){clearInterval(poll);}
+  },100);
+}
+
 function applyTheme(light){
   htmlEl.classList.toggle('light',light);
-  renderer.setClearColor(light?0xf8f5f0:0x000000,1);
+  if(light){
+    threeCanvas.style.opacity='0';
+    renderer.setClearColor(0xf8f5f0,0);
+    _loadVanta(_initVanta);
+  }else{
+    _destroyVanta();
+    threeCanvas.style.opacity='1';
+    renderer.setClearColor(0x000000,1);
+  }
 }
 
 /* Decorative electric rings — NO fill, page visible through */
