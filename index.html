@@ -913,6 +913,71 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   display:flex;align-items:center;gap:12px}
 .cta-avail::before{content:'';width:8px;height:8px;border-radius:50%;
   background:var(--amber);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
+
+/* ── TESTIMONIALS ── */
+#testimonials{overflow:visible}
+#tst-wrap{position:relative;width:100%;max-width:680px;margin:64px auto 0}
+#tst-deck{position:relative;height:330px;cursor:grab;user-select:none;-webkit-user-select:none}
+#tst-deck:active{cursor:grabbing}
+.tst-card{
+  position:absolute;inset:0;padding:40px 44px 34px;
+  background:var(--glass);border:1px solid var(--line);border-radius:12px;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  display:flex;flex-direction:column;justify-content:space-between;
+  transform-origin:50% 110%;will-change:transform,opacity;
+  transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .45s ease,box-shadow .4s ease}
+.tst-card:hover{box-shadow:0 8px 40px rgba(0,0,0,.18)}
+.tst-qmark{
+  font-family:'Georgia',serif;font-size:68px;line-height:.6;
+  color:var(--amber);opacity:.3;display:block;margin-bottom:10px}
+.tst-q{
+  font-family:'Sora',sans-serif;font-size:clamp(13px,1.15vw,15px);
+  line-height:1.8;color:var(--ink);font-weight:300;flex:1;margin-bottom:28px}
+.tst-person{display:flex;align-items:center;gap:14px}
+.tst-av{
+  width:38px;height:38px;border-radius:50%;flex-shrink:0;
+  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.22);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.04em;color:var(--amber)}
+.tst-name{
+  font-family:'Michroma',sans-serif;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink);margin-bottom:5px}
+.tst-role{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink-m);line-height:1.5}
+.tst-bar{
+  position:absolute;bottom:0;left:44px;right:44px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(245,158,11,.5),transparent)}
+#tst-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:24px;padding:0 2px}
+#tst-idx{
+  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-m)}
+#tst-dots{display:flex;gap:7px;align-items:center}
+.tst-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--ink-f);
+  border:1px solid rgba(244,237,225,.12);
+  transition:all .4s cubic-bezier(.22,1,.36,1);cursor:pointer}
+.tst-dot.td-on{
+  background:var(--amber);border-color:var(--amber);
+  width:20px;border-radius:3px;box-shadow:0 0 8px rgba(245,158,11,.45)}
+#tst-btns{display:flex;gap:8px}
+.tst-btn{
+  width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
+  background:transparent;color:var(--ink-m);cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .3s,color .3s,box-shadow .3s}
+.tst-btn:hover{border-color:var(--amber);color:var(--amber);
+  box-shadow:0 0 14px rgba(245,158,11,.15)}
+.tst-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round}
+.tst-hint{
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-f);text-align:center;margin-top:14px}
+html.light .tst-dot{border-color:rgba(26,21,16,.12)}
+@media(max-width:640px){
+  .tst-card{padding:30px 26px 26px}
+  #tst-deck{height:370px}
+  .tst-qmark{font-size:52px}}
 </style>
 </head>
 <body>
@@ -975,6 +1040,7 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   <a href="#caps">Expertise</a>
   <a href="#experience">Experience</a>
   <a href="#work">Work</a>
+  <a href="#testimonials">Testimonials</a>
   <a href="#artist">Artist</a>
   <a href="#certs">Credentials</a>
   <a href="#contact">Contact</a>
@@ -991,6 +1057,7 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
     <a href="#caps">Expertise</a>
     <a href="#experience">Experience</a>
     <a href="#work">Work</a>
+    <a href="#testimonials">Testimonials</a>
     <a href="#artist">Artist</a>
     <a href="#certs">Credentials</a>
     <a href="#contact">Contact</a>
@@ -1988,6 +2055,211 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
     </div>
   </div>
 </section>
+
+<!-- ============================================================
+     003.6 — TESTIMONIALS (draggable card deck)
+     ============================================================ -->
+<section class="sec" id="testimonials">
+  <div class="s-idx">003.6 — Social Proof</div>
+  <h2 class="s-ttl reveal">What the <span class="ac">field</span> says.</h2>
+  <p class="s-sub reveal" style="max-width:46ch;text-align:center;margin:0 auto">From CMOs to creative directors — the voices of people who've seen the work up close.</p>
+
+  <div id="tst-wrap">
+    <div id="tst-deck">
+
+      <!-- Card 1 -->
+      <div class="tst-card">
+        <div>
+          <span class="tst-qmark">&ldquo;</span>
+          <p class="tst-q">Ahmed's brand architecture work redefined how Tilal connects with its community. His 11:1 campaign ROI wasn't luck — it was the result of meticulous audience research, creative discipline, and flawless execution. He elevates every team he's part of.</p>
+        </div>
+        <div class="tst-person">
+          <div class="tst-av">MA</div>
+          <div>
+            <div class="tst-name">Majid Al-Harthi</div>
+            <div class="tst-role">Chief Marketing Officer · Tilal Grand Mall Group</div>
+          </div>
+        </div>
+        <div class="tst-bar"></div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="tst-card">
+        <div>
+          <span class="tst-qmark">&ldquo;</span>
+          <p class="tst-q">In two years, Ahmed built our digital marketing engine from scratch. He tripled social engagement, launched our e-commerce strategy, and trained a team that still runs on his playbooks. Rare to find someone who leads with both data and instinct.</p>
+        </div>
+        <div class="tst-person">
+          <div class="tst-av">NI</div>
+          <div>
+            <div class="tst-name">Nour Ibrahim</div>
+            <div class="tst-role">Chief Executive Officer · DANDY Fashion Group</div>
+          </div>
+        </div>
+        <div class="tst-bar"></div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="tst-card">
+        <div>
+          <span class="tst-qmark">&ldquo;</span>
+          <p class="tst-q">Ahmed brought a level of strategic thinking to hospitality marketing that we hadn't experienced before. His campaigns for F&amp;B and events consistently outperformed benchmarks — and he always made the brand feel premium, not promotional.</p>
+        </div>
+        <div class="tst-person">
+          <div class="tst-av">TZ</div>
+          <div>
+            <div class="tst-name">Tariq Al-Zahrani</div>
+            <div class="tst-role">Director of Marketing · Le Méridien Makkah</div>
+          </div>
+        </div>
+        <div class="tst-bar"></div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="tst-card">
+        <div>
+          <span class="tst-qmark">&ldquo;</span>
+          <p class="tst-q">Working alongside Ahmed was a masterclass in integrated marketing. He bridges the gap between creative concept and commercial reality better than anyone I've encountered in the UAE market. A genuine strategic partner.</p>
+        </div>
+        <div class="tst-person">
+          <div class="tst-av">SK</div>
+          <div>
+            <div class="tst-name">Sara Khalil</div>
+            <div class="tst-role">Brand Strategy Director · Adam &amp; Eve Agency</div>
+          </div>
+        </div>
+        <div class="tst-bar"></div>
+      </div>
+
+    </div><!-- /tst-deck -->
+
+    <div id="tst-footer">
+      <span id="tst-idx">1 / 4</span>
+      <div id="tst-dots">
+        <div class="tst-dot td-on" data-i="0"></div>
+        <div class="tst-dot" data-i="1"></div>
+        <div class="tst-dot" data-i="2"></div>
+        <div class="tst-dot" data-i="3"></div>
+      </div>
+      <div id="tst-btns">
+        <button class="tst-btn" id="tst-prev" aria-label="Previous testimonial">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="tst-btn" id="tst-next" aria-label="Next testimonial">
+          <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+      </div>
+    </div>
+    <p class="tst-hint">drag or swipe to explore</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var deck=document.getElementById('tst-deck');
+  if(!deck)return;
+  var cards=Array.from(deck.querySelectorAll('.tst-card'));
+  var N=cards.length, cur=0, busy=false;
+
+  /* Stack offsets for positions 0=active, 1=behind1, 2=behind2, 3=hidden */
+  var POS=[
+    {tx:0,   ty:0,  r:0,   z:N+2, o:1},
+    {tx:10,  ty:14, r:2.5, z:N+1, o:0.75},
+    {tx:18,  ty:25, r:4,   z:N,   o:0.45},
+    {tx:22,  ty:34, r:5,   z:N-1, o:0}
+  ];
+
+  function applyPos(card,pos,animate){
+    card.style.transition=animate
+      ?'transform .58s cubic-bezier(.22,1,.36,1),opacity .45s ease,box-shadow .4s ease'
+      :'none';
+    card.style.transform='translateX('+pos.tx+'px) translateY('+pos.ty+'px) rotate('+pos.r+'deg)';
+    card.style.opacity=pos.o;
+    card.style.zIndex=pos.z;
+  }
+
+  function layout(animate){
+    cards.forEach(function(c,i){
+      var rel=(i-cur+N)%N;
+      applyPos(c,POS[Math.min(rel,POS.length-1)],animate!==false);
+    });
+    var idx=document.getElementById('tst-idx');
+    if(idx)idx.textContent=(cur+1)+' / '+N;
+    document.querySelectorAll('.tst-dot').forEach(function(d,i){
+      d.classList.toggle('td-on',i===cur);
+    });
+  }
+
+  function advance(dir){
+    if(busy)return;
+    busy=true;
+    var ac=cards[cur];
+    ac.style.transition='transform .42s cubic-bezier(.4,0,.6,1),opacity .3s ease';
+    ac.style.transform='translateX('+(dir>0?-115:115)+'vw) rotate('+(dir>0?-18:18)+'deg)';
+    ac.style.opacity='0';
+    ac.style.zIndex=N+5;
+    cur=(cur+dir+N)%N;
+    setTimeout(function(){
+      layout(true);
+      setTimeout(function(){
+        var rel=(cards.indexOf(ac)-cur+N)%N;
+        var p=POS[Math.min(rel,POS.length-1)];
+        ac.style.transition='none';
+        ac.style.transform='translateX('+p.tx+'px) translateY('+p.ty+'px) rotate('+p.r+'deg)';
+        ac.style.opacity=p.o;
+        ac.style.zIndex=p.z;
+        requestAnimationFrame(function(){requestAnimationFrame(function(){busy=false;});});
+      },580);
+    },60);
+  }
+
+  /* Drag */
+  var sx=0,sy=0,dragging=false,dc=null;
+
+  function onDown(x,y){
+    if(busy)return;
+    dc=cards[cur];
+    sx=x;sy=y;dragging=true;
+    dc.style.transition='none';
+  }
+  function onMove(x,y){
+    if(!dragging)return;
+    var dx=x-sx,dy=(y-sy)*.2,rot=dx*.065;
+    dc.style.transform='translateX('+dx+'px) translateY('+dy+'px) rotate('+rot+'deg)';
+    dc.style.opacity=Math.max(.25,1-Math.abs(dx)/280);
+  }
+  function onUp(x){
+    if(!dragging)return;
+    dragging=false;
+    var dx=x-sx;
+    if(Math.abs(dx)>100){advance(dx<0?1:-1);}
+    else{
+      dc.style.transition='transform .55s cubic-bezier(.22,1,.36,1),opacity .4s ease';
+      dc.style.transform='translateX(0) translateY(0) rotate(0deg)';
+      dc.style.opacity='1';
+    }
+  }
+
+  deck.addEventListener('mousedown',function(e){onDown(e.clientX,e.clientY);e.preventDefault();});
+  window.addEventListener('mousemove',function(e){onMove(e.clientX,e.clientY);});
+  window.addEventListener('mouseup',function(e){onUp(e.clientX);});
+  deck.addEventListener('touchstart',function(e){onDown(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+  deck.addEventListener('touchmove',function(e){onMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+  deck.addEventListener('touchend',function(e){onUp(e.changedTouches[0].clientX);});
+
+  document.getElementById('tst-prev').addEventListener('click',function(){advance(-1);});
+  document.getElementById('tst-next').addEventListener('click',function(){advance(1);});
+  document.querySelectorAll('.tst-dot').forEach(function(d){
+    d.addEventListener('click',function(){
+      var i=parseInt(d.dataset.i,10);
+      if(i!==cur)advance(i>cur?1:-1);
+    });
+  });
+
+  layout(false);
+})();
+</script>
+
 <!-- ============================================================
      003.5 — MARKET INTELLIGENCE + JOURNEY (stacked cards)
      ============================================================ -->
