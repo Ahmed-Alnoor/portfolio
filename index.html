@@ -4057,10 +4057,9 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
 <script>
 /* ══════════════════════════════════════════════════
    3D PARALLAX DEPTH — portrait images
-   Two clean copies of the same image, no filters.
-   BG copy moves opposite cursor  ±16px / ±12px
-   FG copy moves with cursor       ±7px /  ±5px
-   Pure position offset = depth illusion
+   FG: full-opacity original image, moves with cursor   ±7px / ±5px
+   BG: semi-transparent echo (opacity .35), moves opposite ±14px / ±10px
+   At rest: BG hidden under FG. On move: BG trails as depth shadow.
    LERP 0.06 · single RAF · mouse + gyro
    ══════════════════════════════════════════════════ */
 (function(){
@@ -4090,13 +4089,13 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   })();
   function reg(bg,fg,bx,by,fx,fy){_q.push({bg:bg,fg:fg,bx:bx,by:by,fx:fx,fy:fy,cx:0,cy:0});}
 
-  /* — Absolute layer div (116% so edges never show during movement) — */
-  function absLayer(z){
+  /* — Absolute layer div (116% so edges never clip during movement) — */
+  function absLayer(z,opacity){
     var d=document.createElement('div');
-    d.style.cssText='position:absolute;width:116%;height:116%;top:-8%;left:-8%;will-change:transform;z-index:'+z;
+    d.style.cssText='position:absolute;width:116%;height:116%;top:-8%;left:-8%;will-change:transform;z-index:'+z+(opacity!=null?';opacity:'+opacity:'');
     return d;
   }
-  /* — Clean image that fills its layer — */
+  /* — Image that fills its layer — */
   function cloneImg(src,objPos){
     var i=document.createElement('img');
     i.src=src; i.draggable=false; i.setAttribute('aria-hidden','true');
@@ -4110,11 +4109,11 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     var img=document.getElementById('img-portrait');
     if(!frame||!img)return;
     function build(){
-      /* Lock frame size via aspect-ratio so absolute children don't collapse it */
+      /* Lock frame size so absolute children don't collapse it */
       if(img.naturalWidth&&img.naturalHeight)
         frame.style.aspectRatio=img.naturalWidth+'/'+img.naturalHeight;
       frame.style.minHeight='280px';
-      /* NO background — transparent PNG needs page bg to show through */
+      /* NO background — transparent PNG shows page bg */
 
       /* Stop the old float animation */
       img.style.animation='none';
@@ -4122,18 +4121,17 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
       img.style.objectFit='contain';img.style.objectPosition='bottom center';
       img.style.display='block';img.style.filter='';
 
-      /* BG layer — clean duplicate, no blur, no darkening */
-      var bg=absLayer(1);
+      /* BG — semi-transparent echo: invisible at rest, trails on move */
+      var bg=absLayer(1, 0.35);
       bg.appendChild(cloneImg(img.src,'bottom center'));
 
-      /* FG layer — original image */
+      /* FG — full-opacity original */
       var fg=absLayer(2);
       frame.insertBefore(fg,img);
       fg.appendChild(img);
       frame.insertBefore(bg,fg);
 
-      /* Subtle offsets — depth from position alone */
-      reg(bg,fg, 16,12, 7,5);
+      reg(bg,fg, 14,10, 7,5);
     }
     if(img.complete&&img.naturalWidth>0)build();
     else img.addEventListener('load',build,{once:true});
@@ -4145,22 +4143,22 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
       var slide=img.closest('.cap-slide');
       if(!slide)return;
 
-      /* BG — full-slide absolute layer, clean duplicate */
+      /* BG — semi-transparent echo behind the cap-char */
       var bg=document.createElement('div');
-      bg.style.cssText='position:absolute;inset:0;z-index:3;pointer-events:none;will-change:transform;display:flex;align-items:flex-end;justify-content:center;overflow:hidden';
+      bg.style.cssText='position:absolute;inset:0;z-index:3;pointer-events:none;will-change:transform;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;opacity:0.35';
       var bgI=document.createElement('img');
       bgI.src=img.src; bgI.draggable=false; bgI.setAttribute('aria-hidden','true');
       bgI.style.cssText='height:92%;max-height:840px;width:auto;object-fit:contain;object-position:bottom;display:block';
       bg.appendChild(bgI);
 
-      /* FG — absolute wrapper around the existing cap-char img */
+      /* FG — full-opacity wrapper around original cap-char */
       var fg=document.createElement('div');
       fg.style.cssText='position:absolute;inset:0;z-index:4;pointer-events:none;will-change:transform;display:flex;align-items:flex-end;justify-content:center';
       slide.insertBefore(fg,img);
       fg.appendChild(img);
       slide.insertBefore(bg,fg);
 
-      reg(bg,fg, 20,16, 8,6);
+      reg(bg,fg, 18,14, 8,6);
     });
   })();
 
@@ -4170,8 +4168,8 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     var img=document.getElementById('jn-img');
     if(!card||!img)return;
     function build(){
-      /* BG — absolute clean duplicate */
-      var bg=absLayer(1);
+      /* BG — semi-transparent echo */
+      var bg=absLayer(1, 0.35);
       bg.appendChild(cloneImg(img.src,'center center'));
       card.insertBefore(bg,img);
 
