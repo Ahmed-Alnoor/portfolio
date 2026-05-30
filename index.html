@@ -892,38 +892,29 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
 
 /* ── AI & DATA MASTERY ── */
 #ai-edge{overflow:hidden}
-.ai-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,80px);align-items:center;margin-top:56px}
+.ai-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(40px,5vw,80px);align-items:center;margin-top:56px}
 .ai-left{display:flex;flex-direction:column;gap:0}
-.ai-lead{font-size:clamp(13px,1.1vw,15px);color:var(--ink-d);line-height:1.85;max-width:48ch;margin:22px 0 30px}
-.ai-skills{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
-.ai-skills li{display:flex;align-items:center;gap:12px;font-family:'Geist Mono',monospace;font-size:10px;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-m)}
-.ai-skills li::before{content:'';width:20px;height:1px;background:var(--amber);flex-shrink:0}
-.ai-skills li strong{color:var(--ink);font-weight:400}
-.ai-tools-row{display:flex;flex-wrap:wrap;gap:8px}
-.ai-tool-badge{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;
-  text-transform:uppercase;padding:5px 12px;border:1px solid rgba(245,158,11,.25);
-  color:rgba(245,158,11,.7);border-radius:2px;background:rgba(245,158,11,.04)}
-.ai-right{position:relative;height:560px;display:flex;align-items:center;justify-content:center}
+.ai-lead{font-size:clamp(13px,1.1vw,15px);color:var(--ink-d);line-height:1.85;max-width:38ch;margin:20px 0 0}
+.ai-right{position:relative;height:660px;display:flex;align-items:center;justify-content:center}
 /* Card Swap container */
 .cs-wrap{position:absolute;bottom:0;right:0;transform:translate(5%,20%);
   transform-origin:bottom right;perspective:900px;overflow:visible;
-  width:420px;height:500px}
-.cs-card{position:absolute;top:50%;left:50%;width:420px;height:500px;
+  width:520px;height:580px}
+.cs-card{position:absolute;top:50%;left:50%;width:520px;height:580px;
   border-radius:16px;border:1px solid rgba(245,158,11,.2);
   background:#080808;transform-style:preserve-3d;will-change:transform;
   overflow:hidden;cursor:pointer;
   box-shadow:0 24px 80px rgba(0,0,0,.6),0 2px 0 rgba(245,158,11,.08) inset}
-.cs-img{width:100%;height:52%;overflow:hidden;flex-shrink:0;position:relative}
+.cs-img{width:100%;height:54%;overflow:hidden;flex-shrink:0;position:relative}
 .cs-img::after{content:'';position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(8,8,8,.9) 100%)}
 .cs-img img{width:100%;height:100%;object-fit:cover;display:block}
-.cs-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px}
+.cs-body{padding:22px 26px 24px;display:flex;flex-direction:column;gap:9px}
 .cs-tool-tag{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.28em;
   text-transform:uppercase;color:rgba(245,158,11,.6)}
-.cs-title{font-family:'Michroma',sans-serif;font-size:clamp(15px,1.4vw,20px);
+.cs-title{font-family:'Michroma',sans-serif;font-size:clamp(17px,1.6vw,24px);
   text-transform:uppercase;color:var(--ink);line-height:1.15;margin:0}
-.cs-desc{font-size:12px;color:rgba(244,237,225,.6);line-height:1.7;margin:4px 0 10px;max-width:35ch}
+.cs-desc{font-size:13px;color:rgba(244,237,225,.6);line-height:1.7;margin:4px 0 10px;max-width:38ch}
 .cs-tags{display:flex;flex-wrap:wrap;gap:6px}
 .cs-tag{font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.14em;
   text-transform:uppercase;padding:3px 8px;border:1px solid rgba(244,237,225,.1);
@@ -936,13 +927,13 @@ html.light .cs-desc{color:rgba(26,21,16,.6)}
 html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 @media(max-width:900px){
   .ai-layout{grid-template-columns:1fr;gap:40px}
-  .ai-right{height:420px}
-  .cs-wrap{width:340px;height:420px;transform:translate(0,10%) scale(0.88);transform-origin:center bottom}
-  .cs-card{width:340px;height:420px}
-  .cs-img{height:48%}
+  .ai-right{height:480px}
+  .cs-wrap{width:380px;height:460px;transform:translate(0,10%) scale(0.92);transform-origin:center bottom}
+  .cs-card{width:380px;height:460px}
+  .cs-img{height:50%}
 }
 @media(max-width:480px){
-  .cs-wrap{transform:translate(0,5%) scale(0.75);transform-origin:center bottom}
+  .cs-wrap{transform:translate(0,5%) scale(0.78);transform-origin:center bottom}
 }
 /* ── EXPERIENCE FULL-PAGE ── */
 #exp-wrapper{position:relative;height:500vh}
@@ -2426,24 +2417,8 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 
     <!-- LEFT: copy -->
     <div class="ai-left">
-      <h2 class="s-ttl reveal">Where intelligence <span class="ac">executes.</span></h2>
-      <p class="ai-lead reveal">I don't just use AI — I build with it. From autonomous content pipelines that produce campaign-ready visuals without a camera crew, to n8n workflows that connect CRMs, APIs, and AI models in a single automated chain. Every insight is backed by Power BI and Tableau dashboards that turn raw numbers into decisions.</p>
-
-      <ul class="ai-skills reveal">
-        <li><strong>AI-Generated Content</strong> — photorealistic visuals, AI influencers &amp; UGC at scale</li>
-        <li><strong>Workflow Automation</strong> — n8n pipelines connecting AI models, CRMs &amp; APIs</li>
-        <li><strong>Data Analytics</strong> — Power BI &amp; Tableau dashboards, attribution models</li>
-        <li><strong>AI Agents</strong> — prompt engineering, LLM orchestration &amp; RAG systems</li>
-      </ul>
-
-      <div class="ai-tools-row reveal">
-        <span class="ai-tool-badge">Higgsfield AI</span>
-        <span class="ai-tool-badge">n8n</span>
-        <span class="ai-tool-badge">Power BI</span>
-        <span class="ai-tool-badge">Tableau</span>
-        <span class="ai-tool-badge">OpenAI API</span>
-        <span class="ai-tool-badge">Make.com</span>
-      </div>
+      <h2 class="s-ttl reveal" style="font-size:clamp(22px,2.8vw,44px)">Where intelligence <span class="ac">executes.</span></h2>
+      <p class="ai-lead reveal">I don't just use AI — I build with it. Autonomous content pipelines, n8n automation workflows, and Power BI dashboards that turn raw data into real decisions.</p>
     </div>
 
     <!-- RIGHT: CardSwap -->
@@ -4341,7 +4316,7 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   var cards=Array.from(document.querySelectorAll('.cs-card'));
   if(!cards.length)return;
   var N=cards.length;
-  var distX=52,distY=58,skew=5,DELAY=3800;
+  var distX=55,distY=62,skew=5,DELAY=3800;
 
   function slot(i){return{x:i*distX,y:-i*distY,z:-i*distX*1.5,zI:N-i};}
 
