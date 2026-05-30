@@ -874,29 +874,80 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   background:linear-gradient(90deg,var(--amber),var(--amber-s),var(--ember));
   box-shadow:0 0 8px rgba(245,158,11,.5);transition:width .06s linear}
 
-/* ── EXPERIENCE TIMELINE ── */
-#experience{max-width:1400px}
-.exp-list{margin-top:56px;display:flex;flex-direction:column}
-.exp-item{display:grid;grid-template-columns:200px 1fr;gap:0 48px;padding:36px 0;
-  border-top:1px solid var(--line);position:relative}
-.exp-item:last-child{border-bottom:1px solid var(--line)}
-.exp-period{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;
-  color:var(--ink-m);text-transform:uppercase;padding-top:4px;line-height:1.6}
-.exp-current{display:inline-block;margin-top:6px;padding:3px 8px;font-size:9px;
-  letter-spacing:.18em;border:1px solid rgba(245,158,11,.3);color:var(--amber);
-  border-radius:2px;text-transform:uppercase}
-.exp-co{font-family:'Michroma',sans-serif;font-size:clamp(15px,1.5vw,22px);
-  text-transform:uppercase;color:var(--ink);line-height:1.1;margin-bottom:8px}
-.exp-role{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.24em;
-  color:var(--amber);text-transform:uppercase;margin-bottom:14px}
-.exp-blurb{font-size:13px;color:var(--ink-d);line-height:1.7;max-width:52ch;margin-bottom:16px}
-.exp-metrics{display:flex;flex-wrap:wrap;gap:8px}
-.exp-m{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;
-  text-transform:uppercase;padding:4px 11px;border:1px solid rgba(245,158,11,.18);
-  color:rgba(245,158,11,.7);border-radius:2px}
-@media(max-width:640px){
-  .exp-item{grid-template-columns:1fr;gap:10px}
-  .exp-period{padding-top:0}
+/* ── EXPERIENCE FULL-PAGE ── */
+#exp-wrapper{position:relative;height:500vh}
+#exp-stage{position:sticky;top:0;width:100%;height:100vh;height:100dvh;overflow:hidden;background:#000}
+.exp-bg{position:absolute;inset:0;opacity:0;will-change:opacity,transform}
+.exp-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transform-origin:center;
+  transition:none;will-change:transform}
+.exp-bg.exp-active img{transform:scale(1)}
+.exp-overlay{position:absolute;inset:0;pointer-events:none;z-index:2;transition:none}
+.exp-overlay-l{background:linear-gradient(100deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.08) 100%)}
+.exp-overlay-r{background:linear-gradient(260deg,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.08) 100%)}
+#exp-grain{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:.22;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.5'/></svg>");
+  background-size:200px}
+#exp-index-label{position:absolute;top:40px;left:50%;transform:translateX(-50%);z-index:10;
+  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(244,237,225,.35);pointer-events:none}
+.exp-panel{position:absolute;top:0;height:100%;width:48%;max-width:580px;z-index:5;
+  display:flex;flex-direction:column;justify-content:center;padding:0 6vw;
+  will-change:transform,opacity;opacity:0;pointer-events:none}
+.exp-panel.exp-side-l{left:0}
+.exp-panel.exp-side-r{right:0;align-items:flex-end;text-align:right}
+.exp-panel.exp-side-r .exp-blurb,.exp-panel.exp-side-r .exp-metrics{text-align:right}
+.exp-panel.exp-side-r .exp-metrics{justify-content:flex-end}
+.ep-idx{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.32em;
+  color:rgba(245,158,11,.6);text-transform:uppercase;margin-bottom:18px;display:block}
+.ep-period{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;
+  color:rgba(244,237,225,.45);text-transform:uppercase;margin-bottom:10px;display:block}
+.ep-current{display:inline-block;margin-left:12px;padding:2px 7px;font-size:8px;
+  letter-spacing:.18em;border:1px solid rgba(245,158,11,.4);color:var(--amber);
+  border-radius:2px;text-transform:uppercase;vertical-align:middle}
+.ep-company{font-family:'Michroma',sans-serif;font-size:clamp(28px,4vw,58px);
+  text-transform:uppercase;color:var(--ink);line-height:.95;margin-bottom:6px;
+  letter-spacing:-.01em}
+.ep-sub{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.24em;
+  color:rgba(244,237,225,.4);text-transform:uppercase;margin-bottom:14px;display:block}
+.ep-role{font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.22em;
+  color:var(--amber);text-transform:uppercase;margin-bottom:20px;display:block}
+.exp-blurb{font-size:clamp(13px,1.1vw,15px);color:rgba(244,237,225,.75);
+  line-height:1.8;max-width:46ch;margin-bottom:22px}
+.exp-metrics{display:flex;flex-wrap:wrap;gap:7px}
+.exp-m{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.14em;
+  text-transform:uppercase;padding:4px 10px;border:1px solid rgba(245,158,11,.22);
+  color:rgba(245,158,11,.75);border-radius:2px;background:rgba(0,0,0,.3)}
+/* Progress bar */
+#exp-prog{position:absolute;right:32px;top:50%;transform:translateY(-50%);
+  z-index:10;display:flex;flex-direction:column;align-items:center;gap:0}
+#exp-prog-track{position:relative;width:1px;height:180px;background:rgba(244,237,225,.12)}
+#exp-prog-fill{position:absolute;top:0;left:0;width:100%;background:var(--amber);
+  height:0%;transition:height .1s linear}
+.ep-dot{position:absolute;left:50%;transform:translate(-50%,-50%);
+  width:6px;height:6px;border-radius:50%;background:rgba(244,237,225,.2);
+  border:1px solid rgba(244,237,225,.15);transition:background .3s ease,border-color .3s ease,transform .3s ease;
+  cursor:pointer}
+.ep-dot.active{background:var(--amber);border-color:var(--amber);
+  width:8px;height:8px;box-shadow:0 0 10px rgba(245,158,11,.6)}
+.ep-dot-label{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.18em;
+  color:rgba(244,237,225,.3);text-transform:uppercase;white-space:nowrap;
+  transition:color .3s ease;pointer-events:none}
+.ep-dot.active .ep-dot-label{color:rgba(245,158,11,.8)}
+#exp-scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  z-index:10;font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.28em;
+  color:rgba(244,237,225,.3);text-transform:uppercase;display:flex;align-items:center;gap:8px;
+  animation:exp-hint-pulse 2.5s ease-in-out infinite}
+@keyframes exp-hint-pulse{0%,100%{opacity:.4}50%{opacity:.85}}
+#exp-scroll-hint::after{content:'';width:1px;height:24px;background:rgba(244,237,225,.25);
+  animation:exp-hint-line 2.5s ease-in-out infinite}
+@keyframes exp-hint-line{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:768px){
+  .exp-panel{width:90%;max-width:100%;padding:0 5vw}
+  .exp-panel.exp-side-r{right:auto;left:0;align-items:flex-start;text-align:left}
+  .exp-panel.exp-side-r .exp-metrics{justify-content:flex-start}
+  #exp-prog{right:16px}
+  .ep-dot-label{display:none}
 }
 
 /* ── STAT COUNTER: animated number reveal ── */
@@ -1119,75 +1170,109 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
     </div>
   </div>
 </section>
-<section class="sec" id="experience">
-  <div class="s-idx">002 — Experience</div>
-  <h2 class="s-ttl reveal">Where I've <span class="ac">delivered.</span></h2>
-  <div class="exp-list">
-    <div class="exp-item reveal">
-      <div class="exp-left">
-        <div class="exp-period">Apr 2024 — Present<br><span class="exp-current">Current</span></div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-co">Ontime Group · S-Government</div>
-        <div class="exp-role">Sr. Marketing &amp; Communication Specialist</div>
-        <p class="exp-blurb">Led 360° marketing across 5 UAE branches — Mercato, Mazaya, Al Manara, Oud Metha, Golden Cube. Managed multi-platform paid campaigns, government partner comms, and IPS / Gitex / Dubai Boat Show activations.</p>
-        <div class="exp-metrics">
-          <span class="exp-m">11:1 Avg. ROI</span>
-          <span class="exp-m">22% Engagement ↑</span>
-          <span class="exp-m">15–20% CPL ↓</span>
-          <span class="exp-m">18% Event Conversion ↑</span>
-          <span class="exp-m">6–8% Brand Awareness ↑</span>
-        </div>
-      </div>
-    </div>
-    <div class="exp-item reveal" style="transition-delay:.08s">
-      <div class="exp-left">
-        <div class="exp-period">Mar 2022 — Apr 2024</div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-co">Diversity Sports Tournaments</div>
-        <div class="exp-role">Sr. Marketing Executive</div>
-        <p class="exp-blurb">Full-scale 360° campaigns for sports tournaments and academies across UAE. Led World Mini Football Championship marketing, digital paid strategy, and event branding.</p>
-        <div class="exp-metrics">
-          <span class="exp-m">5x ROAS</span>
-          <span class="exp-m">115% Attendance Target</span>
-          <span class="exp-m">65% Organic Traffic ↑</span>
-          <span class="exp-m">35% Social Engagement ↑</span>
-        </div>
-      </div>
-    </div>
-    <div class="exp-item reveal" style="transition-delay:.16s">
-      <div class="exp-left">
-        <div class="exp-period">Mar 2021 — Mar 2022</div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-co">Natural Clinic · Healthcare</div>
-        <div class="exp-role">Digital Marketing Specialist</div>
-        <p class="exp-blurb">Led full rebrand and digital strategy for an aesthetic healthcare clinic. Expanded into medical tourism through international expos in Turkey and targeted multi-channel campaigns.</p>
-        <div class="exp-metrics">
-          <span class="exp-m">20% Brand Awareness ↑</span>
-          <span class="exp-m">18% CAC ↓</span>
-          <span class="exp-m">20% Web Traffic ↑</span>
-        </div>
-      </div>
-    </div>
-    <div class="exp-item reveal" style="transition-delay:.24s">
-      <div class="exp-left">
-        <div class="exp-period">Aug 2019 — Mar 2021</div>
-      </div>
-      <div class="exp-right">
-        <div class="exp-co">Azza Group · Retail &amp; Logistics</div>
-        <div class="exp-role">Marketing Executive</div>
-        <p class="exp-blurb">Retail promotions, seasonal campaigns, social content, and in-store event execution across UAE. Built foundational skills in paid media, content creation, and campaign reporting.</p>
-        <div class="exp-metrics">
-          <span class="exp-m">Social Media</span>
-          <span class="exp-m">Event Marketing</span>
-          <span class="exp-m">Content Creation</span>
-        </div>
-      </div>
-    </div>
+<div id="exp-wrapper">
+<section id="experience" style="position:sticky;top:0;width:100%;height:100vh;height:100dvh;overflow:hidden;background:#000">
+
+<!-- Grain -->
+<div id="exp-grain"></div>
+
+<!-- Section label -->
+<div id="exp-index-label">002 — Experience</div>
+
+<!-- Background slides -->
+<div class="exp-bg" id="expbg-0">
+  <img src="Mercato.webp" alt="" loading="eager" decoding="async">
+  <div class="exp-overlay exp-overlay-l"></div>
+</div>
+<div class="exp-bg" id="expbg-1">
+  <img src="Diversity.webp" alt="" loading="eager" decoding="async">
+  <div class="exp-overlay exp-overlay-r"></div>
+</div>
+<div class="exp-bg" id="expbg-2">
+  <img src="Al marwan.webp" alt="" loading="eager" decoding="async">
+  <div class="exp-overlay exp-overlay-l"></div>
+</div>
+<div class="exp-bg" id="expbg-3">
+  <img src="Azza.webp" alt="" loading="eager" decoding="async">
+  <div class="exp-overlay exp-overlay-r"></div>
+</div>
+
+<!-- Content panels -->
+<div class="exp-panel exp-side-l" id="expp-0">
+  <span class="ep-idx">01 / 04</span>
+  <span class="ep-period">Apr 2024 — Present <span class="ep-current">Current</span></span>
+  <div class="ep-company">Ontime<br>Group</div>
+  <span class="ep-sub">S-Government · UAE</span>
+  <span class="ep-role">Sr. Marketing &amp; Communication Specialist</span>
+  <p class="exp-blurb">Led 360° marketing across 5 UAE branches — Mercato, Mazaya, Al Manara, Oud Metha, Golden Cube. Managed multi-platform paid campaigns, government partner comms, and IPS / Gitex / Dubai Boat Show activations.</p>
+  <div class="exp-metrics">
+    <span class="exp-m">11:1 Avg. ROI</span>
+    <span class="exp-m">22% Engagement ↑</span>
+    <span class="exp-m">15–20% CPL ↓</span>
+    <span class="exp-m">18% Event Conversion ↑</span>
+    <span class="exp-m">6–8% Brand Awareness ↑</span>
   </div>
+</div>
+
+<div class="exp-panel exp-side-r" id="expp-1">
+  <span class="ep-idx">02 / 04</span>
+  <span class="ep-period">Mar 2022 — Apr 2024</span>
+  <div class="ep-company">Diversity<br>Sports</div>
+  <span class="ep-sub">Tournaments · UAE</span>
+  <span class="ep-role">Sr. Marketing Executive</span>
+  <p class="exp-blurb">Full-scale 360° campaigns for sports tournaments and academies across UAE. Led World Mini Football Championship marketing, digital paid strategy, and event branding.</p>
+  <div class="exp-metrics">
+    <span class="exp-m">5x ROAS</span>
+    <span class="exp-m">115% Attendance Target</span>
+    <span class="exp-m">65% Organic Traffic ↑</span>
+    <span class="exp-m">35% Social Engagement ↑</span>
+  </div>
+</div>
+
+<div class="exp-panel exp-side-l" id="expp-2">
+  <span class="ep-idx">03 / 04</span>
+  <span class="ep-period">Mar 2021 — Mar 2022</span>
+  <div class="ep-company">Natural<br>Clinic</div>
+  <span class="ep-sub">Healthcare · UAE</span>
+  <span class="ep-role">Digital Marketing Specialist</span>
+  <p class="exp-blurb">Led full rebrand and digital strategy for an aesthetic healthcare clinic. Expanded into medical tourism through international expos in Turkey and targeted multi-channel campaigns.</p>
+  <div class="exp-metrics">
+    <span class="exp-m">20% Brand Awareness ↑</span>
+    <span class="exp-m">18% CAC ↓</span>
+    <span class="exp-m">20% Web Traffic ↑</span>
+  </div>
+</div>
+
+<div class="exp-panel exp-side-r" id="expp-3">
+  <span class="ep-idx">04 / 04</span>
+  <span class="ep-period">Aug 2019 — Mar 2021</span>
+  <div class="ep-company">Azza<br>Group</div>
+  <span class="ep-sub">Retail &amp; Logistics · UAE</span>
+  <span class="ep-role">Marketing Executive</span>
+  <p class="exp-blurb">Retail promotions, seasonal campaigns, social content, and in-store event execution across UAE. Built foundational skills in paid media, content creation, and campaign reporting.</p>
+  <div class="exp-metrics">
+    <span class="exp-m">Social Media</span>
+    <span class="exp-m">Event Marketing</span>
+    <span class="exp-m">Content Creation</span>
+  </div>
+</div>
+
+<!-- Progress indicator -->
+<div id="exp-prog">
+  <div id="exp-prog-track">
+    <div id="exp-prog-fill"></div>
+    <div class="ep-dot active" data-i="0" style="top:0%"><span class="ep-dot-label">Ontime</span></div>
+    <div class="ep-dot" data-i="1" style="top:33.3%"><span class="ep-dot-label">Diversity</span></div>
+    <div class="ep-dot" data-i="2" style="top:66.6%"><span class="ep-dot-label">Natural</span></div>
+    <div class="ep-dot" data-i="3" style="top:100%"><span class="ep-dot-label">Azza</span></div>
+  </div>
+</div>
+
+<!-- Scroll hint -->
+<div id="exp-scroll-hint">Scroll</div>
+
 </section>
+</div>
 <div class="mqw" aria-hidden="true">
   <div class="mq">
     <span>Brand Strategy</span><span class="dot"></span><span class="hi">Visual Storytelling</span><span class="dot"></span>
@@ -4090,6 +4175,130 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   /* Market portrait card */
   var jn=document.getElementById('jn-card');
   if(jn) tilt(jn,8,6);
+})();
+</script>
+<script>
+/* ── EXPERIENCE FULL-PAGE SCROLL ── */
+(function(){
+  var wrapper = document.getElementById('exp-wrapper');
+  var bgs = [
+    document.getElementById('expbg-0'),
+    document.getElementById('expbg-1'),
+    document.getElementById('expbg-2'),
+    document.getElementById('expbg-3')
+  ];
+  var panels = [
+    document.getElementById('expp-0'),
+    document.getElementById('expp-1'),
+    document.getElementById('expp-2'),
+    document.getElementById('expp-3')
+  ];
+  var dots = document.querySelectorAll('.ep-dot');
+  var progFill = document.getElementById('exp-prog-fill');
+  var scrollHint = document.getElementById('exp-scroll-hint');
+  var N = 4;
+  var TRANS = 0.28; // fraction of each slide for transition
+
+  if(!wrapper) return;
+
+  function ss(x){ return x*x*(3-2*x); } // smoothstep
+
+  function update(){
+    var rect = wrapper.getBoundingClientRect();
+    var wH = wrapper.offsetHeight;
+    var vh = window.innerHeight;
+    var scrolled = -rect.top;
+    var maxScroll = wH - vh;
+
+    // Clamp
+    if(scrolled < 0) scrolled = 0;
+    if(scrolled > maxScroll) scrolled = maxScroll;
+
+    var progress = scrolled / maxScroll; // 0→1
+    var raw = progress * (N - 1);        // 0→3
+    var cur = Math.min(Math.floor(raw), N - 2);
+    if(progress >= 1) cur = N - 2; // last slide
+    var t = raw - cur;              // 0→1 within this segment
+
+    // Active slide index
+    var activeSlide = (t < 0.5 || progress >= 1) ? (progress >= 1 ? N-1 : cur) : cur;
+    if(progress >= 1) { cur = N-2; t = 1; }
+
+    // Crossfade progress: only kicks in at last TRANS fraction
+    var cx = t > (1 - TRANS) ? (t - (1 - TRANS)) / TRANS : 0;
+    var easedCx = ss(cx); // smoothstepped
+
+    // Hide scroll hint once scrolled
+    if(scrolled > 60 && scrollHint) scrollHint.style.opacity = '0';
+    else if(scrollHint) scrollHint.style.opacity = '';
+
+    // Progress bar fill
+    if(progFill){
+      var fillPct = progress * 100;
+      progFill.style.height = fillPct + '%';
+    }
+
+    // Dot states
+    var dotActive = Math.round(progress * (N-1));
+    dots.forEach(function(d,i){
+      d.classList.toggle('active', i === dotActive);
+    });
+
+    // Background slides
+    bgs.forEach(function(bg, i){
+      var op;
+      if(i === cur) op = 1 - easedCx;
+      else if(i === cur + 1) op = easedCx;
+      else op = 0;
+      if(i === N-1 && progress >= 1) op = 1;
+      bg.style.opacity = op;
+      bg.style.zIndex = op > 0.01 ? 1 : 0;
+      // Ken Burns: entering slide scales from 1.06→1.0
+      var sc = i === cur+1 ? (1.06 - 0.06 * easedCx) : 1;
+      if(i === cur) sc = 1;
+      var img = bg.querySelector('img');
+      if(img) img.style.transform = 'scale('+sc+')';
+    });
+
+    // Text panels
+    panels.forEach(function(p, i){
+      var side = i % 2 === 0 ? 1 : -1; // left panels exit left (-1), right exit right (+1)
+      // Actually: left panel exits left (negative x), right panel exits right (positive x)
+      var exitX = (i % 2 === 0) ? -1 : 1; // direction of exit
+      var op, tx;
+
+      if(i === cur){
+        // Exiting: slide out in exit direction
+        op = 1 - easedCx;
+        tx = exitX * easedCx * 90;
+      } else if(i === cur + 1){
+        // Entering: comes in from opposite of its exit direction
+        var enterX = (i % 2 === 0) ? -1 : 1;
+        op = easedCx;
+        tx = -enterX * (1 - easedCx) * 90;
+      } else if(i < cur){
+        // Past: fully exited
+        op = 0;
+        tx = (i % 2 === 0) ? -90 : 90;
+      } else {
+        // Future: waiting off-screen in enter position
+        op = 0;
+        tx = (i % 2 === 0) ? -90 : 90;
+      }
+
+      // Last slide special case
+      if(progress >= 1 && i === N-1){
+        op = 1; tx = 0;
+      }
+
+      p.style.opacity = op;
+      p.style.transform = 'translateX('+tx+'px)';
+      p.style.pointerEvents = op > 0.5 ? 'auto' : 'none';
+    });
+  }
+
+  window.addEventListener('scroll', update, {passive:true});
+  update(); // initial render
 })();
 </script>
 </body>
