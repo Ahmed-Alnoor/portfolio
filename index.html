@@ -890,6 +890,60 @@ html.light .vol-btn{color:rgba(180,90,0,.8)}
   background:linear-gradient(90deg,var(--amber),var(--amber-s),var(--ember));
   box-shadow:0 0 8px rgba(245,158,11,.5);transition:width .06s linear}
 
+/* ── AI & DATA MASTERY ── */
+#ai-edge{overflow:hidden}
+.ai-layout{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,5vw,80px);align-items:center;margin-top:56px}
+.ai-left{display:flex;flex-direction:column;gap:0}
+.ai-lead{font-size:clamp(13px,1.1vw,15px);color:var(--ink-d);line-height:1.85;max-width:48ch;margin:22px 0 30px}
+.ai-skills{list-style:none;display:flex;flex-direction:column;gap:12px;margin-bottom:36px}
+.ai-skills li{display:flex;align-items:center;gap:12px;font-family:'Geist Mono',monospace;font-size:10px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ink-m)}
+.ai-skills li::before{content:'';width:20px;height:1px;background:var(--amber);flex-shrink:0}
+.ai-skills li strong{color:var(--ink);font-weight:400}
+.ai-tools-row{display:flex;flex-wrap:wrap;gap:8px}
+.ai-tool-badge{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;
+  text-transform:uppercase;padding:5px 12px;border:1px solid rgba(245,158,11,.25);
+  color:rgba(245,158,11,.7);border-radius:2px;background:rgba(245,158,11,.04)}
+.ai-right{position:relative;height:560px;display:flex;align-items:center;justify-content:center}
+/* Card Swap container */
+.cs-wrap{position:absolute;bottom:0;right:0;transform:translate(5%,20%);
+  transform-origin:bottom right;perspective:900px;overflow:visible;
+  width:420px;height:500px}
+.cs-card{position:absolute;top:50%;left:50%;width:420px;height:500px;
+  border-radius:16px;border:1px solid rgba(245,158,11,.2);
+  background:#080808;transform-style:preserve-3d;will-change:transform;
+  overflow:hidden;cursor:pointer;
+  box-shadow:0 24px 80px rgba(0,0,0,.6),0 2px 0 rgba(245,158,11,.08) inset}
+.cs-img{width:100%;height:52%;overflow:hidden;flex-shrink:0;position:relative}
+.cs-img::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 40%,rgba(8,8,8,.9) 100%)}
+.cs-img img{width:100%;height:100%;object-fit:cover;display:block}
+.cs-body{padding:20px 22px 22px;display:flex;flex-direction:column;gap:8px}
+.cs-tool-tag{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.28em;
+  text-transform:uppercase;color:rgba(245,158,11,.6)}
+.cs-title{font-family:'Michroma',sans-serif;font-size:clamp(15px,1.4vw,20px);
+  text-transform:uppercase;color:var(--ink);line-height:1.15;margin:0}
+.cs-desc{font-size:12px;color:rgba(244,237,225,.6);line-height:1.7;margin:4px 0 10px;max-width:35ch}
+.cs-tags{display:flex;flex-wrap:wrap;gap:6px}
+.cs-tag{font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.14em;
+  text-transform:uppercase;padding:3px 8px;border:1px solid rgba(244,237,225,.1);
+  color:rgba(244,237,225,.4);border-radius:2px}
+/* light mode overrides */
+html.light .cs-card{background:#f0ebe2;border-color:rgba(217,119,6,.2);
+  box-shadow:0 24px 80px rgba(0,0,0,.12)}
+html.light .cs-title{color:#1a1510}
+html.light .cs-desc{color:rgba(26,21,16,.6)}
+html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
+@media(max-width:900px){
+  .ai-layout{grid-template-columns:1fr;gap:40px}
+  .ai-right{height:420px}
+  .cs-wrap{width:340px;height:420px;transform:translate(0,10%) scale(0.88);transform-origin:center bottom}
+  .cs-card{width:340px;height:420px}
+  .cs-img{height:48%}
+}
+@media(max-width:480px){
+  .cs-wrap{transform:translate(0,5%) scale(0.75);transform-origin:center bottom}
+}
 /* ── EXPERIENCE FULL-PAGE ── */
 #exp-wrapper{position:relative;height:500vh}
 #exp-stage{position:sticky;top:0;width:100%;height:100vh;height:100dvh;overflow:hidden;background:#000}
@@ -1108,6 +1162,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   <a href="#experience">Experience</a>
   <a href="#work">Work</a>
   <a href="#testimonials">Testimonials</a>
+  <a href="#ai-edge">AI & Data</a>
   <a href="#artist">Artist</a>
   <a href="#certs">Credentials</a>
   <a href="#contact">Contact</a>
@@ -1125,6 +1180,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
     <a href="#experience">Experience</a>
     <a href="#work">Work</a>
     <a href="#testimonials">Testimonials</a>
+    <a href="#ai-edge">AI & Data</a>
     <a href="#artist">Artist</a>
     <a href="#certs">Credentials</a>
     <a href="#contact">Contact</a>
@@ -2364,6 +2420,86 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 <!-- ============================================================
      003.5 — MARKET INTELLIGENCE + JOURNEY (stacked cards)
      ============================================================ -->
+<section class="sec" id="ai-edge">
+  <div class="s-idx">005 — AI &amp; Data Mastery</div>
+  <div class="ai-layout">
+
+    <!-- LEFT: copy -->
+    <div class="ai-left">
+      <h2 class="s-ttl reveal">Where intelligence <span class="ac">executes.</span></h2>
+      <p class="ai-lead reveal">I don't just use AI — I build with it. From autonomous content pipelines that produce campaign-ready visuals without a camera crew, to n8n workflows that connect CRMs, APIs, and AI models in a single automated chain. Every insight is backed by Power BI and Tableau dashboards that turn raw numbers into decisions.</p>
+
+      <ul class="ai-skills reveal">
+        <li><strong>AI-Generated Content</strong> — photorealistic visuals, AI influencers &amp; UGC at scale</li>
+        <li><strong>Workflow Automation</strong> — n8n pipelines connecting AI models, CRMs &amp; APIs</li>
+        <li><strong>Data Analytics</strong> — Power BI &amp; Tableau dashboards, attribution models</li>
+        <li><strong>AI Agents</strong> — prompt engineering, LLM orchestration &amp; RAG systems</li>
+      </ul>
+
+      <div class="ai-tools-row reveal">
+        <span class="ai-tool-badge">Higgsfield AI</span>
+        <span class="ai-tool-badge">n8n</span>
+        <span class="ai-tool-badge">Power BI</span>
+        <span class="ai-tool-badge">Tableau</span>
+        <span class="ai-tool-badge">OpenAI API</span>
+        <span class="ai-tool-badge">Make.com</span>
+      </div>
+    </div>
+
+    <!-- RIGHT: CardSwap -->
+    <div class="ai-right">
+      <div class="cs-wrap" id="cs-wrap">
+
+        <div class="cs-card" id="cs-0">
+          <div class="cs-img"><img src="assets/IMG_1937.jpeg" alt="Higgsfield AI" loading="lazy"></div>
+          <div class="cs-body">
+            <span class="cs-tool-tag">AI-Generated Content</span>
+            <h3 class="cs-title">Higgsfield AI</h3>
+            <p class="cs-desc">Photorealistic AI influencers, UGC-style videos, and branded visuals produced at campaign scale — no camera crew required.</p>
+            <div class="cs-tags">
+              <span class="cs-tag">AI Influencers</span>
+              <span class="cs-tag">Video Generation</span>
+              <span class="cs-tag">UGC Creation</span>
+              <span class="cs-tag">Brand Visuals</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-card" id="cs-1">
+          <div class="cs-img"><img src="assets/IMG_1938.webp" alt="n8n Automation" loading="lazy"></div>
+          <div class="cs-body">
+            <span class="cs-tool-tag">AI Workflow Automation</span>
+            <h3 class="cs-title">n8n Pipelines</h3>
+            <p class="cs-desc">End-to-end marketing automation — lead capture to CRM sync, content scheduling to multi-model AI agent chains, all running autonomously.</p>
+            <div class="cs-tags">
+              <span class="cs-tag">n8n</span>
+              <span class="cs-tag">AI Agents</span>
+              <span class="cs-tag">API Integration</span>
+              <span class="cs-tag">CRM Automation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cs-card" id="cs-2">
+          <div class="cs-img"><img src="assets/IMG_1940.webp" alt="Data Analytics" loading="lazy"></div>
+          <div class="cs-body">
+            <span class="cs-tool-tag">Data Intelligence</span>
+            <h3 class="cs-title">Power BI · Tableau</h3>
+            <p class="cs-desc">Raw campaign data transformed into decision-ready dashboards — attribution models, audience segments, ROI tracking, all live and connected.</p>
+            <div class="cs-tags">
+              <span class="cs-tag">Power BI</span>
+              <span class="cs-tag">Tableau</span>
+              <span class="cs-tag">Attribution</span>
+              <span class="cs-tag">Data Viz</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="market" style="padding-top:clamp(50px,7vh,100px);padding-bottom:clamp(50px,7vh,100px)">
 <div class="s-idx">Market Intelligence</div>
 <h2 class="s-ttl reveal" style="text-align:center">Read the market <span class="ac">*</span></h2>
@@ -3012,6 +3148,7 @@ window.makeColorBends('jn-canvas','jn-card');
 <canvas id="theme-wave"></canvas>
 <script src="https://cdn.jsdelivr.net/npm/three@0.157.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.clouds.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script>
 (function(){
 'use strict';
@@ -4195,6 +4332,76 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   /* Market portrait card */
   var jn=document.getElementById('jn-card');
   if(jn) tilt(jn,8,6);
+})();
+</script>
+<script>
+/* ── CARD SWAP (AI & Data section) ── */
+(function initCardSwap(){
+  if(!window.gsap){setTimeout(initCardSwap,80);return;}
+  var cards=Array.from(document.querySelectorAll('.cs-card'));
+  if(!cards.length)return;
+  var N=cards.length;
+  var distX=52,distY=58,skew=5,DELAY=3800;
+
+  function slot(i){return{x:i*distX,y:-i*distY,z:-i*distX*1.5,zI:N-i};}
+
+  // Initial placement
+  cards.forEach(function(c,i){
+    var s=slot(i);
+    gsap.set(c,{x:s.x,y:s.y,z:s.z,xPercent:-50,yPercent:-50,
+      skewY:skew,transformOrigin:'center center',zIndex:s.zI,force3D:true});
+  });
+
+  var order=cards.map(function(_,i){return i;});
+  var curTl=null,swapInterval=null;
+
+  function swap(){
+    var front=order[0];
+    var rest=order.slice(1);
+    var elFront=cards[front];
+    var tl=gsap.timeline();
+    curTl=tl;
+
+    // Drop front down and out
+    tl.to(elFront,{y:'+=580',duration:1.8,ease:'elastic.out(0.55,0.9)'});
+
+    // Promote rest into new slots
+    tl.addLabel('promote','-=1.55');
+    rest.forEach(function(idx,i){
+      var s=slot(i);
+      tl.set(cards[idx],{zIndex:s.zI},'promote');
+      tl.to(cards[idx],{x:s.x,y:s.y,z:s.z,duration:1.9,
+        ease:'elastic.out(0.55,0.9)'},('promote+='+(i*0.13)));
+    });
+
+    // Return front card to back slot
+    var back=slot(N-1);
+    tl.addLabel('return','promote+=0.06');
+    tl.call(function(){gsap.set(elFront,{zIndex:back.zI});},null,'return');
+    tl.to(elFront,{x:back.x,y:back.y,z:back.z,duration:1.9,
+      ease:'elastic.out(0.55,0.9)'},'return');
+
+    tl.call(function(){order=rest.concat([front]);});
+  }
+
+  function startInterval(){swapInterval=setInterval(swap,DELAY);}
+  function stopInterval(){clearInterval(swapInterval);swapInterval=null;}
+
+  // Start after a short delay so page has settled
+  setTimeout(function(){ swap(); startInterval(); },600);
+
+  // Pause on hover — pause current tween + stop interval
+  var wrap=document.getElementById('cs-wrap');
+  if(wrap){
+    wrap.addEventListener('mouseenter',function(){
+      if(curTl)curTl.pause();
+      stopInterval();
+    });
+    wrap.addEventListener('mouseleave',function(){
+      if(curTl)curTl.play();
+      startInterval();
+    });
+  }
 })();
 </script>
 <script>
