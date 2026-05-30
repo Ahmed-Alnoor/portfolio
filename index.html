@@ -3038,134 +3038,136 @@ window.makeColorBends('mi-canvas','mi-card');
   <div class="ft-inner">
 
 <style>
-/* ── Skill category cards ── */
-.sk-grid{
+/* ── Skill rows (new design) ── */
+.sk-rows{margin-bottom:60px;}
+.sk-row{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:20px;margin-bottom:60px;
+  grid-template-columns:clamp(36px,5vw,64px) clamp(160px,18vw,240px) 1fr;
+  align-items:start;
+  gap:0 clamp(20px,3vw,48px);
+  padding:28px 0;
+  border-top:1px solid rgba(245,158,11,.08);
+  transition:background .25s;
 }
-.sk-cat{
-  border:1px solid rgba(245,158,11,.1);
-  border-radius:16px;
-  background:rgba(245,158,11,.02);
-  padding:24px 22px 22px;
-  transition:border-color .3s,background .3s,transform .3s;
-  position:relative;overflow:hidden;
+.sk-row:last-child{border-bottom:1px solid rgba(245,158,11,.08)}
+.sk-row:hover{background:rgba(245,158,11,.025)}
+.sk-row-num{
+  font-family:'Geist Mono',monospace;font-size:11px;
+  color:rgba(245,158,11,.3);letter-spacing:.1em;
+  padding-top:3px;
 }
-.sk-cat::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at 0% 0%,rgba(245,158,11,.07) 0%,transparent 65%);
-  pointer-events:none;
+.sk-row-cat{
+  font-family:'Michroma',sans-serif;font-size:clamp(9px,0.75vw,11px);
+  letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(244,237,225,.85);line-height:1.4;padding-top:2px;
 }
-.sk-cat:hover{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.05);transform:translateY(-3px)}
-.sk-cat-icon{
-  font-size:22px;line-height:1;margin-bottom:14px;display:block;
+.sk-row-tags{display:flex;flex-wrap:wrap;gap:8px 10px;}
+.sk-pill{
+  font-family:'Geist Mono',monospace;font-size:10px;
+  letter-spacing:.04em;
+  color:rgba(244,237,225,.5);
+  padding:4px 14px;
+  border:1px solid rgba(244,237,225,.1);
+  border-radius:100px;
+  transition:color .2s,border-color .2s,background .2s;
+  cursor:default;white-space:nowrap;
 }
-.sk-cat-name{
-  font-family:'Michroma',sans-serif;font-size:9px;letter-spacing:.28em;
-  text-transform:uppercase;color:rgba(245,158,11,.7);margin:0 0 16px;
-  padding-bottom:12px;border-bottom:1px solid rgba(245,158,11,.1);
+.sk-row:hover .sk-pill{color:rgba(244,237,225,.72);border-color:rgba(245,158,11,.2)}
+.sk-pill:hover{color:#f59e0b!important;border-color:rgba(245,158,11,.55)!important;background:rgba(245,158,11,.06)!important}
+@media(max-width:640px){
+  .sk-row{grid-template-columns:32px 1fr;grid-template-rows:auto auto;}
+  .sk-row-cat{grid-column:2;}
+  .sk-row-tags{grid-column:1/-1;padding-top:12px;}
 }
-.sk-tags{display:flex;flex-wrap:wrap;gap:7px;}
-.sk-tag{
-  padding:5px 11px;border-radius:6px;font-size:10px;letter-spacing:.05em;
-  font-family:'Geist Mono',monospace;
-  color:rgba(245,240,232,.72);
-  background:rgba(245,240,232,.04);
-  border:1px solid rgba(245,240,232,.08);
-  transition:color .2s,background .2s,border-color .2s;cursor:default;
-}
-.sk-cat:hover .sk-tag{border-color:rgba(245,158,11,.18);color:rgba(245,240,232,.9)}
-.sk-tag:hover{background:rgba(245,158,11,.12)!important;color:#f59e0b!important;border-color:rgba(245,158,11,.4)!important}
-html.light .sk-cat{background:rgba(0,0,0,.02);border-color:rgba(0,0,0,.08)}
-html.light .sk-cat:hover{background:rgba(245,158,11,.06);border-color:rgba(245,158,11,.3)}
-html.light .sk-tag{color:rgba(26,21,16,.7);background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.1)}
-html.light .sk-cat:hover .sk-tag{border-color:rgba(245,158,11,.2)}
-html.light .sk-tag:hover{color:#b45309!important;background:rgba(245,158,11,.1)!important}
+html.light .sk-row:hover{background:rgba(0,0,0,.025)}
+html.light .sk-row-cat{color:rgba(26,21,16,.8)}
+html.light .sk-pill{color:rgba(26,21,16,.45);border-color:rgba(0,0,0,.1)}
+html.light .sk-row:hover .sk-pill{color:rgba(26,21,16,.7);border-color:rgba(245,158,11,.3)}
+html.light .sk-pill:hover{color:#b45309!important;border-color:rgba(180,83,9,.5)!important;background:rgba(245,158,11,.07)!important}
 </style>
 
-    <div class="sk-grid">
+    <div class="sk-rows">
 
-      <div class="sk-cat">
-        <span class="sk-cat-icon">📣</span>
-        <p class="sk-cat-name">Paid Media &amp; Advertising</p>
-        <div class="sk-tags">
-          <span class="sk-tag">Google Ads</span>
-          <span class="sk-tag">Meta Ads</span>
-          <span class="sk-tag">TikTok Ads</span>
-          <span class="sk-tag">Snapchat Ads</span>
-          <span class="sk-tag">LinkedIn Ads</span>
-          <span class="sk-tag">Google Shopping</span>
-          <span class="sk-tag">Paid Strategy</span>
+      <div class="sk-row">
+        <span class="sk-row-num">01</span>
+        <span class="sk-row-cat">Paid Media &amp; Advertising</span>
+        <div class="sk-row-tags">
+          <span class="sk-pill">Google Ads</span>
+          <span class="sk-pill">Meta Ads</span>
+          <span class="sk-pill">TikTok Ads</span>
+          <span class="sk-pill">Snapchat Ads</span>
+          <span class="sk-pill">LinkedIn Ads</span>
+          <span class="sk-pill">Google Shopping</span>
+          <span class="sk-pill">Paid Strategy</span>
         </div>
       </div>
 
-      <div class="sk-cat">
-        <span class="sk-cat-icon">📊</span>
-        <p class="sk-cat-name">Analytics &amp; Data</p>
-        <div class="sk-tags">
-          <span class="sk-tag">GA4</span>
-          <span class="sk-tag">Power BI</span>
-          <span class="sk-tag">Google Data Studio</span>
-          <span class="sk-tag">Search Console</span>
-          <span class="sk-tag">SEMrush</span>
-          <span class="sk-tag">Ahrefs</span>
-          <span class="sk-tag">Hotjar</span>
-          <span class="sk-tag">GTM</span>
+      <div class="sk-row">
+        <span class="sk-row-num">02</span>
+        <span class="sk-row-cat">Analytics &amp; Data</span>
+        <div class="sk-row-tags">
+          <span class="sk-pill">Google Analytics 4</span>
+          <span class="sk-pill">Power BI</span>
+          <span class="sk-pill">Data Studio</span>
+          <span class="sk-pill">Search Console</span>
+          <span class="sk-pill">SEMrush</span>
+          <span class="sk-pill">Ahrefs</span>
+          <span class="sk-pill">Hotjar</span>
+          <span class="sk-pill">Google Tag Manager</span>
         </div>
       </div>
 
-      <div class="sk-cat">
-        <span class="sk-cat-icon">🤖</span>
-        <p class="sk-cat-name">AI &amp; Automation</p>
-        <div class="sk-tags">
-          <span class="sk-tag">n8n</span>
-          <span class="sk-tag">Higgsfield</span>
-          <span class="sk-tag">AI Pipelines</span>
-          <span class="sk-tag">Prompt Engineering</span>
-          <span class="sk-tag">WhatsApp API</span>
-          <span class="sk-tag">Mailchimp</span>
+      <div class="sk-row">
+        <span class="sk-row-num">03</span>
+        <span class="sk-row-cat">AI &amp; Automation</span>
+        <div class="sk-row-tags">
+          <span class="sk-pill">n8n</span>
+          <span class="sk-pill">Higgsfield</span>
+          <span class="sk-pill">AI Content Pipelines</span>
+          <span class="sk-pill">Prompt Engineering</span>
+          <span class="sk-pill">WhatsApp API</span>
+          <span class="sk-pill">Mailchimp</span>
         </div>
       </div>
 
-      <div class="sk-cat">
-        <span class="sk-cat-icon">✍️</span>
-        <p class="sk-cat-name">Content &amp; Social</p>
-        <div class="sk-tags">
-          <span class="sk-tag">Content Strategy</span>
-          <span class="sk-tag">Social Media</span>
-          <span class="sk-tag">Influencer Marketing</span>
-          <span class="sk-tag">Email Marketing</span>
-          <span class="sk-tag">SMS Campaigns</span>
-          <span class="sk-tag">Hootsuite</span>
-          <span class="sk-tag">Later</span>
+      <div class="sk-row">
+        <span class="sk-row-num">04</span>
+        <span class="sk-row-cat">Content &amp; Social</span>
+        <div class="sk-row-tags">
+          <span class="sk-pill">Content Strategy</span>
+          <span class="sk-pill">Social Media</span>
+          <span class="sk-pill">Influencer Marketing</span>
+          <span class="sk-pill">Email Marketing</span>
+          <span class="sk-pill">SMS Campaigns</span>
+          <span class="sk-pill">Hootsuite</span>
+          <span class="sk-pill">Later</span>
         </div>
       </div>
 
-      <div class="sk-cat">
-        <span class="sk-cat-icon">🛒</span>
-        <p class="sk-cat-name">E-Commerce &amp; CRM</p>
-        <div class="sk-tags">
-          <span class="sk-tag">Shopify</span>
-          <span class="sk-tag">WordPress</span>
-          <span class="sk-tag">Zoho CRM</span>
-          <span class="sk-tag">HubSpot CRM</span>
-          <span class="sk-tag">Product Marketing</span>
-          <span class="sk-tag">SEO / SEM</span>
+      <div class="sk-row">
+        <span class="sk-row-num">05</span>
+        <span class="sk-row-cat">E-Commerce &amp; CRM</span>
+        <div class="sk-row-tags">
+          <span class="sk-pill">Shopify</span>
+          <span class="sk-pill">WordPress</span>
+          <span class="sk-pill">Zoho CRM</span>
+          <span class="sk-pill">HubSpot CRM</span>
+          <span class="sk-pill">Product Marketing</span>
+          <span class="sk-pill">SEO / SEM</span>
         </div>
       </div>
 
-      <div class="sk-cat">
-        <span class="sk-cat-icon">🗂️</span>
-        <p class="sk-cat-name">Project &amp; Team</p>
-        <div class="sk-tags">
-          <span class="sk-tag">Project Management</span>
-          <span class="sk-tag">Agile</span>
-          <span class="sk-tag">Trello</span>
-          <span class="sk-tag">Asana</span>
-          <span class="sk-tag">Slack</span>
-          <span class="sk-tag">Google Workspace</span>
-          <span class="sk-tag">Stakeholder Comms</span>
+      <div class="sk-row">
+        <span class="sk-row-num">06</span>
+        <span class="sk-row-cat">Project &amp; Team</span>
+        <div class="sk-row-tags">
+          <span class="sk-pill">Project Management</span>
+          <span class="sk-pill">Agile</span>
+          <span class="sk-pill">Trello</span>
+          <span class="sk-pill">Asana</span>
+          <span class="sk-pill">Slack</span>
+          <span class="sk-pill">Google Workspace</span>
+          <span class="sk-pill">Stakeholder Leadership</span>
         </div>
       </div>
 
