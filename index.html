@@ -1139,6 +1139,162 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   .tst-card{padding:30px 26px 26px}
   #tst-deck{height:370px}
   .tst-qmark{font-size:52px}}
+
+/* ================================================================
+   GLOBAL MOBILE OVERRIDES  ≤ 768px
+   ================================================================ */
+@media(max-width:768px){
+
+  /* ── Nav ── */
+  .nav-center{display:none}
+  .nav-ham{display:flex}
+  #nav{padding:0 18px 0 16px}
+
+  /* ── Hero ── */
+  #hero{padding-top:calc(var(--nav-h) + 8px)}
+  #hero-title{font-size:clamp(26px,10vw,60px)}
+  .hero-sub{font-size:13px;max-width:34ch;margin-top:18px}
+  .hero-cv-btn{margin-top:26px;padding:12px 24px}
+
+  /* ── Sections ── */
+  .sec{padding:clamp(52px,8vh,90px) clamp(18px,5vw,36px)}
+  .s-ttl{font-size:clamp(24px,7vw,42px)}
+
+  /* ── About ── */
+  #about .about-inner{grid-template-columns:1fr;gap:32px}
+  .portrait-frame{max-width:240px;margin:0 auto}
+
+  /* ── Work ── */
+  .proj-header{grid-template-columns:48px 1fr auto}
+  .proj-num{padding:20px 0;font-size:10px}
+  .proj-info{padding:20px 16px}
+  .proj-name{font-size:clamp(14px,4vw,18px)}
+  .proj-short{display:none}
+  .proj-toggle{padding:20px 14px;font-size:9px}
+  .proj-body-inner{grid-template-columns:1fr;padding:0 16px 32px 16px;gap:20px}
+
+  /* ── Testimonials ── */
+  #tst-deck{height:400px}
+
+  /* ── Credentials ── */
+  #certs .certs-grid{grid-template-columns:1fr 1fr;gap:14px}
+
+  /* ── Contact ── */
+  .cta-btns{flex-direction:column;align-items:stretch;gap:12px}
+  .cta-btn{justify-content:center}
+  .cta-info{grid-template-columns:1fr;gap:10px}
+
+  /* ── Footer ── */
+  .ft-grid{grid-template-columns:1fr}
+}
+
+/* ── Capabilities section mobile ── */
+@media(max-width:768px){
+
+  /* Big title: smaller, stays readable */
+  #cap-center-title{
+    font-size:clamp(64px,18vw,120px)!important;
+    padding-top:clamp(60px,9vh,90px)!important;
+  }
+
+  /* Hide right spec panel — no room on portrait */
+  #cap-pr{display:none!important}
+
+  /* Left panel: anchor to bottom-left, full-width-ish */
+  #cap-pl{
+    left:14px!important;right:14px!important;
+    top:auto!important;bottom:100px!important;
+    transform:none!important;
+    max-width:none!important;
+    padding:16px 18px 16px 14px!important;
+    border-radius:12px!important;
+  }
+
+  /* Override slide-in/out animations so transform:none holds */
+  @keyframes cap-pl-out{
+    0%{opacity:1;transform:translateX(0)}
+    30%{opacity:0}
+    100%{opacity:0;transform:translateX(60px)}
+  }
+  @keyframes cap-pl-in{
+    0%{opacity:0;transform:translateX(-60px)}
+    28%{opacity:1}
+    100%{opacity:1;transform:translateX(0)}
+  }
+
+  /* Smaller headline inside panel */
+  .cap-pn{font-size:clamp(17px,5vw,26px)!important}
+
+  /* Character: a bit shorter so it doesn't cover panel */
+  .cap-char{height:68%!important;max-height:460px!important}
+
+  /* Nav cards: shrink a touch more */
+  #cap-gl-nav{bottom:14px;padding:7px 10px;gap:7px}
+  .cap-gl-card{width:46px!important;height:40px!important;padding:18px 8px 6px!important;border-radius:8px!important}
+  .cap-gl-card.cap-gl-active{width:72px!important;height:50px!important}
+
+  /* Wordmark + counter: keep out of panel's way */
+  #cap-wm{font-size:9px}
+  #cap-ctr{font-size:9px}
+  #cap-cn{font-size:22px}
+}
+
+/* ── Experience section mobile ── */
+@media(max-width:768px){
+
+  /* Panel: full width, anchored bottom, less padding */
+  .exp-panel{
+    width:100%!important;
+    left:0!important;right:0!important;
+    padding:clamp(60px,10vh,110px) 18px clamp(90px,14vh,130px)!important;
+    align-items:flex-start!important;
+    text-align:left!important;
+  }
+  .exp-panel.exp-side-r{
+    right:0!important;left:0!important;
+    align-items:flex-start!important;text-align:left!important;
+  }
+  .exp-panel.exp-side-r .exp-metrics{justify-content:flex-start!important}
+  .exp-panel.exp-side-r .exp-blurb{text-align:left!important}
+
+  /* Panel mask: full-width gradient fade from bottom */
+  .exp-panel::before{
+    mask-image:linear-gradient(to top,#000 0%,#000 50%,transparent 100%)!important;
+    -webkit-mask-image:linear-gradient(to top,#000 0%,#000 50%,transparent 100%)!important;
+  }
+  .exp-panel.exp-side-r::before{
+    mask-image:linear-gradient(to top,#000 0%,#000 50%,transparent 100%)!important;
+    -webkit-mask-image:linear-gradient(to top,#000 0%,#000 50%,transparent 100%)!important;
+  }
+
+  /* Tighter text sizes */
+  .ep-company{font-size:clamp(22px,8vw,36px)!important}
+  .ep-role{font-size:clamp(11px,3vw,14px)!important}
+  .exp-blurb{font-size:13px!important}
+
+  /* Smaller nav cards */
+  .exp-gl-card{width:46px!important;height:40px!important;padding:18px 8px 6px!important}
+  .exp-gl-card.exp-gl-active{width:72px!important;height:50px!important}
+  #exp-gl-nav{padding:7px 10px;gap:7px;bottom:14px}
+}
+
+/* ── Artist gallery mobile ── */
+@media(max-width:600px){
+  #artist .art-panels{height:280px}
+  .art-panel{min-width:28px}
+}
+
+/* ── AI section mobile ── */
+@media(max-width:640px){
+  .ai-layout{grid-template-columns:1fr!important;gap:30px}
+  .ai-right{height:360px!important}
+  .cs-wrap,.cs-card{width:100%!important;max-width:320px;margin:0 auto}
+}
+
+/* ── Credentials mobile ── */
+@media(max-width:480px){
+  #certs .certs-grid{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
