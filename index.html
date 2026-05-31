@@ -991,8 +991,9 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 #exp-index-label{
   transition:color .5s ease;
 }
-/* Progress bar */
-#exp-prog{position:absolute;right:32px;top:50%;transform:translateY(-50%);
+/* Progress bar (hidden) */
+#exp-prog{display:none!important}
+#exp-prog-old{position:absolute;right:32px;top:50%;transform:translateY(-50%);
   z-index:10;display:flex;flex-direction:column;align-items:center;gap:0}
 #exp-prog-track{position:relative;width:1px;height:180px;background:rgba(244,237,225,.12)}
 #exp-prog-fill{position:absolute;top:0;left:0;width:100%;background:var(--amber);
@@ -1029,16 +1030,16 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 .exp-gl-card{
   position:relative;overflow:hidden;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;
-  border-radius:11px;border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;border:1px solid rgba(255,255,255,.12);
   transition:all .45s cubic-bezier(.22,1,.36,1);
-  padding:30px 14px 9px;width:68px;height:56px;
+  padding:22px 10px 7px;width:56px;height:48px;
   opacity:.7;filter:grayscale(.4);
 }
-.exp-gl-thumb{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;transition:transform .45s ease}
+.exp-gl-thumb{display:block;position:absolute!important;inset:0;z-index:0;background-size:cover;background-position:center;transition:transform .45s ease}
 .exp-gl-card::after{content:'';position:absolute;inset:0;z-index:1;
-  background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.25) 60%,rgba(0,0,0,.45) 100%)}
-.exp-gl-card>*{position:relative;z-index:2}
-.exp-gl-card.exp-gl-active{opacity:1;filter:grayscale(0);width:108px;height:70px;
+  background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.35) 100%)}
+.exp-gl-num,.exp-gl-label,.exp-gl-dot{position:relative;z-index:2}
+.exp-gl-card.exp-gl-active{opacity:1;filter:grayscale(0);width:90px;height:60px;
   border-color:rgba(255,255,255,.3);box-shadow:0 6px 24px rgba(0,0,0,.4)}
 .exp-gl-card.exp-gl-active .exp-gl-thumb{transform:scale(1.08)}
 .exp-gl-num{font-family:'Michroma',sans-serif;font-size:11px;color:rgba(244,237,225,.35);transition:color .4s}
