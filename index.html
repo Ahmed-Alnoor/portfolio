@@ -475,37 +475,7 @@ html.light #grain{opacity:0}
 html.light #cur{mix-blend-mode:multiply;background:radial-gradient(circle at 35% 35%,#fff8e0,var(--amber-s) 40%,var(--amber) 75%,transparent);box-shadow:0 0 10px 3px rgba(217,119,6,.4),0 0 28px 8px rgba(217,119,6,.15)}
 html.light #cur.h{background:radial-gradient(circle,rgba(217,119,6,.1),transparent 70%);box-shadow:0 0 80px 20px rgba(217,119,6,.07)}
 html.light #cur-r{border-color:rgba(217,119,6,.3);mix-blend-mode:multiply}
-/* Caps section — light mode overrides */
-html.light #caps{background:#f8f5f0!important}
-html.light #cap-bg{background-color:#f8f5f0;background-image:
-  linear-gradient(rgba(26,21,16,.052) 1px,transparent 1px),
-  linear-gradient(90deg,rgba(26,21,16,.052) 1px,transparent 1px),
-  radial-gradient(ellipse 65% 55% at 50% 50%,rgba(217,119,6,.07) 0%,transparent 65%);
-  background-size:80px 80px,80px 80px,100% 100%}
-html.light #cap-bg::after{background:radial-gradient(ellipse 90% 80% at 50% 50%,transparent 20%,rgba(248,245,240,.55) 100%)}
-html.light #cap-grain{mix-blend-mode:soft-light;opacity:.13}
-html.light #cap-cur{mix-blend-mode:multiply}
-html.light #cap-ambient{mix-blend-mode:soft-light}
-html.light .cap-pn{color:#1a1510}
-html.light .cap-pn .cap-ac{color:#92400e}
-html.light .cap-desc{color:rgba(26,21,16,.65)}
-html.light .cap-pi{color:#d97706}
-html.light #cap-cn{color:#1a1510}
-html.light #cap-wm{color:#d97706}
-html.light .cap-ring text{fill:rgba(26,21,16,.12)}
-html.light .cap-glow-gold{filter:drop-shadow(0 0 40px rgba(217,119,6,.32)) drop-shadow(0 20px 40px rgba(0,0,0,.15))}
-html.light .cap-glow-blue{filter:drop-shadow(0 0 40px rgba(56,189,248,.32)) drop-shadow(0 20px 40px rgba(0,0,0,.15))}
-html.light .cap-glow-gold2{filter:drop-shadow(0 0 35px rgba(217,119,6,.28)) drop-shadow(0 20px 40px rgba(0,0,0,.15))}
-/* Fix hardcoded cream/white text invisible on light bg */
-html.light .cap-role{color:rgba(26,21,16,.42)}
-html.light .cap-pn{color:#1a1510}
-html.light #cap-ctr{color:rgba(26,21,16,.42)}
-html.light #cap-cn{color:#1a1510}
-html.light .cap-sl{color:rgba(26,21,16,.35)}
-html.light #cap-scue{color:rgba(26,21,16,.35)}
-html.light .cap-dot{background:rgba(26,21,16,.18)}
-html.light .cap-dot.cap-ag{background:#d97706;box-shadow:0 0 8px rgba(217,119,6,.5)}
-html.light .cap-dot.cap-ab{background:#0284c7;box-shadow:0 0 8px rgba(2,132,199,.5)}
+/* Caps section — uses photo backgrounds; identical in light & dark (no overrides) */
 
 /* ── EXPERIENCE: force white text in light mode — images are always dark ── */
 html.light #experience{background:#000!important}
@@ -926,7 +896,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
   .cs-wrap{transform:translate(0,5%) scale(0.78);transform-origin:center bottom}
 }
 /* ── EXPERIENCE FULL-PAGE ── */
-#exp-wrapper{position:relative;height:500vh}
+#exp-wrapper{position:relative;height:320vh}
 #exp-stage{position:sticky;top:0;width:100%;height:100vh;height:100dvh;overflow:hidden;background:#000}
 .exp-bg{position:absolute;inset:0;opacity:0;will-change:opacity,transform}
 .exp-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transform-origin:center;
@@ -1046,6 +1016,41 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 #exp-scroll-hint::after{content:'';width:1px;height:24px;background:rgba(244,237,225,.25);
   animation:exp-hint-line 2.5s ease-in-out infinite}
 @keyframes exp-hint-line{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* ── Experience glass nav ── */
+#exp-gl-nav{
+  position:absolute;bottom:clamp(22px,3.5vh,40px);left:50%;transform:translateX(-50%);
+  z-index:30;display:flex;gap:9px;align-items:flex-end;
+  padding:9px 12px;border-radius:22px;
+  background:rgba(255,255,255,.07);
+  backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 8px 32px rgba(0,0,0,.35),0 1px 0 rgba(255,255,255,.08) inset;
+}
+.exp-gl-card{
+  position:relative;overflow:hidden;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;
+  border-radius:11px;border:1px solid rgba(255,255,255,.12);
+  transition:all .45s cubic-bezier(.22,1,.36,1);
+  padding:30px 14px 9px;width:68px;height:56px;
+  opacity:.7;filter:grayscale(.4);
+}
+.exp-gl-thumb{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;transition:transform .45s ease}
+.exp-gl-card::after{content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.25) 60%,rgba(0,0,0,.45) 100%)}
+.exp-gl-card>*{position:relative;z-index:2}
+.exp-gl-card.exp-gl-active{opacity:1;filter:grayscale(0);width:108px;height:70px;
+  border-color:rgba(255,255,255,.3);box-shadow:0 6px 24px rgba(0,0,0,.4)}
+.exp-gl-card.exp-gl-active .exp-gl-thumb{transform:scale(1.08)}
+.exp-gl-num{font-family:'Michroma',sans-serif;font-size:11px;color:rgba(244,237,225,.35);transition:color .4s}
+.exp-gl-card.exp-gl-active .exp-gl-num{color:rgba(244,237,225,.85)}
+.exp-gl-label{font-family:'Geist Mono',monospace;font-size:8px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(244,237,225,.45);white-space:nowrap;transition:color .4s}
+.exp-gl-card.exp-gl-active .exp-gl-label{color:rgba(244,237,225,.9)}
+@media(max-width:600px){
+  .exp-gl-card{width:54px;height:48px;padding:24px 8px 7px}
+  .exp-gl-card.exp-gl-active{width:80px;height:58px}
+  .exp-gl-label{font-size:7px}
+}
 @media(max-width:768px){
   .exp-panel{width:100%;padding:clamp(100px,16vh,160px) 5vw clamp(80px,12vh,110px)}
   .exp-panel.exp-side-r{right:auto;left:0;align-items:flex-start;text-align:left}
@@ -1377,6 +1382,30 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 <!-- Scroll hint -->
 <div id="exp-scroll-hint">Scroll</div>
 
+<!-- Glass nav (click to jump) -->
+<div id="exp-gl-nav">
+  <div class="exp-gl-card exp-gl-active" data-i="0">
+    <span class="exp-gl-thumb" style="background-image:url('assets/Mercato new.webp')"></span>
+    <span class="exp-gl-num">01</span>
+    <span class="exp-gl-label">Ontime</span>
+  </div>
+  <div class="exp-gl-card" data-i="1">
+    <span class="exp-gl-thumb" style="background-image:url('assets/Diversity blue gradiant.webp')"></span>
+    <span class="exp-gl-num">02</span>
+    <span class="exp-gl-label">Diversity</span>
+  </div>
+  <div class="exp-gl-card" data-i="2">
+    <span class="exp-gl-thumb" style="background-image:url('Natural clinic.webp')"></span>
+    <span class="exp-gl-num">03</span>
+    <span class="exp-gl-label">Natural</span>
+  </div>
+  <div class="exp-gl-card" data-i="3">
+    <span class="exp-gl-thumb" style="background-image:url('Azza.webp')"></span>
+    <span class="exp-gl-num">04</span>
+    <span class="exp-gl-label">Azza</span>
+  </div>
+</div>
+
 </section>
 </div>
 <div class="mqw" aria-hidden="true">
@@ -1497,22 +1526,30 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   box-shadow:0 8px 32px rgba(0,0,0,.35),0 1px 0 rgba(255,255,255,.08) inset;
 }
 .cap-gl-card{
-  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;
-  border-radius:14px;cursor:pointer;
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.1);
-  transition:all .4s cubic-bezier(.22,1,.36,1);
-  padding:10px 14px 10px;
-  min-width:64px;
-  opacity:.55;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;
+  border-radius:12px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.12);
+  transition:all .45s cubic-bezier(.22,1,.36,1);
+  padding:34px 16px 10px;
+  width:74px;height:62px;
+  opacity:.7;filter:grayscale(.4);
 }
+.cap-gl-thumb{
+  position:absolute;inset:0;z-index:0;
+  background-size:cover;background-position:center;
+  transition:transform .45s ease;
+}
+.cap-gl-card::after{content:'';position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(0,0,0,.78) 0%,rgba(0,0,0,.25) 60%,rgba(0,0,0,.45) 100%)}
+.cap-gl-card>*{position:relative;z-index:2}
 .cap-gl-card.cap-gl-active{
-  opacity:1;
-  min-width:96px;
-  background:rgba(255,255,255,.13);
-  border-color:rgba(255,255,255,.22);
-  box-shadow:0 4px 20px rgba(0,0,0,.3);
+  opacity:1;filter:grayscale(0);
+  width:118px;height:76px;
+  border-color:rgba(255,255,255,.3);
+  box-shadow:0 6px 24px rgba(0,0,0,.4);
 }
+.cap-gl-card.cap-gl-active .cap-gl-thumb{transform:scale(1.08)}
 .cap-gl-dot{
   width:5px;height:5px;border-radius:50%;
   background:rgba(244,237,225,.35);
@@ -1543,15 +1580,23 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 #cap-pr.cap-pr-out{animation:cap-pr-out .48s cubic-bezier(.4,0,.6,1) forwards}
 #cap-pr.cap-pr-in{animation:cap-pr-in .7s cubic-bezier(.22,1,.36,1) .05s forwards}
 
-/* Left panel */
-#cap-pl{position:absolute;left:clamp(24px,4vw,64px);top:50%;transform:translateY(-50%);z-index:20;max-width:310px;
-  padding:28px 28px 28px 24px;
-  background:rgba(0,0,0,.28);
-  backdrop-filter:blur(10px) saturate(1.2);
-  -webkit-backdrop-filter:blur(10px) saturate(1.2);
-  border-left:1px solid rgba(255,255,255,.08);
-  border-radius:0 8px 8px 0;
+/* Left panel — futuristic glass HUD */
+#cap-pl{position:absolute;left:clamp(24px,4vw,64px);top:50%;transform:translateY(-50%);z-index:20;max-width:340px;
+  padding:30px 30px 30px 28px;
+  background:linear-gradient(135deg,rgba(8,8,10,.42) 0%,rgba(8,8,10,.18) 100%);
+  backdrop-filter:blur(16px) saturate(1.3);
+  -webkit-backdrop-filter:blur(16px) saturate(1.3);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:2px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3),0 1px 0 rgba(255,255,255,.06) inset;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%);
 }
+/* themed accent rail on the left edge */
+#cap-pl::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:2px;
+  background:var(--amber);box-shadow:0 0 12px rgba(245,158,11,.6);transition:background .6s,box-shadow .6s}
+#cap-pl.cap-pl-warm::before{background:#c4935a;box-shadow:0 0 12px rgba(196,147,90,.6)}
+#cap-pl.cap-pl-blue::before{background:#4b8cf7;box-shadow:0 0 12px rgba(75,140,247,.6)}
+#cap-pl.cap-pl-orange::before{background:#f97316;box-shadow:0 0 12px rgba(249,115,22,.6)}
 .cap-pi{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.4em;color:#f59e0b;
   text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px;
   opacity:0;transition:opacity .8s cubic-bezier(.19,1,.22,1),color .6s ease}
@@ -1727,18 +1772,18 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 
 <div id="cap-gl-nav">
   <div class="cap-gl-card cap-gl-active" id="cap-gl-0">
+    <span class="cap-gl-thumb" style="background-image:url('assets/Purple Futuristic Web Agreement Banner - Brand background.png')"></span>
     <span class="cap-gl-num">01</span>
-    <span class="cap-gl-dot"></span>
     <span class="cap-gl-label">Branding</span>
   </div>
   <div class="cap-gl-card" id="cap-gl-1">
+    <span class="cap-gl-thumb" style="background-image:url('assets/Purple Futuristic Web Agreement Banner - Digital background.png')"></span>
     <span class="cap-gl-num">02</span>
-    <span class="cap-gl-dot"></span>
     <span class="cap-gl-label">Digital</span>
   </div>
   <div class="cap-gl-card" id="cap-gl-2">
+    <span class="cap-gl-thumb" style="background-image:url('assets/Purple Futuristic Web Agreement Banner - Strategy background.png')"></span>
     <span class="cap-gl-num">03</span>
-    <span class="cap-gl-dot"></span>
     <span class="cap-gl-label">Strategy</span>
   </div>
 </div>
@@ -1828,6 +1873,8 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
         if(ic){ic.textContent=c.icons[i]; ['cap-blue','cap-warm','cap-orange'].forEach(cl=>ic.classList.remove(cl)); ic.classList.add(cc);}
       });
       setColor(c.color);
+      ['cap-pl-warm','cap-pl-blue','cap-pl-orange'].forEach(cl=>panelL.classList.remove(cl));
+      panelL.classList.add('cap-pl-'+c.color);
       panelL.classList.add('cap-pin');
       panelR.classList.add('cap-p2in');
     },180);
@@ -1898,7 +1945,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   })();
 
   // Init
-  setTimeout(()=>{panelL.classList.add('cap-pin'); panelR.classList.add('cap-p2in');},300);
+  setTimeout(()=>{panelL.classList.add('cap-pin','cap-pl-warm'); panelR.classList.add('cap-p2in');},300);
 
   // ── Sticky-scroll drive ─────────────────────────────────────────────────────
   // The section uses position:sticky inside a 400vh wrapper.
@@ -4680,6 +4727,7 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     document.getElementById('expp-3')
   ];
   var dots = document.querySelectorAll('.ep-dot');
+  var glCards = document.querySelectorAll('.exp-gl-card');
   var progFill = document.getElementById('exp-prog-fill');
   var scrollHint = document.getElementById('exp-scroll-hint');
   var N = 4;
@@ -4728,6 +4776,9 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
     var dotActive = Math.round(progress * (N-1));
     dots.forEach(function(d,i){
       d.classList.toggle('active', i === dotActive);
+    });
+    glCards.forEach(function(c,i){
+      c.classList.toggle('exp-gl-active', i === dotActive);
     });
 
     // Background slides
@@ -4788,6 +4839,21 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
   }
 
   window.addEventListener('scroll', update, {passive:true});
+
+  // Glass nav — click to jump to a slide
+  glCards.forEach(function(c){
+    c.addEventListener('click', function(){
+      var i = +c.getAttribute('data-i');
+      var wH = wrapper.offsetHeight;
+      var vh = window.innerHeight;
+      var maxScroll = wH - vh;
+      var targetProgress = i / (N - 1);
+      var wrapperTop = wrapper.getBoundingClientRect().top + window.pageYOffset;
+      var targetY = wrapperTop + targetProgress * maxScroll;
+      window.scrollTo({top: targetY, behavior: 'smooth'});
+    });
+  });
+
   update(); // initial render
 })();
 </script>
