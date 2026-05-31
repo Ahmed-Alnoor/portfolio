@@ -1796,32 +1796,65 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
     busy=true;
     const prev=cur; cur=next;
     const b=chars[next].color==='blue';
-    const bg=document.getElementById('cap-bg');
     overlay.classList.remove('cap-fl','cap-flb');
     void overlay.offsetWidth;
     overlay.classList.add(b?'cap-flb':'cap-fl');
     // Whole slide exits left; bg drifts right (parallax)
     slides[prev].classList.add('cap-sx'); slides[prev].classList.remove('cap-sv');
-    bg.classList.remove('cap-bg-in'); void bg.offsetWidth; bg.classList.add('cap-bg-out');
     panelL.classList.remove('cap-pin','cap-pl-in'); void panelL.offsetWidth; panelL.classList.add('cap-pl-out');
     panelR.classList.remove('cap-p2in','cap-pr-in'); void panelR.offsetWidth; panelR.classList.add('cap-pr-out');
     setTimeout(()=>{
       // Next slide enters from right; bg drifts back left
       slides[prev].classList.add('cap-sh'); slides[prev].classList.remove('cap-sx');
       slides[next].classList.remove('cap-sh'); slides[next].classList.add('cap-se','cap-sv');
-      bg.classList.remove('cap-bg-out'); void bg.offsetWidth; bg.classList.add('cap-bg-in');
       panelL.classList.remove('cap-pl-out'); void panelL.offsetWidth; panelL.classList.add('cap-pl-in');
       panelR.classList.remove('cap-pr-out'); void panelR.offsetWidth; panelR.classList.add('cap-pr-in');
       updatePanels(next);
-      dots.forEach((d,i)=>{
-        d.classList.remove('cap-ag','cap-ab');
-        if(i===next) d.classList.add(chars[i].color==='blue'?'cap-ab':'cap-ag');
+      // Update glass nav cards
+      const glCards=document.querySelectorAll('.cap-gl-card');
+      glCards.forEach((c,i)=>{
+        c.classList.toggle('cap-gl-active',i===next);
+        c.classList.toggle('cap-gl-blue',i===next&&chars[next].color==='blue');
+      });
+      // Update centered title
+      const ctrTitle=document.getElementById('cap-center-title');
+      if(ctrTitle){
+        const titles=['BRANDING','DIGITAL','STRATEGY'];
+        ctrTitle.textContent=titles[next];
+        ctrTitle.className=chars[next].color==='blue'?'cap-ctr-blue':'cap-ctr-gold';
+      }
+      // Update bg slides
+      const bgSlides=document.querySelectorAll('.cap-bg-slide');
+      bgSlides.forEach((s,i)=>{
+        const wasActive=s.classList.contains('cap-bgs-active');
+        if(i===prev&&wasActive){
+          s.classList.remove('cap-bgs-in'); void s.offsetWidth; s.classList.add('cap-bgs-out');
+          setTimeout(()=>{s.classList.remove('cap-bgs-active','cap-bgs-out');},500);
+        }
+        if(i===next&&!wasActive){
+          s.classList.remove('cap-bgs-out'); void s.offsetWidth;
+          s.classList.add('cap-bgs-active','cap-bgs-in');
+          setTimeout(()=>{s.classList.remove('cap-bgs-in');},750);
+        }
       });
       cnEl.textContent=String(next+1).padStart(2,'0');
       scue.style.opacity=next>=slides.length-1?'0':'1';
       setTimeout(()=>{slides[next].classList.remove('cap-se'); busy=false;},750);
     },500);
   }
+
+  // Auto-crossfade 2 images per bg slide every 5s
+  (function bgCrossfade(){
+    var sIdx=0;
+    setInterval(()=>{
+      const bSlide=document.getElementById('cap-bgs'+cur);
+      if(!bSlide)return;
+      const imgs=bSlide.querySelectorAll('.cap-bg-img');
+      if(imgs.length<2)return;
+      sIdx=1-sIdx;
+      imgs.forEach((img,i)=>img.classList.toggle('cap-bgi-active',i===sIdx));
+    },5000);
+  })();
 
   // Init
   setTimeout(()=>{panelL.classList.add('cap-pin'); panelR.classList.add('cap-p2in');},300);
@@ -1864,7 +1897,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   },{passive:true});
 
   // Dot clicks
-  dots.forEach((d,i)=>d.addEventListener('click',()=>goTo(i)));
+  document.querySelectorAll('.cap-gl-card').forEach((c,i)=>c.addEventListener('click',()=>goTo(i)));
 
 })(); // end IIFE
 </script>
