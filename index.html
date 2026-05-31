@@ -1474,8 +1474,9 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   transition:color .6s ease,opacity .5s ease;
   will-change:transform;
 }
-#cap-center-title.cap-ctr-gold{color:rgba(245,158,11,.09)}
-#cap-center-title.cap-ctr-blue{color:rgba(56,189,248,.09)}
+#cap-center-title.cap-ctr-warm{color:rgba(196,168,130,.12)}
+#cap-center-title.cap-ctr-blue{color:rgba(75,140,247,.11)}
+#cap-center-title.cap-ctr-orange{color:rgba(249,115,22,.1)}
 
 /* ── Glassmorphism bottom nav ── */
 #cap-gl-nav{
@@ -1599,7 +1600,34 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.32em;color:rgba(244,237,225,.35);text-transform:uppercase;transition:opacity .6s}
 #cap-scline{width:1px;height:34px;background:linear-gradient(180deg,transparent,#f59e0b,transparent);
   animation:cap-sf 2.2s ease-in-out infinite;transition:background .6s}
-#cap-scline.cap-blue{background:linear-gradient(180deg,transparent,#38bdf8,transparent)}
+#cap-scline.cap-blue{background:linear-gradient(180deg,transparent,#4b8cf7,transparent)}
+/* ── Warm (Branding) — taupe/wheat ── */
+#cap-cur.cap-warm{background:radial-gradient(circle,#f5ede0,#d4b896 50%,#c4935a);box-shadow:0 0 12px 4px rgba(196,147,90,.55),0 0 30px 10px rgba(196,147,90,.18)}
+#cap-cur-r.cap-warm{border-color:rgba(196,147,90,.3)}
+#cap-ambient.cap-warm{background:radial-gradient(ellipse 55% 65% at 50% 55%,rgba(196,168,130,.07),transparent 70%)}
+.cap-pi.cap-warm{color:#c4935a}.cap-pi.cap-warm::before{background:#c4935a}
+.cap-pn .cap-ac.cap-warm{color:#e0c9a6}
+.cap-pdl.cap-warm{background:#c4935a}
+.cap-tag.cap-warm{border-color:rgba(196,147,90,.22);color:rgba(196,147,90,.7)}
+.cap-sic.cap-warm{color:#c4935a;border-color:rgba(196,147,90,.2)}
+#cap-wm.cap-warm{color:#c4935a}
+#cap-scline.cap-warm{background:linear-gradient(180deg,transparent,#c4935a,transparent)}
+.cap-gl-card.cap-gl-warm .cap-gl-dot{background:#c4935a}
+/* ── Orange (Strategy) — amber/copper ── */
+#cap-cur.cap-orange{background:radial-gradient(circle,#fff0e0,#fba05a 50%,#f97316);box-shadow:0 0 12px 4px rgba(249,115,22,.55),0 0 30px 10px rgba(249,115,22,.18)}
+#cap-cur-r.cap-orange{border-color:rgba(249,115,22,.3)}
+#cap-ambient.cap-orange{background:radial-gradient(ellipse 55% 65% at 50% 55%,rgba(249,115,22,.08),transparent 70%)}
+.cap-pi.cap-orange{color:#f97316}.cap-pi.cap-orange::before{background:#f97316}
+.cap-pn .cap-ac.cap-orange{color:#fdba74}
+.cap-pdl.cap-orange{background:#f97316}
+.cap-tag.cap-orange{border-color:rgba(249,115,22,.22);color:rgba(249,115,22,.75)}
+.cap-sic.cap-orange{color:#f97316;border-color:rgba(249,115,22,.22)}
+#cap-wm.cap-orange{color:#f97316}
+#cap-scline.cap-orange{background:linear-gradient(180deg,transparent,#f97316,transparent)}
+.cap-gl-card.cap-gl-orange .cap-gl-dot{background:#f97316}
+/* ── Glow filters ── */
+.cap-glow-warm{filter:drop-shadow(0 0 55px rgba(196,147,90,.35)) drop-shadow(0 20px 60px rgba(0,0,0,.85))}
+.cap-glow-orange{filter:drop-shadow(0 0 55px rgba(249,115,22,.45)) drop-shadow(0 20px 60px rgba(0,0,0,.85))}
 @keyframes cap-sf{0%,100%{opacity:.3}50%{opacity:1}}
 
 /* Overlay flash */
@@ -1608,6 +1636,8 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 #cap-ov.cap-flb{animation:cap-flb .5s ease forwards}
 @keyframes cap-fl{0%{opacity:0}30%{opacity:1;background:radial-gradient(ellipse at 50% 50%,rgba(245,158,11,.08),transparent)}100%{opacity:0}}
 @keyframes cap-flb{0%{opacity:0}30%{opacity:1;background:radial-gradient(ellipse at 50% 50%,rgba(56,189,248,.08),transparent)}100%{opacity:0}}
+#cap-ov.cap-flo{animation:cap-flo .5s ease forwards}
+@keyframes cap-flo{0%{opacity:0}30%{opacity:1;background:radial-gradient(ellipse at 50% 50%,rgba(249,115,22,.08),transparent)}100%{opacity:0}}
 </style>
 
 <!-- Custom cursor -->
@@ -1617,20 +1647,20 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 <!-- Per-slide backgrounds -->
 <div id="cap-bgs">
   <div class="cap-bg-slide cap-bgs-active" id="cap-bgs0">
-    <img class="cap-bg-img cap-bgi-active" id="cap-bgi-0a" src="assets/Branding 1.webp" alt="">
-    <img class="cap-bg-img" id="cap-bgi-0b" src="assets/Branding 2.webp" alt="">
+    <img class="cap-bg-img cap-bgi-active" id="cap-bgi-0a" src="assets/Purple Futuristic Web Agreement Banner - Brand background.png" alt="">
+    <img class="cap-bg-img" id="cap-bgi-0b" src="assets/Purple Futuristic Web Agreement Banner - Brand background.png" alt="">
   </div>
   <div class="cap-bg-slide" id="cap-bgs1">
-    <img class="cap-bg-img cap-bgi-active" id="cap-bgi-1a" src="assets/Digital 1.webp" alt="">
-    <img class="cap-bg-img" id="cap-bgi-1b" src="assets/Digital 2.webp" alt="">
+    <img class="cap-bg-img cap-bgi-active" id="cap-bgi-1a" src="assets/Purple Futuristic Web Agreement Banner - Digital background.png" alt="">
+    <img class="cap-bg-img" id="cap-bgi-1b" src="assets/Purple Futuristic Web Agreement Banner - Digital background.png" alt="">
   </div>
   <div class="cap-bg-slide" id="cap-bgs2">
-    <img class="cap-bg-img cap-bgi-active" id="cap-bgi-2a" src="assets/Strategy 1.webp" alt="">
-    <img class="cap-bg-img" id="cap-bgi-2b" src="assets/Strategy 2.webp" alt="">
+    <img class="cap-bg-img cap-bgi-active" id="cap-bgi-2a" src="assets/Purple Futuristic Web Agreement Banner - Strategy background.png" alt="">
+    <img class="cap-bg-img" id="cap-bgi-2b" src="assets/Purple Futuristic Web Agreement Banner - Strategy background.png" alt="">
   </div>
 </div>
 <div id="cap-ambient"></div>
-<div id="cap-center-title" class="cap-ctr-gold">BRANDING</div>
+<div id="cap-center-title" class="cap-ctr-warm">BRANDING</div>
 <div id="cap-grain"></div>
 <div id="cap-ov"></div>
 
@@ -1643,7 +1673,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
       <svg viewBox="0 0 500 500"><defs><path id="cap-c0" d="M250,250 m-210,0 a210,210 0 1,1 420,0 a210,210 0 1,1 -420,0"/></defs>
       <text><textPath href="#cap-c0">BRAND IDENTITY · VISUAL DIRECTION · STORYTELLING · BRAND POSITIONING · AUDIENCE CONNECTION · </textPath></text></svg>
     </div>
-    <img class="cap-char cap-glow-gold" src="assets/Me black.png" alt="" draggable="false">
+    <img class="cap-char cap-glow-warm" src="assets/Purple Futuristic Web Agreement Banner - Brand.png" alt="" draggable="false">
   </div>
 
   <!-- SLIDE 2: DIGITAL -->
@@ -1652,7 +1682,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
       <svg viewBox="0 0 500 500"><defs><path id="cap-c1" d="M250,250 m-210,0 a210,210 0 1,1 420,0 a210,210 0 1,1 -420,0"/></defs>
       <text><textPath href="#cap-c1">PAID MEDIA · CRM SYSTEMS · SEO · ANALYTICS · MARKETING AUTOMATION · DIGITAL GROWTH · </textPath></text></svg>
     </div>
-    <img class="cap-char cap-glow-blue" src="assets/Me white.png" alt="" draggable="false">
+    <img class="cap-char cap-glow-blue" src="assets/Purple Futuristic Web Agreement Banner - Digital.png" alt="" draggable="false">
   </div>
 
   <!-- SLIDE 3: STRATEGY -->
@@ -1661,7 +1691,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
       <svg viewBox="0 0 500 500"><defs><path id="cap-c2" d="M250,250 m-210,0 a210,210 0 1,1 420,0 a210,210 0 1,1 -420,0"/></defs>
       <text><textPath href="#cap-c2">CAMPAIGN PLANNING · PROJECT MANAGEMENT · DATA ANALYSIS · ROI OPTIMIZATION · STRATEGY · </textPath></text></svg>
     </div>
-    <img class="cap-char cap-glow-gold2" src="assets/Untitled design.png" alt="" draggable="false">
+    <img class="cap-char cap-glow-orange" src="assets/Purple Futuristic Web Agreement Banner - Strategy.png" alt="" draggable="false">
     <canvas id="cap-dust1" style="position:absolute;bottom:0;left:0;width:100%;height:32%;pointer-events:none;z-index:6"></canvas>
   </div>
 
@@ -1749,7 +1779,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
       desc:'Building memorable brand ecosystems through storytelling, identity, and audience connection.',
       tags:['Brand','Brand Identity','Visual Direction','Brand Positioning'],
       specs:['Brand','Identity','Visual Dir.','Positioning'],
-      icons:['✦','◎','⊕','◈'],color:'gold'},
+      icons:['✦','◎','⊕','◈'],color:'warm'},
     {idx:'002 — DIGITAL',role:'DISCIPLINE',nameRaw:'DIGITAL',acText:'GROWTH',
       desc:'Driving growth through campaigns, automation, analytics, and digital experiences.',
       tags:['Paid Media','CRM Systems','SEO / Analytics','Marketing Automation'],
@@ -1759,33 +1789,42 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
       desc:'Transforming insights into scalable marketing systems that deliver measurable impact.',
       tags:['Campaign Planning','Project Management','Data Analysis','ROI Optimization'],
       specs:['Campaigns','Proj. Mgmt','Data Analysis','ROI Optim.'],
-      icons:['▲','◆','⬡','◎'],color:'gold'}
+      icons:['▲','◆','⬡','◎'],color:'orange'}
   ];
 
   let cur=0, busy=false;
 
-  function setColor(b){
-    [capCur,capCurR,ambient,scline,wm].forEach(el=>el.classList.toggle('cap-blue',b));
+  function setColor(color){
+    const els=[capCur,capCurR,ambient,scline,wm];
+    els.forEach(el=>{
+      el.classList.remove('cap-blue','cap-warm','cap-orange');
+      if(color==='blue') el.classList.add('cap-blue');
+      else if(color==='warm') el.classList.add('cap-warm');
+      else if(color==='orange') el.classList.add('cap-orange');
+    });
   }
 
+  function colorClass(color){ return color==='blue'?'cap-blue':color==='warm'?'cap-warm':'cap-orange'; }
   function updatePanels(idx){
     panelL.classList.remove('cap-pin');
     panelR.classList.remove('cap-p2in');
     setTimeout(()=>{
-      const c=chars[idx], b=c.color==='blue';
+      const c=chars[idx], cc=colorClass(c.color);
       document.getElementById('cap-pi').textContent=c.idx;
-      document.getElementById('cap-pi').classList.toggle('cap-blue',b);
+      ['cap-blue','cap-warm','cap-orange'].forEach(cl=>document.getElementById('cap-pi').classList.remove(cl));
+      document.getElementById('cap-pi').classList.add(cc);
       document.getElementById('cap-role').textContent=c.role;
-      document.getElementById('cap-pn').innerHTML=c.nameRaw+'<br/><span class="cap-ac'+(b?' cap-blue':'')+'">'+c.acText+'</span>';
-      document.getElementById('cap-pdl').classList.toggle('cap-blue',b);
+      document.getElementById('cap-pn').innerHTML=c.nameRaw+'<br/><span class="cap-ac '+cc+'">'+c.acText+'</span>';
+      ['cap-blue','cap-warm','cap-orange'].forEach(cl=>document.getElementById('cap-pdl').classList.remove(cl));
+      document.getElementById('cap-pdl').classList.add(cc);
       document.getElementById('cap-desc').textContent=c.desc;
-      document.getElementById('cap-tags').innerHTML=c.tags.map(t=>`<span class="cap-tag${b?' cap-blue':''}">${t}</span>`).join('');
+      document.getElementById('cap-tags').innerHTML=c.tags.map(t=>`<span class="cap-tag ${cc}">${t}</span>`).join('');
       c.specs.forEach((s,i)=>{
         const sl=document.getElementById('cap-sl'+i), ic=document.getElementById('cap-ic'+i);
         if(sl)sl.textContent=s;
-        if(ic){ic.textContent=c.icons[i]; ic.classList.toggle('cap-blue',b);}
+        if(ic){ic.textContent=c.icons[i]; ['cap-blue','cap-warm','cap-orange'].forEach(cl=>ic.classList.remove(cl)); ic.classList.add(cc);}
       });
-      setColor(b);
+      setColor(c.color);
       panelL.classList.add('cap-pin');
       panelR.classList.add('cap-p2in');
     },180);
@@ -1795,10 +1834,10 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
     if(busy||next===cur||next<0||next>=slides.length)return;
     busy=true;
     const prev=cur; cur=next;
-    const b=chars[next].color==='blue';
-    overlay.classList.remove('cap-fl','cap-flb');
+    const nc=chars[next].color;
+    overlay.classList.remove('cap-fl','cap-flb','cap-flo');
     void overlay.offsetWidth;
-    overlay.classList.add(b?'cap-flb':'cap-fl');
+    overlay.classList.add(nc==='blue'?'cap-flb':nc==='orange'?'cap-flo':'cap-fl');
     // Whole slide exits left; bg drifts right (parallax)
     slides[prev].classList.add('cap-sx'); slides[prev].classList.remove('cap-sv');
     panelL.classList.remove('cap-pin','cap-pl-in'); void panelL.offsetWidth; panelL.classList.add('cap-pl-out');
@@ -1814,14 +1853,16 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
       const glCards=document.querySelectorAll('.cap-gl-card');
       glCards.forEach((c,i)=>{
         c.classList.toggle('cap-gl-active',i===next);
-        c.classList.toggle('cap-gl-blue',i===next&&chars[next].color==='blue');
+        ['cap-gl-blue','cap-gl-warm','cap-gl-orange'].forEach(cl=>c.classList.remove(cl));
+        if(i===next) c.classList.add('cap-gl-'+chars[next].color);
       });
       // Update centered title
       const ctrTitle=document.getElementById('cap-center-title');
       if(ctrTitle){
         const titles=['BRANDING','DIGITAL','STRATEGY'];
         ctrTitle.textContent=titles[next];
-        ctrTitle.className=chars[next].color==='blue'?'cap-ctr-blue':'cap-ctr-gold';
+        const ctrMap={blue:'cap-ctr-blue',warm:'cap-ctr-warm',orange:'cap-ctr-orange'};
+        ctrTitle.className=ctrMap[chars[next].color]||'cap-ctr-warm';
       }
       // Update bg slides
       const bgSlides=document.querySelectorAll('.cap-bg-slide');
