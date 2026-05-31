@@ -997,13 +997,14 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 .exp-blue::before{background:rgba(0,15,50,.38)}
 
 /* Azza group: airplane/hangar — dark green + dark gray */
-.exp-azza .ep-company{color:#c5e8c5;text-shadow:0 2px 20px rgba(0,30,0,.5)}
-.exp-azza .ep-idx{color:rgba(134,189,134,.75)}
-.exp-azza .ep-period{color:rgba(180,210,180,.6)}
-.exp-azza .ep-sub{color:rgba(160,195,160,.5)}
-.exp-azza .ep-role{color:#86bd86}
-.exp-azza .exp-blurb{color:rgba(200,230,200,.88)}
-.exp-azza .exp-m{color:#7ab87a;border-color:rgba(122,184,122,.28);background:rgba(0,25,0,.4)}
+.exp-azza .ep-company{color:#1a2e1a;text-shadow:none}
+.exp-azza .ep-idx{color:rgba(28,60,28,.65)}
+.exp-azza .ep-period{color:rgba(40,55,40,.6)}
+.exp-azza .ep-sub{color:rgba(40,55,40,.55)}
+.exp-azza .ep-role{color:#1e4a1e}
+.exp-azza .exp-blurb{color:rgba(30,45,30,.85)}
+.exp-azza .exp-m{color:#1e4a1e;border-color:rgba(30,74,30,.3);background:rgba(255,255,255,.3)}
+.exp-azza::before{background:rgba(220,235,220,.4)}
 
 /* ── Index label auto-contrast ── */
 #exp-index-label{
@@ -1308,7 +1309,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   </div>
 </div>
 
-<div class="exp-panel exp-side-r exp-blue" id="expp-1">
+<div class="exp-panel exp-side-l exp-blue" id="expp-1">
   <span class="ep-idx">02 / 04</span>
   <span class="ep-period">Mar 2022 — Apr 2024</span>
   <div class="ep-company">Diversity<br>Sports</div>
@@ -4571,7 +4572,7 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
 
     // Text panels
     // Which panels are right-side (exit right)
-    var rightPanel = [true, true, false, true]; // expp-0(r), expp-1(r), expp-2(l), expp-3(r)
+    var rightPanel = [true, false, false, true]; // expp-0(r), expp-1(l), expp-2(l), expp-3(r)
     panels.forEach(function(p, i){
       var exitX = rightPanel[i] ? 1 : -1; // right panels exit right, left panels exit left
       var op, tx;
