@@ -112,6 +112,9 @@ html.no-webgl.light #static-sky::before{opacity:0}
 html.lowfx #cur,html.lowfx #cur-r,html.lowfx #cap-cur,html.lowfx #cap-cur-r{display:none!important}
 /* Drop the full-screen grain / blend overlays (they repaint every scroll frame) */
 html.lowfx #grain,html.lowfx #exp-grain,html.lowfx #cap-grain{display:none!important}
+/* Safety net: scroll-reveal content must never stay hidden on low-fx devices,
+   even if the reveal observer is interrupted. Show it statically. */
+html.lowfx .reveal{opacity:1;transform:none}
 /* Fixed nav repaints its 36px backdrop-blur on every scroll frame — give it a
    mostly-solid fill and a light blur so it stays readable but cheap. */
 html.lowfx #nav{
@@ -3878,6 +3881,7 @@ else{
 
 /* ── THREE.JS (skipped on mobile/low-fx & if the CDN lib is missing — #static-sky shows instead) ── */
 var threeCanvas=document.getElementById('three-canvas');
+var webglReady=false;
 try{
 if(window.__LOWFX||typeof THREE==='undefined')throw 0;
 var renderer=new THREE.WebGLRenderer({canvas:threeCanvas,antialias:true,alpha:true});
@@ -4059,6 +4063,10 @@ scene.add(new THREE.AmbientLight(0x110900,1.5));
 var ptA=new THREE.PointLight(0xfbbf24,3,300);scene.add(ptA);
 var ptB=new THREE.PointLight(0xff6a1a,2,200);scene.add(ptB);
 var ptC=new THREE.PointLight(0xfed7aa,1.5,250);ptC.position.set(80,-30,40);scene.add(ptC);
+webglReady=true;
+}catch(e){/* low-fx / no WebGL - the static CSS #static-sky is shown instead */}
+/* Everything below runs on ALL devices. It must stay OUTSIDE the WebGL try
+   above, or a low-fx throw would skip it (clock, nav, hero title, reveals). */
 
 /* ── CLOCK (UTC+4) ── */
 function tick(){
@@ -4276,8 +4284,7 @@ function animate(){
 
   renderer.render(scene,camera);
 }
-if(!PRM)animate();else renderer.render(scene,camera);
-}catch(e){/* low-fx / no WebGL — the static CSS #static-sky is shown instead */}
+if(webglReady){if(!PRM)animate();else renderer.render(scene,camera);}
 
 /* ── THEME TOGGLE — View Transition reveal + electric rings ── */
 var themeBtn=document.getElementById('theme-btn');
