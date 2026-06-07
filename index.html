@@ -5278,19 +5278,13 @@ void main(){vec4 fc;mainImage(fc,gl_FragCoord.xy);gl_FragColor=fc;}
      Desktop (fine pointer / >768px) is untouched and keeps the WebGL eclipse.
      =================================================================== -->
 <canvas id="splash-fluid" aria-hidden="true"></canvas>
-<svg id="hr-ripple-svg" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
-  <filter id="hr-ripple" x="-15%" y="-15%" width="130%" height="130%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.013 0.022" numOctaves="2" seed="11" result="n">
-      <animate attributeName="baseFrequency" dur="16s" repeatCount="indefinite"
-               values="0.013 0.022;0.02 0.015;0.013 0.022"/>
-    </feTurbulence>
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-</svg>
 
 <style>
 /* ---- interactive hero (low-fx / mobile) ---- */
 @property --hr-r{syntax:'<length>';inherits:false;initial-value:0px}
+
+/* the interactive image is the hero bg on mobile -> retire the old eclipse/sky */
+html.lowfx #static-sky,html.lowfx #three-canvas{display:none!important}
 
 #hero-reveal{display:none}
 html.lowfx #hero-reveal{
@@ -5307,7 +5301,6 @@ html.lowfx #hero-reveal{
   mask-image:radial-gradient(circle var(--hr-r) at var(--hr-x) var(--hr-y),transparent 0%,transparent 34%,rgba(0,0,0,.4) 60%,#000 100%);
   -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
 }
-html.lowfx.hr-ripple #hero-reveal .hr-top{filter:url(#hr-ripple)}
 #hero-reveal::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:
@@ -5324,7 +5317,7 @@ html.lowfx #hr-torch{
 
 /* hero re-layout on mobile: text LEFT and small */
 html.lowfx #hero{
-  align-items:flex-start;justify-content:flex-end;text-align:left;
+  align-items:flex-start;justify-content:flex-end;text-align:left;background:#0a0d12;
   padding:calc(var(--nav-h) + 10px) 22px max(7vh,56px) 22px;
 }
 html.lowfx .hero-eyebrow{margin-bottom:12px;color:rgba(214,224,236,.80)}
@@ -5358,7 +5351,6 @@ html.lowfx #splash-fluid{display:block;position:fixed;inset:0;width:100vw;height
   [under,topImg].forEach(function(img){ if(img.dataset.src) img.src=img.dataset.src; });
 
   var PRM=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
-  if(!PRM) document.documentElement.classList.add('hr-ripple');
 
   var rect={left:0,top:0,width:window.innerWidth,height:window.innerHeight};
   function measure(){ rect=hero.getBoundingClientRect(); }
@@ -5424,9 +5416,9 @@ html.lowfx #splash-fluid{display:block;position:fixed;inset:0;width:100vw;height
   }
 
   var config={
-    SIM_RESOLUTION:96, DYE_RESOLUTION:640, CAPTURE_RESOLUTION:512,
-    DENSITY_DISSIPATION:2, VELOCITY_DISSIPATION:10, PRESSURE:0.5, PRESSURE_ITERATIONS:20,
-    CURL:41, SPLAT_RADIUS:0.2, SPLAT_FORCE:14000, SHADING:true, COLOR_UPDATE_SPEED:28,
+    SIM_RESOLUTION:96, DYE_RESOLUTION:512, CAPTURE_RESOLUTION:512,
+    DENSITY_DISSIPATION:2, VELOCITY_DISSIPATION:10, PRESSURE:0.5, PRESSURE_ITERATIONS:12,
+    CURL:41, SPLAT_RADIUS:0.2, SPLAT_FORCE:14000, SHADING:false, COLOR_UPDATE_SPEED:28,
     PAUSED:false, BACK_COLOR:{r:0,g:0,b:0}, TRANSPARENT:true, RAINBOW_MODE:false, COLOR:'#c3ddff'
   };
 
@@ -5848,7 +5840,7 @@ html.lowfx #splash-fluid{display:block;position:fixed;inset:0;width:100vw;height
     if(gl.drawingBufferWidth>gl.drawingBufferHeight) return {width:max,height:min};
     return {width:min,height:max};
   }
-  function scaleByPixelRatio(input){ var pixelRatio=Math.min(window.devicePixelRatio||1,2);return Math.floor(input*pixelRatio); }
+  function scaleByPixelRatio(input){ var pixelRatio=Math.min(window.devicePixelRatio||1,1.5);return Math.floor(input*pixelRatio); }
   function hashCode(s){ if(s.length===0) return 0;var hash=0;for(var i=0;i<s.length;i++){ hash=(hash<<5)-hash+s.charCodeAt(i); hash|=0; } return hash; }
 
   function handleMouseDown(e){
