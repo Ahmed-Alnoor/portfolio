@@ -1147,71 +1147,6 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 .cta-avail::before{content:'';width:8px;height:8px;border-radius:50%;
   background:var(--amber);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
 
-/* ── TESTIMONIALS ── */
-#testimonials{overflow:visible}
-#tst-wrap{position:relative;width:100%;max-width:680px;margin:64px auto 0}
-#tst-deck{position:relative;height:330px;cursor:grab;user-select:none;-webkit-user-select:none}
-#tst-deck:active{cursor:grabbing}
-.tst-card{
-  position:absolute;inset:0;padding:40px 44px 34px;
-  background:var(--glass);border:1px solid var(--line);border-radius:12px;
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  display:flex;flex-direction:column;justify-content:space-between;
-  transform-origin:50% 110%;will-change:transform,opacity;
-  transition:transform .58s cubic-bezier(.22,1,.36,1),opacity .45s ease,box-shadow .4s ease}
-.tst-card:hover{box-shadow:0 8px 40px rgba(0,0,0,.18)}
-.tst-qmark{
-  font-family:'Georgia',serif;font-size:68px;line-height:.6;
-  color:var(--amber);opacity:.3;display:block;margin-bottom:10px}
-.tst-q{
-  font-family:'Sora',sans-serif;font-size:clamp(13px,1.15vw,15px);
-  line-height:1.8;color:var(--ink);font-weight:300;flex:1;margin-bottom:28px}
-.tst-person{display:flex;align-items:center;gap:14px}
-.tst-av{
-  width:38px;height:38px;border-radius:50%;flex-shrink:0;
-  background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.22);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.04em;color:var(--amber)}
-.tst-name{
-  font-family:'Michroma',sans-serif;font-size:11px;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink);margin-bottom:5px}
-.tst-role{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--ink-m);line-height:1.5}
-.tst-bar{
-  position:absolute;bottom:0;left:44px;right:44px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(245,158,11,.5),transparent)}
-#tst-footer{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-top:24px;padding:0 2px}
-#tst-idx{
-  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.22em;color:var(--ink-m)}
-#tst-dots{display:flex;gap:7px;align-items:center}
-.tst-dot{
-  width:5px;height:5px;border-radius:50%;background:var(--ink-f);
-  border:1px solid rgba(244,237,225,.12);
-  transition:all .4s cubic-bezier(.22,1,.36,1);cursor:pointer}
-.tst-dot.td-on{
-  background:var(--amber);border-color:var(--amber);
-  width:20px;border-radius:3px;box-shadow:0 0 8px rgba(245,158,11,.45)}
-#tst-btns{display:flex;gap:8px}
-.tst-btn{
-  width:34px;height:34px;border-radius:50%;border:1px solid var(--line);
-  background:transparent;color:var(--ink-m);cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:border-color .3s,color .3s,box-shadow .3s}
-.tst-btn:hover{border-color:var(--amber);color:var(--amber);
-  box-shadow:0 0 14px rgba(245,158,11,.15)}
-.tst-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:2;fill:none;
-  stroke-linecap:round;stroke-linejoin:round}
-.tst-hint{
-  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--ink-f);text-align:center;margin-top:14px}
-html.light .tst-dot{border-color:rgba(26,21,16,.12)}
-@media(max-width:640px){
-  .tst-card{padding:30px 26px 26px}
-  #tst-deck{height:370px}
-  .tst-qmark{font-size:52px}}
-
 /* ================================================================
    MOBILE — ≤ 768px
    ================================================================ */
@@ -1255,9 +1190,6 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   .proj-short{display:none}
   .proj-toggle{padding:18px 12px;font-size:9px;gap:5px}
   .proj-body-inner{grid-template-columns:1fr;padding:0 14px 28px;gap:18px}
-
-  /* ── Testimonials ── */
-  #tst-deck{height:420px}
 
   /* ── Credentials ── */
   .cred-stack{margin-top:34px}
@@ -1343,7 +1275,6 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
 
 /* ── Narrow phones ── */
 @media(max-width:480px){
-  #tst-deck{height:460px}
   .cs-card{max-width:320px!important}
 }
 </style>
@@ -1409,7 +1340,6 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
   <a href="#caps">Expertise</a>
   <a href="#experience">Experience</a>
   <a href="#work">Work</a>
-  <a href="#testimonials">Testimonials</a>
   <a href="#ai-edge">AI & Data</a>
   <a href="#artist">Artist</a>
   <a href="#certs">Credentials</a>
@@ -1427,8 +1357,7 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
     <a href="#caps">Expertise</a>
     <a href="#experience">Experience</a>
     <a href="#work">Work</a>
-    <a href="#testimonials">Testimonials</a>
-    <a href="#ai-edge">AI & Data</a>
+      <a href="#ai-edge">AI & Data</a>
     <a href="#artist">Artist</a>
     <a href="#certs">Credentials</a>
     <a href="#contact">Contact</a>
@@ -2561,210 +2490,6 @@ html.lowfx #capx-prog,html.capx-static #capx-prog{position:relative;left:auto;bo
 </section>
 
 <!-- ============================================================
-     003.6 — TESTIMONIALS (draggable card deck)
-     ============================================================ -->
-<section class="sec" id="testimonials">
-  <div class="s-idx">003.6 — Social Proof</div>
-  <h2 class="s-ttl reveal">What the <span class="ac">field</span> says.</h2>
-  <p class="s-sub reveal" style="max-width:46ch;text-align:center;margin:0 auto">From CMOs to creative directors — the voices of people who've seen the work up close.</p>
-
-  <div id="tst-wrap">
-    <div id="tst-deck">
-
-      <!-- Card 1 -->
-      <div class="tst-card">
-        <div>
-          <span class="tst-qmark">&ldquo;</span>
-          <p class="tst-q">Ahmed's brand architecture work redefined how Tilal connects with its community. His 11:1 campaign ROI wasn't luck — it was the result of meticulous audience research, creative discipline, and flawless execution. He elevates every team he's part of.</p>
-        </div>
-        <div class="tst-person">
-          <div class="tst-av">MA</div>
-          <div>
-            <div class="tst-name">Majid Al-Harthi</div>
-            <div class="tst-role">Chief Marketing Officer · Tilal Grand Mall Group</div>
-          </div>
-        </div>
-        <div class="tst-bar"></div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="tst-card">
-        <div>
-          <span class="tst-qmark">&ldquo;</span>
-          <p class="tst-q">In two years, Ahmed built our digital marketing engine from scratch. He tripled social engagement, launched our e-commerce strategy, and trained a team that still runs on his playbooks. Rare to find someone who leads with both data and instinct.</p>
-        </div>
-        <div class="tst-person">
-          <div class="tst-av">NI</div>
-          <div>
-            <div class="tst-name">Nour Ibrahim</div>
-            <div class="tst-role">Chief Executive Officer · DANDY Fashion Group</div>
-          </div>
-        </div>
-        <div class="tst-bar"></div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="tst-card">
-        <div>
-          <span class="tst-qmark">&ldquo;</span>
-          <p class="tst-q">Ahmed brought a level of strategic thinking to hospitality marketing that we hadn't experienced before. His campaigns for F&amp;B and events consistently outperformed benchmarks — and he always made the brand feel premium, not promotional.</p>
-        </div>
-        <div class="tst-person">
-          <div class="tst-av">TZ</div>
-          <div>
-            <div class="tst-name">Tariq Al-Zahrani</div>
-            <div class="tst-role">Director of Marketing · Le Méridien Makkah</div>
-          </div>
-        </div>
-        <div class="tst-bar"></div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="tst-card">
-        <div>
-          <span class="tst-qmark">&ldquo;</span>
-          <p class="tst-q">Working alongside Ahmed was a masterclass in integrated marketing. He bridges the gap between creative concept and commercial reality better than anyone I've encountered in the UAE market. A genuine strategic partner.</p>
-        </div>
-        <div class="tst-person">
-          <div class="tst-av">SK</div>
-          <div>
-            <div class="tst-name">Sara Khalil</div>
-            <div class="tst-role">Brand Strategy Director · Adam &amp; Eve Agency</div>
-          </div>
-        </div>
-        <div class="tst-bar"></div>
-      </div>
-
-    </div><!-- /tst-deck -->
-
-    <div id="tst-footer">
-      <span id="tst-idx">1 / 4</span>
-      <div id="tst-dots">
-        <div class="tst-dot td-on" data-i="0"></div>
-        <div class="tst-dot" data-i="1"></div>
-        <div class="tst-dot" data-i="2"></div>
-        <div class="tst-dot" data-i="3"></div>
-      </div>
-      <div id="tst-btns">
-        <button class="tst-btn" id="tst-prev" aria-label="Previous testimonial">
-          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <button class="tst-btn" id="tst-next" aria-label="Next testimonial">
-          <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
-        </button>
-      </div>
-    </div>
-    <p class="tst-hint">drag or swipe to explore</p>
-  </div>
-</section>
-
-<script>
-(function(){
-  var deck=document.getElementById('tst-deck');
-  if(!deck)return;
-  var cards=Array.from(deck.querySelectorAll('.tst-card'));
-  var N=cards.length, cur=0, busy=false;
-
-  /* Stack offsets for positions 0=active, 1=behind1, 2=behind2, 3=hidden */
-  var POS=[
-    {tx:0,   ty:0,  r:0,   z:N+2, o:1},
-    {tx:10,  ty:14, r:2.5, z:N+1, o:0.75},
-    {tx:18,  ty:25, r:4,   z:N,   o:0.45},
-    {tx:22,  ty:34, r:5,   z:N-1, o:0}
-  ];
-
-  function applyPos(card,pos,animate){
-    card.style.transition=animate
-      ?'transform .58s cubic-bezier(.22,1,.36,1),opacity .45s ease,box-shadow .4s ease'
-      :'none';
-    card.style.transform='translateX('+pos.tx+'px) translateY('+pos.ty+'px) rotate('+pos.r+'deg)';
-    card.style.opacity=pos.o;
-    card.style.zIndex=pos.z;
-  }
-
-  function layout(animate){
-    cards.forEach(function(c,i){
-      var rel=(i-cur+N)%N;
-      applyPos(c,POS[Math.min(rel,POS.length-1)],animate!==false);
-    });
-    var idx=document.getElementById('tst-idx');
-    if(idx)idx.textContent=(cur+1)+' / '+N;
-    document.querySelectorAll('.tst-dot').forEach(function(d,i){
-      d.classList.toggle('td-on',i===cur);
-    });
-  }
-
-  function advance(dir){
-    if(busy)return;
-    busy=true;
-    var ac=cards[cur];
-    ac.style.transition='transform .42s cubic-bezier(.4,0,.6,1),opacity .3s ease';
-    ac.style.transform='translateX('+(dir>0?-115:115)+'vw) rotate('+(dir>0?-18:18)+'deg)';
-    ac.style.opacity='0';
-    ac.style.zIndex=N+5;
-    cur=(cur+dir+N)%N;
-    setTimeout(function(){
-      layout(true);
-      setTimeout(function(){
-        var rel=(cards.indexOf(ac)-cur+N)%N;
-        var p=POS[Math.min(rel,POS.length-1)];
-        ac.style.transition='none';
-        ac.style.transform='translateX('+p.tx+'px) translateY('+p.ty+'px) rotate('+p.r+'deg)';
-        ac.style.opacity=p.o;
-        ac.style.zIndex=p.z;
-        requestAnimationFrame(function(){requestAnimationFrame(function(){busy=false;});});
-      },580);
-    },60);
-  }
-
-  /* Drag */
-  var sx=0,sy=0,dragging=false,dc=null;
-
-  function onDown(x,y){
-    if(busy)return;
-    dc=cards[cur];
-    sx=x;sy=y;dragging=true;
-    dc.style.transition='none';
-  }
-  function onMove(x,y){
-    if(!dragging)return;
-    var dx=x-sx,dy=(y-sy)*.2,rot=dx*.065;
-    dc.style.transform='translateX('+dx+'px) translateY('+dy+'px) rotate('+rot+'deg)';
-    dc.style.opacity=Math.max(.25,1-Math.abs(dx)/280);
-  }
-  function onUp(x){
-    if(!dragging)return;
-    dragging=false;
-    var dx=x-sx;
-    if(Math.abs(dx)>100){advance(dx<0?1:-1);}
-    else{
-      dc.style.transition='transform .55s cubic-bezier(.22,1,.36,1),opacity .4s ease';
-      dc.style.transform='translateX(0) translateY(0) rotate(0deg)';
-      dc.style.opacity='1';
-    }
-  }
-
-  deck.addEventListener('mousedown',function(e){onDown(e.clientX,e.clientY);e.preventDefault();});
-  window.addEventListener('mousemove',function(e){onMove(e.clientX,e.clientY);});
-  window.addEventListener('mouseup',function(e){onUp(e.clientX);});
-  deck.addEventListener('touchstart',function(e){onDown(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
-  deck.addEventListener('touchmove',function(e){onMove(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
-  deck.addEventListener('touchend',function(e){onUp(e.changedTouches[0].clientX);});
-
-  document.getElementById('tst-prev').addEventListener('click',function(){advance(-1);});
-  document.getElementById('tst-next').addEventListener('click',function(){advance(1);});
-  document.querySelectorAll('.tst-dot').forEach(function(d){
-    d.addEventListener('click',function(){
-      var i=parseInt(d.dataset.i,10);
-      if(i!==cur)advance(i>cur?1:-1);
-    });
-  });
-
-  layout(false);
-})();
-</script>
-
-<!-- ============================================================
      003.5 — MARKET INTELLIGENCE + JOURNEY (stacked cards)
      ============================================================ -->
 <section class="sec" id="ai-edge">
@@ -3347,56 +3072,46 @@ if(!window.__LOWFX)window.makeColorBends('mi-canvas','mi-card');
     <div class="cred-stack-end" aria-hidden="true"></div>
   </div>
 </section>
-<section class="sec" id="contact">
-  <div class="s-idx">006 — Let's Build</div>
-  <div class="cta-avail reveal">Available now · Full-time · UAE</div>
-<h2 class="cta-t reveal" style="transition-delay:.1s">Ready to deliver<br>results from <span class="ac">day one.</span></h2>
-  <div class="cta-btns">
-    <a href="mailto:ahmed.m.alnoor@gmail.com" class="cta-btn reveal" style="transition-delay:.12s">
-      Email me
-      <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-        <path d="M2 10L10 2M10 2H3M10 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </a>
-    <a href="tel:+971561185206" class="cta-btn cta-btn-ghost reveal" style="transition-delay:.2s">+971 56 118 5206</a>
-    <a href="https://drive.google.com/uc?export=download&id=1Uoh1gwhmEHhOgyJP7bRVqFqGf-psEbEE" download="Ahmed_Alnoor_CV.pdf" target="_blank" rel="noopener" class="cta-btn cta-btn-ghost reveal" style="transition-delay:.28s">
-      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      Download CV
-    </a>
-  </div>
-  <div class="cta-info">
-    <div class="ci reveal" style="transition-delay:.1s"><div class="l">Based in</div><div class="v">UAE</div></div>
-    <div class="ci reveal" style="transition-delay:.18s"><div class="l">Email</div><div class="v">ahmed.m.alnoor@gmail.com</div></div>
-    <div class="ci reveal" style="transition-delay:.26s"><div class="l">Availability</div><div class="v">Available Now · Full-time Roles</div></div>
-  </div>
-</section>
 <!-- ============================================================
-     007 — SCHEDULE  (Cal.com-style booking CTA, light card)
-     Always-light "paper" panel (local --ink/--amber overrides) so it
-     reads as a bright booking widget against either theme: a month
-     calendar + availability list + CTA, mirroring a Cal.com booking
-     page. The grid is generated from the real current date; there is
-     no animation loop, so no __LOWFX guard is needed.
+     006 — LET'S BUILD  (contact + interactive booking, merged)
+     The booking widget is a self-contained "paper" card (local
+     --ink/--amber/etc overrides) so it reads as a bright scheduling
+     tool against either theme. Day -> time-slot -> confirm flow is
+     generated from the real current month; a handful of weekdays /
+     hours are marked "busy" at random each load. Confirming opens a
+     mailto draft to Ahmed and offers a downloadable .ics — there is
+     no backend, so nothing syncs automatically.
      ============================================================ -->
 <style>
-#book{
-  --ink:#1a1510;--ink-d:rgba(26,21,16,.65);--ink-m:rgba(26,21,16,.42);--ink-f:rgba(26,21,16,.12);
-  --line:rgba(26,21,16,.1);--amber:#d97706;--amber-s:#f59e0b;--amber-w:#92400e;--ember:#c2410c;
-  background:#f8f5f0!important;color:var(--ink);overflow:hidden}
-html.light #book{background:#fffdf8!important}
-#book .cta-btn:hover{color:#fff}
-.bk-card{display:grid;gap:clamp(28px,5vw,56px);max-width:1100px;margin:var(--sp-4) auto 0}
-.bk-sub{font-size:var(--fs-md);color:var(--ink-d);max-width:48ch;
-  margin:16px 0 22px;font-weight:200;line-height:1.7}
-.bk-meta{display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.bk-card{display:grid;gap:clamp(28px,5vw,56px);max-width:1140px;margin:var(--sp-5) auto 0}
+.bk-info{text-align:center}
+.bk-host{display:inline-flex;align-items:center;gap:14px;margin-bottom:18px;text-align:left}
+.bk-host-img{width:56px;height:56px;border-radius:50%;object-fit:cover;object-position:50% 12%;
+  border:2px solid var(--amber);flex-shrink:0}
+.bk-host-name{font-family:'Michroma',sans-serif;font-size:var(--fs-sm);letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink)}
+.bk-host-role{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-m);margin-top:4px}
+.bk-sub{font-size:var(--fs-md);color:var(--ink-d);max-width:46ch;
+  margin:0 auto 22px;font-weight:200;line-height:1.7}
+.bk-meta{display:flex;flex-direction:column;gap:9px;margin:0 auto 28px;width:fit-content;text-align:left}
 .bk-meta-row{display:flex;align-items:center;gap:10px;
   font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--ink-d)}
 .bk-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);
   box-shadow:0 0 10px var(--amber);display:inline-block;flex-shrink:0}
 .bk-dot-live{background:#16a34a;box-shadow:0 0 10px #16a34a;animation:pulse 2s infinite}
-.bk-cal{border-radius:clamp(18px,3vw,28px);border:1px solid rgba(26,21,16,.08);
-  background:#fff;box-shadow:0 24px 60px rgba(31,26,18,.1);
-  padding:clamp(20px,3.5vw,30px)}
+.bk-info .cta-btns{margin-bottom:28px}
+.bk-info .cta-info{gap:28px}
+
+/* booking widget: always a bright "paper" card so it reads as a
+   scheduling tool regardless of the site theme */
+.bk-cal{
+  --ink:#1a1510;--ink-d:rgba(26,21,16,.65);--ink-m:rgba(26,21,16,.42);--ink-f:rgba(26,21,16,.12);
+  --line:rgba(26,21,16,.1);--amber:#d97706;--amber-s:#f59e0b;--amber-w:#92400e;--ember:#c2410c;
+  background:#fff;color:var(--ink);position:relative;overflow:hidden;
+  border-radius:clamp(18px,3vw,28px);border:1px solid rgba(26,21,16,.08);
+  box-shadow:0 24px 60px rgba(20,14,8,.35);padding:clamp(20px,3.5vw,30px)}
+.bk-cal .cta-btn:hover{color:#fff}
 .bk-cal-head{display:flex;align-items:center;justify-content:space-between;
   gap:10px;margin-bottom:18px;flex-wrap:wrap}
 .bk-cal-month{font-family:'Michroma',sans-serif;font-size:var(--fs-md);
@@ -3409,69 +3124,325 @@ html.light #book{background:#fffdf8!important}
   color:rgba(26,21,16,.35);text-align:center;padding-bottom:8px;text-transform:uppercase}
 .bk-cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
   font-family:'Geist Mono',monospace;font-size:clamp(11px,2.6vw,13px);
-  color:rgba(26,21,16,.5);border-radius:10px;position:relative}
-.bk-cal-empty{visibility:hidden}
-.bk-cal-open{color:#1a1510;font-weight:500}
+  color:rgba(26,21,16,.5);border-radius:10px;position:relative;
+  margin:0;padding:0;border:0;background:transparent;font:inherit;
+  appearance:none;-webkit-appearance:none;cursor:default;
+  -webkit-tap-highlight-color:transparent;transition:background .25s,color .25s}
+.bk-cal-empty{visibility:hidden;pointer-events:none}
+.bk-cal-open{color:#1a1510;font-weight:500;cursor:pointer}
 .bk-cal-open::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;
   border-radius:50%;background:#d97706}
-.bk-cal-today{background:#d97706;color:#fff;font-weight:500}
-.bk-cal-foot{display:flex;align-items:center;gap:8px;margin-top:18px;
+.bk-cal-open:hover,.bk-cal-open:focus-visible{background:rgba(217,119,6,.12)}
+.bk-cal-busy{color:rgba(26,21,16,.28);text-decoration:line-through}
+.bk-cal-today{box-shadow:inset 0 0 0 1.5px #d97706}
+.bk-cal-sel{background:#d97706!important;color:#fff!important;font-weight:500;box-shadow:none}
+.bk-cal-sel::after{display:none}
+.bk-cal-cell:focus-visible{outline:2px solid #d97706;outline-offset:1px}
+.bk-cal-legend{display:flex;gap:18px;margin-top:12px;
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(26,21,16,.38)}
+.bk-leg{display:flex;align-items:center;gap:6px}
+.bk-leg-dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.bk-leg-dot.open{background:#d97706}
+.bk-leg-dot.busy{background:rgba(26,21,16,.22)}
+
+@keyframes bkFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.bk-slots-wrap{margin-top:18px;padding-top:18px;border-top:1px solid rgba(26,21,16,.08);
+  animation:bkFade .4s var(--E)}
+.bk-slots-head{display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:12px;flex-wrap:wrap}
+#bk-date-label{font-family:'Michroma',sans-serif;font-size:12px;letter-spacing:.03em;
+  text-transform:uppercase;color:#1a1510}
+.bk-back{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(26,21,16,.4);background:none;border:0;
+  margin:0;padding:4px 0;cursor:pointer;transition:color .2s}
+.bk-back:hover{color:#d97706}
+.bk-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.bk-slot{font-family:'Geist Mono',monospace;font-size:clamp(11px,2.8vw,12.5px);
+  letter-spacing:.02em;padding:10px 4px;margin:0;border-radius:8px;text-align:center;
+  border:1px solid rgba(26,21,16,.12);background:#fff;color:#1a1510;
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  transition:border-color .2s,color .2s,background .2s}
+.bk-slot:hover,.bk-slot:focus-visible{border-color:#d97706;color:#d97706}
+.bk-slot-busy{color:rgba(26,21,16,.25);border-color:rgba(26,21,16,.06);
+  background:rgba(26,21,16,.02);text-decoration:line-through;cursor:default}
+.bk-slot-busy:hover{border-color:rgba(26,21,16,.06);color:rgba(26,21,16,.25)}
+.bk-slot-sel{background:#d97706;border-color:#d97706;color:#fff}
+.bk-slot-sel:hover{color:#fff;border-color:#d97706}
+.bk-slot:focus-visible{outline:2px solid #d97706;outline-offset:1px}
+
+.bk-confirm{margin-top:18px;padding-top:18px;border-top:1px solid rgba(26,21,16,.08);
+  animation:bkFade .4s var(--E)}
+.bk-confirm-head{font-family:'Sora',sans-serif;font-size:13px;line-height:1.6;
+  color:#1a1510;margin-bottom:12px;font-weight:300}
+.bk-confirm-head .ac{color:#d97706;font-weight:600}
+.bk-name-input{width:100%;padding:11px 14px;border-radius:8px;box-sizing:border-box;
+  border:1px solid rgba(26,21,16,.12);background:#fff;color:#1a1510;
+  font-family:'Sora',sans-serif;font-size:13px;margin-bottom:12px;transition:border-color .2s}
+.bk-name-input:focus{outline:none;border-color:#d97706}
+.bk-name-input::placeholder{color:rgba(26,21,16,.35)}
+.bk-confirm-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.bk-confirm-actions .cta-btn{padding:13px 22px;font-size:10px}
+.bk-confirm-note{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.03em;
+  line-height:1.8;color:rgba(26,21,16,.42)}
+
+.bk-cal-foot{display:flex;align-items:center;gap:8px;margin-top:18px;padding-top:14px;
+  border-top:1px solid rgba(26,21,16,.08);
   font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
   color:rgba(26,21,16,.45);text-transform:uppercase}
+
 @media(min-width:860px){
-  .bk-card{grid-template-columns:1.1fr 1fr;align-items:center;gap:clamp(40px,6vw,80px)}
+  .bk-card{grid-template-columns:1.1fr 1fr;align-items:start;gap:clamp(40px,6vw,80px)}
+  .bk-info{text-align:left}
+  .bk-sub{margin:0 0 22px}
+  .bk-meta{margin:0 0 28px}
+  .bk-info .cta-btns,.bk-info .cta-info{justify-content:flex-start}
+}
+@media(max-width:480px){
+  .bk-slots{grid-template-columns:repeat(2,1fr)}
 }
 </style>
-<section class="sec" id="book" aria-label="Schedule a call">
-  <div class="s-idx">007 — Schedule</div>
+<section class="sec" id="contact">
+  <div class="s-idx">006 — Let's Build</div>
+  <div class="cta-avail reveal">Available now · Full-time · UAE</div>
+  <h2 class="cta-t reveal" style="transition-delay:.1s">Ready to deliver<br>results from <span class="ac">day one.</span></h2>
+
   <div class="bk-card">
     <div class="bk-info">
-      <h2 class="s-ttl reveal">Pick a time <span class="ac">that works.</span></h2>
-      <p class="bk-sub reveal" style="transition-delay:.06s">Prefer talking over typing? Grab 30 minutes &mdash; no decks, just a conversation about your brand, your goals, and whether we're a fit.</p>
-      <div class="bk-meta reveal" style="transition-delay:.1s">
+      <div class="bk-host reveal" style="transition-delay:.12s">
+        <img class="bk-host-img" src="assets/portrait.png" alt="Ahmed Mohammed" loading="lazy" decoding="async">
+        <div>
+          <div class="bk-host-name">Ahmed Alnoor</div>
+          <div class="bk-host-role">Marketing &amp; Brand Strategy</div>
+        </div>
+      </div>
+      <p class="bk-sub reveal" style="transition-delay:.16s">Prefer talking over typing? Grab 30 minutes &mdash; no decks, just a conversation about your brand, your goals, and whether we're a fit. Or reach out directly below.</p>
+      <div class="bk-meta reveal" style="transition-delay:.2s">
         <div class="bk-meta-row"><span class="bk-dot"></span> 30 min &middot; Video or phone call</div>
         <div class="bk-meta-row"><span class="bk-dot"></span> Usually replies within a day</div>
         <div class="bk-meta-row"><span class="bk-dot"></span> Based in UAE &middot; GST (UTC+4)</div>
       </div>
-      <a href="mailto:ahmed.m.alnoor@gmail.com?subject=Let%27s%20schedule%20a%20call" class="cta-btn reveal" style="transition-delay:.16s">
-        Book a call
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-      </a>
+      <div class="cta-btns reveal" style="transition-delay:.24s">
+        <a href="mailto:ahmed.m.alnoor@gmail.com" class="cta-btn">
+          Email me
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+            <path d="M2 10L10 2M10 2H3M10 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="tel:+971561185206" class="cta-btn cta-btn-ghost">+971 56 118 5206</a>
+        <a href="https://drive.google.com/uc?export=download&id=1Uoh1gwhmEHhOgyJP7bRVqFqGf-psEbEE" download="Ahmed_Alnoor_CV.pdf" target="_blank" rel="noopener" class="cta-btn cta-btn-ghost">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download CV
+        </a>
+      </div>
+      <div class="cta-info reveal" style="transition-delay:.3s">
+        <div class="ci"><div class="l">Based in</div><div class="v">UAE</div></div>
+        <div class="ci"><div class="l">Email</div><div class="v">ahmed.m.alnoor@gmail.com</div></div>
+        <div class="ci"><div class="l">Availability</div><div class="v">Available Now &middot; Full-time Roles</div></div>
+      </div>
     </div>
-    <div class="bk-cal reveal" style="transition-delay:.12s">
+
+    <div class="bk-cal reveal" style="transition-delay:.18s">
       <div class="bk-cal-head">
         <span class="bk-cal-month" id="bk-month">&mdash;</span>
         <span class="bk-cal-tag">30 min call</span>
       </div>
-      <div class="bk-cal-grid" id="bk-grid" aria-hidden="true"></div>
-      <div class="bk-cal-foot"><span class="bk-dot bk-dot-live"></span> Available now &middot; Full-time &middot; UAE</div>
+      <div class="bk-cal-grid" id="bk-grid"></div>
+      <div class="bk-cal-legend">
+        <span class="bk-leg"><i class="bk-leg-dot open"></i>Open</span>
+        <span class="bk-leg"><i class="bk-leg-dot busy"></i>Booked</span>
+      </div>
+
+      <div class="bk-slots-wrap" id="bk-slots-wrap" hidden>
+        <div class="bk-slots-head">
+          <span id="bk-date-label"></span>
+          <button type="button" class="bk-back" id="bk-back">&larr; All dates</button>
+        </div>
+        <div class="bk-slots" id="bk-slots"></div>
+      </div>
+
+      <div class="bk-confirm" id="bk-confirm" hidden>
+        <div class="bk-confirm-head" id="bk-confirm-head"></div>
+        <input type="text" id="bk-name" class="bk-name-input" placeholder="Your name (optional, added to the invite)" autocomplete="name">
+        <div class="bk-confirm-actions">
+          <a href="#" id="bk-mail-btn" class="cta-btn">
+            Email Ahmed
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H3M10 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <button type="button" id="bk-ics-btn" class="cta-btn cta-btn-ghost">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Add to calendar
+          </button>
+        </div>
+        <p class="bk-confirm-note">This opens an email draft to Ahmed and downloads a calendar invite (.ics) for your own calendar &mdash; there's no live booking sync, so he'll confirm by reply.</p>
+      </div>
+
+      <div class="bk-cal-foot"><span class="bk-dot bk-dot-live"></span> Times shown in your local time zone</div>
     </div>
   </div>
 </section>
 <script>
-/* Fill the booking calendar with the real current month: weekday
-   header row + day cells, marking today and upcoming weekdays as
-   "open" slots. Purely decorative/static, no animation loop. */
+/* Booking calendar: click an open weekday to reveal hourly 10:00-20:00
+   slots (today's slots must start 3h+ from now). A handful of days and
+   hours are marked busy at random each load so the grid feels live.
+   Confirming drafts a mailto to Ahmed and offers a downloadable .ics —
+   there is no backend, so nothing syncs automatically. */
 (function(){
   var grid=document.getElementById('bk-grid');
   var monthEl=document.getElementById('bk-month');
+  var slotsWrap=document.getElementById('bk-slots-wrap');
+  var slotsGrid=document.getElementById('bk-slots');
+  var dateLabel=document.getElementById('bk-date-label');
+  var backBtn=document.getElementById('bk-back');
+  var confirmBox=document.getElementById('bk-confirm');
+  var confirmHead=document.getElementById('bk-confirm-head');
+  var nameInput=document.getElementById('bk-name');
+  var mailBtn=document.getElementById('bk-mail-btn');
+  var icsBtn=document.getElementById('bk-ics-btn');
   if(!grid||!monthEl)return;
+
+  var HOURS=[];
+  for(var h=10;h<=20;h++)HOURS.push(h);
+
   var now=new Date();
-  var names=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  monthEl.textContent=now.toLocaleString('default',{month:'long'})+' '+now.getFullYear();
-  var firstDow=new Date(now.getFullYear(),now.getMonth(),1).getDay();
-  var daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-  var html='';
-  names.forEach(function(n){html+='<span class="bk-cal-h">'+n+'</span>';});
-  for(var i=0;i<firstDow;i++)html+='<span class="bk-cal-cell bk-cal-empty"></span>';
+  var Y=now.getFullYear(),M=now.getMonth(),D=now.getDate();
+  var dayNames=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  monthEl.textContent=now.toLocaleString('default',{month:'long'})+' '+Y;
+  var firstDow=new Date(Y,M,1).getDay();
+  var daysInMonth=new Date(Y,M+1,0).getDate();
+  var minBookable=new Date(now.getTime()+3*60*60*1000);
+
+  /* Sparse random "busy" map: ~10% of weekdays fully booked, plus a
+     ~12% chance per remaining hourly slot — keeps the calendar feeling
+     alive without a real backend. */
+  var busy={};
   for(var d=1;d<=daysInMonth;d++){
     var dow=(firstDow+d-1)%7;
+    if(dow===0||dow===6||d<D)continue;
+    if(Math.random()<0.1){busy[d]='full';continue;}
+    var hrs=[];
+    HOURS.forEach(function(hh){if(Math.random()<0.12)hrs.push(hh);});
+    if(hrs.length)busy[d]=hrs;
+  }
+
+  function slotsFor(day){
+    var b=busy[day];
+    if(b==='full')return[];
+    return HOURS.filter(function(hh){
+      if(b&&b.indexOf(hh)!==-1)return false;
+      if(day===D&&new Date(Y,M,day,hh,0,0)<=minBookable)return false;
+      return true;
+    });
+  }
+  function fmtHour(hh){
+    var p=hh>=12?'PM':'AM',r=hh%12;if(r===0)r=12;
+    return r+':00 '+p;
+  }
+  function fmtDate(day){
+    return new Date(Y,M,day).toLocaleDateString('default',{weekday:'long',month:'long',day:'numeric'});
+  }
+
+  var html='';
+  dayNames.forEach(function(n){html+='<span class="bk-cal-h">'+n+'</span>';});
+  for(var i=0;i<firstDow;i++)html+='<span class="bk-cal-cell bk-cal-empty"></span>';
+  for(var dd=1;dd<=daysInMonth;dd++){
+    var dow2=(firstDow+dd-1)%7;
+    var isWeekend=dow2===0||dow2===6;
+    var isPast=dd<D;
+    var isToday=dd===D;
+    var open=!isWeekend&&!isPast&&slotsFor(dd).length>0;
     var cls='bk-cal-cell';
-    if(d===now.getDate())cls+=' bk-cal-today';
-    else if(d>now.getDate()&&dow>0&&dow<6)cls+=' bk-cal-open';
-    html+='<span class="'+cls+'">'+d+'</span>';
+    if(isToday)cls+=' bk-cal-today';
+    if(open)cls+=' bk-cal-open';
+    else if(!isWeekend&&!isPast&&busy[dd]==='full')cls+=' bk-cal-busy';
+    else cls+=' bk-cal-closed';
+    html+='<button type="button" class="'+cls+'" data-day="'+dd+'"'+(open?'':' disabled')+'>'+dd+'</button>';
   }
   grid.innerHTML=html;
+
+  grid.addEventListener('click',function(e){
+    var cell=e.target.closest('.bk-cal-open');
+    if(!cell)return;
+    grid.querySelectorAll('.bk-cal-sel').forEach(function(c){c.classList.remove('bk-cal-sel');c.removeAttribute('aria-pressed');});
+    cell.classList.add('bk-cal-sel');
+    cell.setAttribute('aria-pressed','true');
+    confirmBox.hidden=true;
+    renderSlots(parseInt(cell.dataset.day,10));
+  });
+
+  function renderSlots(day){
+    var avail=slotsFor(day);
+    var sHtml='';
+    HOURS.forEach(function(hh){
+      var ok=avail.indexOf(hh)!==-1;
+      sHtml+='<button type="button" class="bk-slot'+(ok?'':' bk-slot-busy')+'" data-hour="'+hh+'"'+(ok?'':' disabled')+'>'+fmtHour(hh)+'</button>';
+    });
+    slotsGrid.innerHTML=sHtml;
+    slotsGrid.dataset.day=day;
+    dateLabel.textContent=fmtDate(day);
+    slotsWrap.hidden=false;
+  }
+
+  slotsGrid.addEventListener('click',function(e){
+    var btn=e.target.closest('.bk-slot:not(.bk-slot-busy)');
+    if(!btn)return;
+    slotsGrid.querySelectorAll('.bk-slot-sel').forEach(function(b){b.classList.remove('bk-slot-sel');});
+    btn.classList.add('bk-slot-sel');
+    showConfirm(parseInt(slotsGrid.dataset.day,10),parseInt(btn.dataset.hour,10));
+  });
+
+  backBtn.addEventListener('click',function(){
+    slotsWrap.hidden=true;
+    confirmBox.hidden=true;
+    grid.querySelectorAll('.bk-cal-sel').forEach(function(c){c.classList.remove('bk-cal-sel');c.removeAttribute('aria-pressed');});
+  });
+
+  function pad(n){return n<10?'0'+n:''+n;}
+  function icsStamp(dt){
+    return dt.getUTCFullYear()+pad(dt.getUTCMonth()+1)+pad(dt.getUTCDate())+'T'+pad(dt.getUTCHours())+pad(dt.getUTCMinutes())+'00Z';
+  }
+  function icsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/[,;]/g,'\\$&');}
+
+  function showConfirm(day,hour){
+    var dt=new Date(Y,M,day,hour,0,0);
+    confirmBox.hidden=false;
+
+    function refresh(){
+      var who=nameInput.value.trim();
+      confirmHead.innerHTML='<span class="ac">'+fmtDate(day)+'</span> at '+fmtHour(hour)+' — your local time';
+      var subject='Booking request — '+fmtHour(hour)+', '+fmtDate(day);
+      var body='Hi Ahmed,\n\n'+(who?who+' here — ':'')+'I\'d like to book a 30-minute call:\n\n'
+        +fmtDate(day)+' at '+fmtHour(hour)+' (my local time)\n\n'
+        +'Let me know if this works for you.\n\nThanks!'+(who?'\n'+who:'');
+      mailBtn.href='mailto:ahmed.m.alnoor@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+      icsBtn.onclick=function(){downloadICS(dt,who);};
+    }
+    refresh();
+    nameInput.oninput=refresh;
+  }
+
+  function downloadICS(start,who){
+    var end=new Date(start.getTime()+30*60000);
+    var summary=who?'Call: Ahmed Alnoor & '+who:'Call with Ahmed Alnoor';
+    var ics=[
+      'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Ahmed Alnoor//Portfolio Booking//EN','CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      'UID:bk-'+start.getTime()+'@ahmedalnoor.com',
+      'DTSTAMP:'+icsStamp(new Date()),
+      'DTSTART:'+icsStamp(start),
+      'DTEND:'+icsStamp(end),
+      'SUMMARY:'+icsEsc(summary),
+      'DESCRIPTION:'+icsEsc('30-minute intro call booked via ahmedalnoor.com'),
+      'ORGANIZER;CN=Ahmed Alnoor:mailto:ahmed.m.alnoor@gmail.com',
+      'END:VEVENT','END:VCALENDAR'
+    ].join('\r\n')+'\r\n';
+    var blob=new Blob([ics],{type:'text/calendar'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download='ahmed-call.ics';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  }
 })();
 </script>
 </div>
