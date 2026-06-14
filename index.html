@@ -1632,6 +1632,198 @@ html.light .tst-dot{border-color:rgba(26,21,16,.12)}
     <span aria-hidden="true">Creative Direction</span><span class="dot"></span><span class="hi">Campaign Management</span><span class="dot"></span>
   </div>
 </div>
+<!-- ============================================================
+     001.5 — TOOLKIT  (interactive skills bento)
+     Six discipline cards in a CSS-grid bento layout, inspired by the
+     React Bits / Cal.com bento-card treatment. Desktop/hover: a
+     cursor-tracked amber spotlight (--mx/--my custom props set on
+     pointermove) sweeps under the card and a circular arrow glyph
+     rises in. Touch: tap toggles the same "open" state via .is-open
+     so the reveal works without a pointer. Entrance animation reuses
+     the shared .reveal IntersectionObserver — no extra JS for that.
+     ============================================================ -->
+<style>
+#toolkit{overflow:hidden}
+.tk-sub{font-size:var(--fs-md);color:var(--ink-d);max-width:54ch;
+  margin-top:var(--sp-2);font-weight:200;line-height:1.7}
+.tk-grid{display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(12px,2.4vw,20px);margin-top:var(--sp-4)}
+.tk-card{position:relative;border-radius:clamp(16px,2.5vw,22px);
+  border:1px solid var(--line);
+  background:linear-gradient(165deg,rgba(16,12,6,.92) 0%,rgba(8,6,3,.97) 100%);
+  padding:clamp(20px,3.2vw,30px);overflow:hidden;
+  transition:transform .5s var(--E),border-color .4s,box-shadow .4s;
+  --mx:50%;--my:50%}
+.tk-feature{grid-column:span 2}
+.tk-card::before{content:'';position:absolute;inset:0;border-radius:inherit;
+  pointer-events:none;z-index:0;
+  background:radial-gradient(360px circle at var(--mx) var(--my),rgba(245,158,11,.16),transparent 60%);
+  opacity:0;transition:opacity .4s}
+.tk-top{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:18px;position:relative;z-index:1}
+.tk-ico{width:34px;height:34px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.18);color:var(--amber)}
+.tk-ico svg{width:17px;height:17px}
+.tk-num{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.25em;color:var(--ink-m)}
+.tk-cat{font-family:'Michroma',sans-serif;font-size:var(--fs-lg);text-transform:uppercase;
+  line-height:1.25;margin-bottom:10px;position:relative;z-index:1}
+.tk-desc{font-size:var(--fs-sm);color:var(--ink-d);line-height:1.65;
+  margin-bottom:18px;max-width:42ch;position:relative;z-index:1}
+.tk-tags{display:flex;flex-wrap:wrap;gap:8px;position:relative;z-index:1;padding-right:46px}
+.tk-tag{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.05em;
+  color:var(--ink-d);padding:5px 12px;border:1px solid var(--line);border-radius:100px;
+  transition:color .3s,border-color .3s;white-space:nowrap}
+.tk-arrow{position:absolute;right:16px;bottom:16px;width:38px;height:38px;border-radius:50%;
+  background:var(--amber);color:#000;display:flex;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(10px) rotate(8deg);z-index:2;
+  transition:opacity .35s var(--E),transform .35s var(--E)}
+.tk-arrow svg{width:15px;height:15px}
+@media(hover:hover){
+  .tk-card:hover,.tk-card:focus-visible{transform:translateY(-6px);
+    border-color:rgba(245,158,11,.35);box-shadow:0 22px 50px rgba(0,0,0,.45)}
+  .tk-card:hover::before,.tk-card:focus-visible::before{opacity:1}
+  .tk-card:hover .tk-arrow,.tk-card:focus-visible .tk-arrow{opacity:1;transform:translateY(0) rotate(0)}
+  .tk-card:hover .tk-tag,.tk-card:focus-visible .tk-tag{color:var(--ink);border-color:rgba(245,158,11,.3)}
+}
+.tk-card.is-open{transform:translateY(-4px);border-color:rgba(245,158,11,.35);
+  box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.tk-card.is-open::before{opacity:1}
+.tk-card.is-open .tk-arrow{opacity:1;transform:translateY(0) rotate(0)}
+.tk-card.is-open .tk-tag{color:var(--ink);border-color:rgba(245,158,11,.3)}
+.tk-card:focus-visible{outline:none}
+@media(max-width:860px){.tk-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.tk-grid{grid-template-columns:1fr}.tk-feature{grid-column:span 1}}
+/* Light theme: cream cards, white arrow glyph for contrast on the darker amber fill */
+html.light .tk-card{background:linear-gradient(165deg,#fffdf8 0%,#faf4ea 100%);border-color:rgba(217,119,6,.16)}
+html.light .tk-arrow{color:#fff}
+</style>
+<section class="sec" id="toolkit" aria-label="Toolkit">
+  <div class="s-idx">001.5 — Toolkit</div>
+  <h2 class="s-ttl reveal">Skills <span class="ac">on tap.</span></h2>
+  <p class="tk-sub reveal" style="transition-delay:.06s">Six disciplines, one operator. Hover — or tap on mobile — to open a card.</p>
+  <div class="tk-grid">
+
+    <article class="tk-card tk-feature reveal" tabindex="0" style="transition-delay:.05s">
+      <div class="tk-top">
+        <span class="tk-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></span>
+        <span class="tk-num">01</span>
+      </div>
+      <h3 class="tk-cat">AI &amp; Automation</h3>
+      <p class="tk-desc">Always-on systems &mdash; pipelines, prompts and bots that keep campaigns moving while I sleep.</p>
+      <div class="tk-tags">
+        <span class="tk-tag">n8n</span>
+        <span class="tk-tag">Prompt Engineering</span>
+        <span class="tk-tag">AI Content Pipelines</span>
+        <span class="tk-tag">WhatsApp API</span>
+        <span class="tk-tag">Mailchimp</span>
+      </div>
+      <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 15.25V6.75H8.75"/><path d="M17 7 6.75 17.25"/></svg></span>
+    </article>
+
+    <article class="tk-card reveal" tabindex="0" style="transition-delay:.1s">
+      <div class="tk-top">
+        <span class="tk-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+        <span class="tk-num">02</span>
+      </div>
+      <h3 class="tk-cat">Analytics &amp; Data</h3>
+      <div class="tk-tags">
+        <span class="tk-tag">GA4</span>
+        <span class="tk-tag">Power BI</span>
+        <span class="tk-tag">SEMrush</span>
+        <span class="tk-tag">Ahrefs</span>
+        <span class="tk-tag">Tag Manager</span>
+      </div>
+      <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 15.25V6.75H8.75"/><path d="M17 7 6.75 17.25"/></svg></span>
+    </article>
+
+    <article class="tk-card reveal" tabindex="0" style="transition-delay:.14s">
+      <div class="tk-top">
+        <span class="tk-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>
+        <span class="tk-num">03</span>
+      </div>
+      <h3 class="tk-cat">Paid Media &amp; Ads</h3>
+      <div class="tk-tags">
+        <span class="tk-tag">Google Ads</span>
+        <span class="tk-tag">Meta Ads</span>
+        <span class="tk-tag">TikTok Ads</span>
+        <span class="tk-tag">LinkedIn Ads</span>
+      </div>
+      <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 15.25V6.75H8.75"/><path d="M17 7 6.75 17.25"/></svg></span>
+    </article>
+
+    <article class="tk-card reveal" tabindex="0" style="transition-delay:.18s">
+      <div class="tk-top">
+        <span class="tk-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg></span>
+        <span class="tk-num">04</span>
+      </div>
+      <h3 class="tk-cat">Content &amp; Social</h3>
+      <div class="tk-tags">
+        <span class="tk-tag">Content Strategy</span>
+        <span class="tk-tag">Social Media</span>
+        <span class="tk-tag">Influencer</span>
+        <span class="tk-tag">Email / SMS</span>
+      </div>
+      <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 15.25V6.75H8.75"/><path d="M17 7 6.75 17.25"/></svg></span>
+    </article>
+
+    <article class="tk-card reveal" tabindex="0" style="transition-delay:.22s">
+      <div class="tk-top">
+        <span class="tk-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+        <span class="tk-num">05</span>
+      </div>
+      <h3 class="tk-cat">E-Commerce &amp; CRM</h3>
+      <div class="tk-tags">
+        <span class="tk-tag">Shopify</span>
+        <span class="tk-tag">WordPress</span>
+        <span class="tk-tag">HubSpot</span>
+        <span class="tk-tag">SEO / SEM</span>
+      </div>
+      <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 15.25V6.75H8.75"/><path d="M17 7 6.75 17.25"/></svg></span>
+    </article>
+
+    <article class="tk-card reveal" tabindex="0" style="transition-delay:.26s">
+      <div class="tk-top">
+        <span class="tk-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+        <span class="tk-num">06</span>
+      </div>
+      <h3 class="tk-cat">Project &amp; Team</h3>
+      <div class="tk-tags">
+        <span class="tk-tag">Agile</span>
+        <span class="tk-tag">Asana</span>
+        <span class="tk-tag">Slack</span>
+        <span class="tk-tag">Leadership</span>
+      </div>
+      <span class="tk-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.25 15.25V6.75H8.75"/><path d="M17 7 6.75 17.25"/></svg></span>
+    </article>
+
+  </div>
+</section>
+<script>
+/* Toolkit bento: desktop hover gets a cursor-tracked spotlight via
+   --mx/--my custom props; touch taps toggle .is-open (mirrors the
+   hover state) so the arrow + tags reveal without a pointer. */
+(function(){
+  var cards=document.querySelectorAll('#toolkit .tk-card');
+  if(!cards.length)return;
+  var hoverable=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+  cards.forEach(function(c){
+    if(hoverable){
+      c.addEventListener('pointermove',function(e){
+        var r=c.getBoundingClientRect();
+        c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+        c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+      });
+    }else{
+      c.addEventListener('click',function(){
+        var open=c.classList.contains('is-open');
+        cards.forEach(function(o){o.classList.remove('is-open');});
+        if(!open)c.classList.add('is-open');
+      });
+    }
+  });
+})();
+</script>
 <div id="caps-wrapper">
 <section id="caps" aria-label="Expertise">
 
@@ -3178,6 +3370,110 @@ if(!window.__LOWFX)window.makeColorBends('mi-canvas','mi-card');
     <div class="ci reveal" style="transition-delay:.26s"><div class="l">Availability</div><div class="v">Available Now · Full-time Roles</div></div>
   </div>
 </section>
+<!-- ============================================================
+     007 — SCHEDULE  (Cal.com-style booking CTA, light card)
+     Always-light "paper" panel (local --ink/--amber overrides) so it
+     reads as a bright booking widget against either theme: a month
+     calendar + availability list + CTA, mirroring a Cal.com booking
+     page. The grid is generated from the real current date; there is
+     no animation loop, so no __LOWFX guard is needed.
+     ============================================================ -->
+<style>
+#book{
+  --ink:#1a1510;--ink-d:rgba(26,21,16,.65);--ink-m:rgba(26,21,16,.42);--ink-f:rgba(26,21,16,.12);
+  --line:rgba(26,21,16,.1);--amber:#d97706;--amber-s:#f59e0b;--amber-w:#92400e;--ember:#c2410c;
+  background:#f8f5f0!important;color:var(--ink);overflow:hidden}
+html.light #book{background:#fffdf8!important}
+#book .cta-btn:hover{color:#fff}
+.bk-card{display:grid;gap:clamp(28px,5vw,56px);max-width:1100px;margin:var(--sp-4) auto 0}
+.bk-sub{font-size:var(--fs-md);color:var(--ink-d);max-width:48ch;
+  margin:16px 0 22px;font-weight:200;line-height:1.7}
+.bk-meta{display:flex;flex-direction:column;gap:9px;margin-bottom:28px}
+.bk-meta-row{display:flex;align-items:center;gap:10px;
+  font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--ink-d)}
+.bk-dot{width:7px;height:7px;border-radius:50%;background:var(--amber);
+  box-shadow:0 0 10px var(--amber);display:inline-block;flex-shrink:0}
+.bk-dot-live{background:#16a34a;box-shadow:0 0 10px #16a34a;animation:pulse 2s infinite}
+.bk-cal{border-radius:clamp(18px,3vw,28px);border:1px solid rgba(26,21,16,.08);
+  background:#fff;box-shadow:0 24px 60px rgba(31,26,18,.1);
+  padding:clamp(20px,3.5vw,30px)}
+.bk-cal-head{display:flex;align-items:center;justify-content:space-between;
+  gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.bk-cal-month{font-family:'Michroma',sans-serif;font-size:var(--fs-md);
+  text-transform:uppercase;color:#1a1510}
+.bk-cal-tag{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
+  color:rgba(26,21,16,.5);padding:5px 12px;border:1px solid rgba(26,21,16,.1);
+  border-radius:100px;text-transform:uppercase;white-space:nowrap}
+.bk-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:clamp(3px,1vw,6px)}
+.bk-cal-h{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;
+  color:rgba(26,21,16,.35);text-align:center;padding-bottom:8px;text-transform:uppercase}
+.bk-cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+  font-family:'Geist Mono',monospace;font-size:clamp(11px,2.6vw,13px);
+  color:rgba(26,21,16,.5);border-radius:10px;position:relative}
+.bk-cal-empty{visibility:hidden}
+.bk-cal-open{color:#1a1510;font-weight:500}
+.bk-cal-open::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;
+  border-radius:50%;background:#d97706}
+.bk-cal-today{background:#d97706;color:#fff;font-weight:500}
+.bk-cal-foot{display:flex;align-items:center;gap:8px;margin-top:18px;
+  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
+  color:rgba(26,21,16,.45);text-transform:uppercase}
+@media(min-width:860px){
+  .bk-card{grid-template-columns:1.1fr 1fr;align-items:center;gap:clamp(40px,6vw,80px)}
+}
+</style>
+<section class="sec" id="book" aria-label="Schedule a call">
+  <div class="s-idx">007 — Schedule</div>
+  <div class="bk-card">
+    <div class="bk-info">
+      <h2 class="s-ttl reveal">Pick a time <span class="ac">that works.</span></h2>
+      <p class="bk-sub reveal" style="transition-delay:.06s">Prefer talking over typing? Grab 30 minutes &mdash; no decks, just a conversation about your brand, your goals, and whether we're a fit.</p>
+      <div class="bk-meta reveal" style="transition-delay:.1s">
+        <div class="bk-meta-row"><span class="bk-dot"></span> 30 min &middot; Video or phone call</div>
+        <div class="bk-meta-row"><span class="bk-dot"></span> Usually replies within a day</div>
+        <div class="bk-meta-row"><span class="bk-dot"></span> Based in UAE &middot; GST (UTC+4)</div>
+      </div>
+      <a href="mailto:ahmed.m.alnoor@gmail.com?subject=Let%27s%20schedule%20a%20call" class="cta-btn reveal" style="transition-delay:.16s">
+        Book a call
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="bk-cal reveal" style="transition-delay:.12s">
+      <div class="bk-cal-head">
+        <span class="bk-cal-month" id="bk-month">&mdash;</span>
+        <span class="bk-cal-tag">30 min call</span>
+      </div>
+      <div class="bk-cal-grid" id="bk-grid" aria-hidden="true"></div>
+      <div class="bk-cal-foot"><span class="bk-dot bk-dot-live"></span> Available now &middot; Full-time &middot; UAE</div>
+    </div>
+  </div>
+</section>
+<script>
+/* Fill the booking calendar with the real current month: weekday
+   header row + day cells, marking today and upcoming weekdays as
+   "open" slots. Purely decorative/static, no animation loop. */
+(function(){
+  var grid=document.getElementById('bk-grid');
+  var monthEl=document.getElementById('bk-month');
+  if(!grid||!monthEl)return;
+  var now=new Date();
+  var names=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  monthEl.textContent=now.toLocaleString('default',{month:'long'})+' '+now.getFullYear();
+  var firstDow=new Date(now.getFullYear(),now.getMonth(),1).getDay();
+  var daysInMonth=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
+  var html='';
+  names.forEach(function(n){html+='<span class="bk-cal-h">'+n+'</span>';});
+  for(var i=0;i<firstDow;i++)html+='<span class="bk-cal-cell bk-cal-empty"></span>';
+  for(var d=1;d<=daysInMonth;d++){
+    var dow=(firstDow+d-1)%7;
+    var cls='bk-cal-cell';
+    if(d===now.getDate())cls+=' bk-cal-today';
+    else if(d>now.getDate()&&dow>0&&dow<6)cls+=' bk-cal-open';
+    html+='<span class="'+cls+'">'+d+'</span>';
+  }
+  grid.innerHTML=html;
+})();
+</script>
 </div>
 <footer id="site-footer">
 
