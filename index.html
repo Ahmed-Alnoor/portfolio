@@ -6,10 +6,13 @@
 <title>Ahmed Mohammed — Brand Architect · UAE</title>
 <script>
 /* ============================================================
-   LOW-GRAPHICS MODE  (mobile / tablet / touch)
-   Phones & touch tablets get a lightweight static background and
+   LOW-GRAPHICS MODE  (phones only)
+   Small phone-sized screens get a lightweight static background and
    skip every WebGL scene + decorative canvas loop, so the page
-   stays cool and smooth. Set BEFORE css/scripts to avoid any flash.
+   stays cool and smooth. iPads & larger touch tablets are close
+   enough in size to a laptop to run the full desktop build — a
+   coarse pointer alone no longer demotes them; only a genuinely
+   phone-sized viewport does. Set BEFORE css/scripts to avoid any flash.
    Every heavy loop in this file checks `window.__LOWFX`.
    ============================================================ */
 (function(){
@@ -17,7 +20,11 @@
   try{
     var narrow=window.matchMedia('(max-width:768px)').matches;
     var coarse=window.matchMedia('(pointer:coarse)').matches;
-    lowfx=narrow||coarse;
+    /* Widest phone short-side (~430px landscape/portrait) vs narrowest
+       iPad short-side (~744px) leaves a wide gap — 700 sits safely
+       between them, so this only catches actual phones, not tablets. */
+    var minDim=Math.min(window.innerWidth,window.innerHeight);
+    lowfx=narrow||(coarse&&minDim<=700);
   }catch(e){}
   window.__LOWFX=lowfx;
   if(lowfx)document.documentElement.classList.add('lowfx','no-webgl');
