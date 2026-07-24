@@ -53,6 +53,23 @@ node /tmp/imgopt/optimize.mjs      # resizes/compresses referenced images in pla
 Delete unused assets — confirm a file is unreferenced first:
 `grep -F 'filename.ext' index.html` (ignore matches that are only in comments).
 
+## Videos (`assets/video/`)
+
+The **001.4 — Real Estate Reel** section streams `.mp4` files from `assets/video/`. The files
+themselves are **not committed** — see `assets/video/README.md` for the expected filenames and
+the `ffmpeg` recipe. Rules for anything video-related:
+
+- Always `muted` + `playsinline` + `preload="metadata"`, or iOS refuses to autoplay inline.
+- Never assume a clip's aspect ratio in CSS alone. Cards carry an `--ar` custom property that JS
+  overwrites from the real `videoWidth/videoHeight` on `loadedmetadata`, so the frame matches the
+  source file. Keep that behaviour if you add clips.
+- A `play()` promise can reject for two very different reasons — the file is missing/undecodable
+  (`el.error` or `networkState === 3`) versus the browser refused autoplay. Handle them
+  separately: the first advances the reel, the second shows a tap-to-play glyph. Swallowing the
+  rejection silently leaves the reel frozen.
+- Only the centre clip ever plays; the rest stay paused. That's what keeps the blur affordable on
+  phones — don't start them all.
+
 ## Local preview
 
 ```bash

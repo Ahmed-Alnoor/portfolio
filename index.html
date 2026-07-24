@@ -30,7 +30,7 @@
   if(lowfx)document.documentElement.classList.add('lowfx','no-webgl');
 })();
 </script>
-<meta name="description" content="Senior Marketing Communication &amp; Brand Strategy. Building premium brand ecosystems across UAE.">
+<meta name="description" content="Senior Marketing Communication &amp; Brand Strategy. Building premium brand ecosystems across UAE — government, real estate development, sports, healthcare and retail.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Barlow+Condensed:wght@900&family=Sora:wght@200;300;400;500&family=Geist+Mono:wght@300;400&display=swap">
@@ -1346,6 +1346,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
   <a href="#about">About</a>
   <a href="#caps">Expertise</a>
   <a href="#experience">Experience</a>
+  <a href="#reel">Reel</a>
   <a href="#work">Work</a>
   <a href="#ai-edge">AI & Data</a>
   <a href="#artist">Artist</a>
@@ -1363,6 +1364,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
     <a href="#about">About</a>
     <a href="#caps">Expertise</a>
     <a href="#experience">Experience</a>
+    <a href="#reel">Reel</a>
     <a href="#work">Work</a>
       <a href="#ai-edge">AI & Data</a>
     <a href="#artist">Artist</a>
@@ -1415,8 +1417,8 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
       <div class="about-role reveal" style="transition-delay:.1s">Senior Marketing Communication &amp; Brand Strategy</div>
       <h1 class="about-name reveal" style="transition-delay:.18s">Ahmed<br>Mohammed</h1>
       <p class="about-bio reveal" style="transition-delay:.26s">
-        7 years across the UAE's most demanding sectors — government, sports, healthcare, retail. I don't separate strategy from creativity — I run them <em>in the same breath.</em><br><br>
-        From a <strong>6–8% brand awareness lift</strong> across five government-linked branches to campaigns that delivered <strong>11:1 ROI</strong>, I build ecosystems where identity, digital marketing, and automation work as one connected system.
+        7 years across the UAE's most demanding sectors — government, real estate development, sports, healthcare, retail. I don't separate strategy from creativity — I run them <em>in the same breath.</em><br><br>
+        From a <strong>6–8% brand awareness lift</strong> across five government-linked branches to <strong>masterplan and district launches</strong> in real estate development, to campaigns that delivered <strong>11:1 ROI</strong>, I build ecosystems where identity, digital marketing, and automation work as one connected system.
       </p>
       <div class="about-stats reveal" style="transition-delay:.34s">
         <div class="stat"><div class="stat-n" data-count="7" data-suffix="+"><span class="sn-val">7</span><sup>+</sup></div><div class="stat-l">Yrs Experience</div></div>
@@ -1568,6 +1570,465 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
     <span aria-hidden="true">Creative Direction</span><span class="dot"></span><span class="hi">Campaign Management</span><span class="dot"></span>
   </div>
 </div>
+<!-- ============================================================
+     001.4 — REAL ESTATE REEL  (auto-playing film carousel)
+     Proof-of-work films from real-estate development: one 16:9 opener
+     followed by four 9:16 verticals, shown as a centre-focused rail.
+     The middle card sits forward, sharp and playing; its neighbours
+     fall back, dimmed and blurred — but their titles stay crisp, so
+     you can always read what's coming next.
+
+     Sizing follows the SOURCE video, not a guess: each card carries an
+     --ar custom property (a sensible default from its class, then the
+     exact ratio read off `loadedmetadata`), so the frame always matches
+     the real file with no letterboxing and no cropping.
+
+     Playback: the centre film autoplays muted + playsinline once the
+     section scrolls into view, and on `ended` the rail rolls to the
+     next card by itself. Only the centre video ever plays — the others
+     stay paused, which also keeps the blur cheap — and everything
+     pauses when the section leaves the viewport. Scroll-driven work is
+     rAF-throttled and passive (no continuous loop, so it's safe on
+     phones); prefers-reduced-motion disables autoplay + auto-advance.
+     Drive/swipe/arrows/dots/keyboard all steer the same state.
+
+     The .mp4 files are NOT committed — drop them in assets/video/ under
+     the filenames below. Until they exist each card degrades to a
+     styled placeholder that links out to the original.
+     ============================================================ -->
+<style>
+/* ── 001.4 — REAL ESTATE REEL ── */
+#reel{overflow-x:clip}
+.rl-sub{font-size:var(--fs-sm);color:var(--ink-d);line-height:1.75;
+  max-width:62ch;margin-top:var(--sp-2)}
+.rl-stage{position:relative;margin-top:clamp(24px,4.4vw,44px);
+  --rl-h:clamp(300px,52vh,500px);   /* rail height — cards derive width from it */
+  --rl-blur:8px;
+  --rl-r:clamp(12px,1.4vw,20px)}
+
+/* Rail: native horizontal scroll + snap. JS pads the ends so the first
+   and last card can still come to rest dead centre. */
+.rl-rail{position:relative;display:flex;align-items:center;
+  gap:clamp(12px,2.2vw,28px);
+  overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;
+  padding-top:clamp(18px,3.2vh,38px);padding-bottom:clamp(18px,3.2vh,38px);
+  padding-left:var(--rl-ps,0px);padding-right:var(--rl-pe,0px);
+  min-height:var(--rl-h);overscroll-behavior-x:contain;
+  scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch}
+.rl-rail::-webkit-scrollbar{display:none}
+.rl-rail:focus-visible{outline:1px solid rgba(245,158,11,.5);outline-offset:6px;border-radius:8px}
+
+/* Card. --d is the normalised distance from centre (0 = centred, 1 = far),
+   written by JS on scroll; every depth cue below reads from it. */
+.rl-card{--d:1;--ar:1.7778;--rl-mw:88vw;
+  position:relative;flex:0 0 auto;scroll-snap-align:center;
+  width:min(var(--rl-mw),calc(var(--rl-h) * var(--ar)));
+  aspect-ratio:var(--ar);border-radius:var(--rl-r);
+  background:linear-gradient(160deg,#100c07,#050403);
+  border:1px solid var(--line);
+  transform:scale(calc(1 - var(--d)*0.13)) translateY(calc(var(--d)*20px));
+  transition:transform .55s var(--EQ),border-color .55s var(--EQ),box-shadow .55s var(--EQ);
+  will-change:transform}
+.rl-tall{--ar:0.5625;--rl-mw:64vw}
+.rl-card.is-active{border-color:rgba(245,158,11,.3);z-index:2;
+  box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(245,158,11,.14)}
+
+/* The blur lives on the media wrapper only — never on the caption. */
+.rl-media{position:absolute;inset:0;overflow:hidden;border-radius:inherit;
+  filter:blur(calc(var(--d) * var(--rl-blur))) brightness(calc(1 - var(--d)*0.34));
+  transition:filter .55s var(--EQ);will-change:filter}
+.rl-media video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+
+/* Placeholder shown when a file isn't in assets/video/ yet */
+.rl-fb{position:absolute;inset:0;display:none;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;
+  background:radial-gradient(120% 90% at 50% 22%,rgba(245,158,11,.15),transparent 62%),
+    linear-gradient(160deg,#14100a,#070604)}
+.rl-card.rl-na .rl-fb{display:flex}
+.rl-card.rl-na video{opacity:0}
+.rl-fb-ico{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid rgba(245,158,11,.35);color:var(--amber)}
+.rl-fb-ico svg{width:16px;height:16px;margin-left:2px}
+.rl-fb-a{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--amber);border-bottom:1px solid rgba(245,158,11,.4);
+  padding-bottom:2px}
+.rl-card:not(.is-active) .rl-fb-a{pointer-events:none}
+
+/* Auto-advance progress — sits above the blur layer */
+.rl-prog{position:absolute;left:0;top:0;height:2px;width:0;z-index:5;opacity:0;
+  border-radius:var(--rl-r) 0 0 0;
+  background:linear-gradient(90deg,var(--amber),var(--ember));
+  transition:opacity .3s}
+.rl-card.is-active .rl-prog{opacity:1}
+
+/* Shown when the browser refuses autoplay (iOS Low Power Mode, browser
+   settings, a decode stall): the reel waits for a tap instead of freezing. */
+.rl-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;
+  width:62px;height:62px;border-radius:50%;display:none;place-items:center;
+  pointer-events:none;color:var(--amber);
+  background:rgba(10,8,4,.6);border:1px solid rgba(245,158,11,.5);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.rl-card.rl-hold.is-active .rl-play{display:grid}
+.rl-play svg{width:22px;height:22px;margin-left:3px}
+
+/* Caption — always crisp, always legible (dark scrim in both themes) */
+.rl-cap{position:absolute;left:0;right:0;bottom:0;z-index:4;
+  padding:clamp(13px,1.8vw,22px);
+  border-radius:0 0 var(--rl-r) var(--rl-r);
+  background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 48%,transparent 100%);
+  opacity:calc(1 - var(--d)*0.18);transition:opacity .55s var(--EQ)}
+.rl-num{display:block;font-family:'Geist Mono',monospace;font-size:10px;
+  letter-spacing:.22em;color:var(--amber);margin-bottom:5px}
+.rl-ttl{font-family:'Michroma',sans-serif;font-size:clamp(10.5px,1.05vw,14px);
+  text-transform:uppercase;line-height:1.35;letter-spacing:.015em;
+  color:#f4ede1;text-shadow:0 2px 12px rgba(0,0,0,.85)}
+
+/* Arrows */
+.rl-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:6;
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(10,8,4,.72);border:1px solid var(--line);color:var(--ink);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:background .3s,color .3s,border-color .3s,opacity .3s}
+.rl-prev{left:clamp(0px,0.8vw,14px)}
+.rl-next{right:clamp(0px,0.8vw,14px)}
+.rl-nav svg{width:18px;height:18px}
+.rl-nav:disabled{opacity:.22;pointer-events:none}
+.rl-nav:focus-visible{outline:1px solid var(--amber);outline-offset:3px}
+@media(hover:hover){.rl-nav:hover{background:var(--amber);color:#000;border-color:var(--amber)}}
+
+/* Dots + sound */
+.rl-ctrl{display:flex;align-items:center;justify-content:center;
+  gap:clamp(12px,2vw,22px);margin-top:clamp(12px,2.2vw,24px);flex-wrap:wrap}
+.rl-dots{display:flex;align-items:center;gap:2px}
+.rl-dot{width:28px;height:28px;display:grid;place-items:center;background:none;border:0}
+.rl-dot i{width:7px;height:7px;border-radius:50%;display:block;
+  background:var(--ink-f);border:1px solid var(--line);
+  transition:background .3s,transform .3s,border-color .3s}
+.rl-dot.on i{background:var(--amber);border-color:var(--amber);transform:scale(1.45)}
+.rl-dot:focus-visible i{outline:1px solid var(--amber);outline-offset:3px}
+.rl-mute{display:inline-flex;align-items:center;gap:8px;padding:8px 15px;
+  border:1px solid var(--line);border-radius:100px;color:var(--ink-d);
+  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.18em;
+  text-transform:uppercase;transition:color .3s,border-color .3s}
+.rl-mute svg{width:14px;height:14px}
+.rl-mute .rl-i-on{display:none}
+.rl-mute.on{color:var(--amber);border-color:rgba(245,158,11,.4)}
+.rl-mute.on .rl-i-on{display:block}
+.rl-mute.on .rl-i-off{display:none}
+.rl-mute:focus-visible{outline:1px solid var(--amber);outline-offset:3px}
+@media(hover:hover){.rl-mute:hover{color:var(--ink);border-color:rgba(245,158,11,.35)}}
+
+/* Phones: blur is the priciest part of this section — dial it back */
+html.lowfx .rl-stage{--rl-blur:4px}
+/* Bigger hit areas on touch (Apple HIG 44px) */
+@media(pointer:coarse){
+  .rl-dot{width:40px;height:44px}
+  .rl-mute{padding:12px 18px}
+  .rl-nav{width:44px;height:44px}
+}
+/* Arrows would cover the card on the narrowest phones — dots carry navigation */
+@media(max-width:560px){.rl-nav{display:none}}
+@media(prefers-reduced-motion:reduce){
+  .rl-card,.rl-media,.rl-cap{transition:none}
+}
+html.light .rl-card{border-color:rgba(217,119,6,.18);
+  background:linear-gradient(160deg,#f3ece1,#e8ded0)}
+html.light .rl-card.is-active{box-shadow:0 30px 70px rgba(120,70,10,.18),0 0 0 1px rgba(217,119,6,.22)}
+html.light .rl-nav{background:rgba(255,253,248,.82);color:#1a1510;border-color:rgba(217,119,6,.2)}
+html.light .rl-dot i{background:rgba(26,21,16,.12);border-color:rgba(26,21,16,.18)}
+html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
+</style>
+<section class="sec" id="reel" aria-label="Real estate development reel">
+  <div class="s-idx">001.4 — Real Estate Reel</div>
+  <h2 class="s-ttl reveal">Proof in <span class="ac">motion.</span></h2>
+  <p class="rl-sub reveal" style="transition-delay:.06s">
+    Campaign films from my real-estate development work — masterplan positioning, district
+    launches and lifestyle storytelling. The centre film plays on its own and the reel rolls
+    to the next one; swipe, drag or use the arrows to jump ahead.
+  </p>
+
+  <div class="rl-stage">
+    <button class="rl-nav rl-prev" id="rl-prev" type="button" aria-label="Previous film">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18 9 12l6-6"/></svg>
+    </button>
+
+    <div class="rl-rail" id="rl-rail" tabindex="0" role="group"
+         aria-roledescription="carousel" aria-label="Real estate films — use arrow keys to move between films">
+
+      <article class="rl-card rl-wide" aria-label="Location">
+        <div class="rl-media">
+          <video src="assets/video/location.mp4" muted playsinline webkit-playsinline
+                 preload="metadata" disableremoteplayback></video>
+          <div class="rl-fb">
+            <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            <a class="rl-fb-a" href="https://drive.google.com/file/d/1qfNoUIEiI0hDIhSXcpxNxnU8k_pqNO1K/view" target="_blank" rel="noopener">Watch ↗</a>
+          </div>
+        </div>
+        <span class="rl-prog"></span>
+        <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="rl-cap"><span class="rl-num">01</span><h3 class="rl-ttl">Location</h3></div>
+      </article>
+
+      <article class="rl-card rl-tall" aria-label="New Area of Work">
+        <div class="rl-media">
+          <video src="assets/video/new-area-of-work.mp4" muted playsinline webkit-playsinline
+                 preload="metadata" disableremoteplayback></video>
+          <div class="rl-fb">
+            <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            <a class="rl-fb-a" href="https://drive.google.com/file/d/1m8FSTk2tu_a1TcMg0yD3iyilBEyvKeQ5/view" target="_blank" rel="noopener">Watch ↗</a>
+          </div>
+        </div>
+        <span class="rl-prog"></span>
+        <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="rl-cap"><span class="rl-num">02</span><h3 class="rl-ttl">New Area of Work</h3></div>
+      </article>
+
+      <article class="rl-card rl-tall" aria-label="The World's First AI-Designed District">
+        <div class="rl-media">
+          <video src="assets/video/ai-designed-district.mp4" muted playsinline webkit-playsinline
+                 preload="metadata" disableremoteplayback></video>
+          <div class="rl-fb">
+            <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            <a class="rl-fb-a" href="https://drive.google.com/file/d/1gCgNlPvh9SvcoKTt9u3WuGAyd_9SFeeU/view" target="_blank" rel="noopener">Watch ↗</a>
+          </div>
+        </div>
+        <span class="rl-prog"></span>
+        <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="rl-cap"><span class="rl-num">03</span><h3 class="rl-ttl">World's First AI-Designed District</h3></div>
+      </article>
+
+      <article class="rl-card rl-tall" aria-label="D11 Golden Place">
+        <div class="rl-media">
+          <video src="assets/video/d11-golden-place.mp4" muted playsinline webkit-playsinline
+                 preload="metadata" disableremoteplayback></video>
+          <div class="rl-fb">
+            <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            <a class="rl-fb-a" href="https://drive.google.com/file/d/1_Ed02ZccUHVWHW4i4KBxz9Cd3bQV8RxW/view" target="_blank" rel="noopener">Watch ↗</a>
+          </div>
+        </div>
+        <span class="rl-prog"></span>
+        <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="rl-cap"><span class="rl-num">04</span><h3 class="rl-ttl">D11 Golden Place</h3></div>
+      </article>
+
+      <article class="rl-card rl-tall" aria-label="Lifestyle">
+        <div class="rl-media">
+          <video src="assets/video/lifestyle.mp4" muted playsinline webkit-playsinline
+                 preload="metadata" disableremoteplayback></video>
+          <div class="rl-fb">
+            <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            <a class="rl-fb-a" href="https://drive.google.com/file/d/1WoFNT0UhQAeUjoLRjO1vdmLN9JgGvLJc/view" target="_blank" rel="noopener">Watch ↗</a>
+          </div>
+        </div>
+        <span class="rl-prog"></span>
+        <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <div class="rl-cap"><span class="rl-num">05</span><h3 class="rl-ttl">Lifestyle</h3></div>
+      </article>
+
+    </div>
+
+    <button class="rl-nav rl-next" id="rl-next" type="button" aria-label="Next film">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="rl-ctrl">
+    <div class="rl-dots" id="rl-dots">
+      <button class="rl-dot on" type="button" aria-label="Go to film 1 — Location"><i></i></button>
+      <button class="rl-dot" type="button" aria-label="Go to film 2 — New Area of Work"><i></i></button>
+      <button class="rl-dot" type="button" aria-label="Go to film 3 — World's First AI-Designed District"><i></i></button>
+      <button class="rl-dot" type="button" aria-label="Go to film 4 — D11 Golden Place"><i></i></button>
+      <button class="rl-dot" type="button" aria-label="Go to film 5 — Lifestyle"><i></i></button>
+    </div>
+    <button class="rl-mute" id="rl-mute" type="button" aria-pressed="false" aria-label="Unmute reel">
+      <svg class="rl-i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg>
+      <svg class="rl-i-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a9 9 0 0 1 0 14"/></svg>
+      <span>Sound</span>
+    </button>
+  </div>
+</section>
+<script>
+/* Real Estate Reel — centre-focus rail with hands-off playback.
+   No continuous rAF loop: work happens on passive scroll ticks only. */
+(function(){
+  var sec=document.getElementById('reel');
+  var rail=document.getElementById('rl-rail');
+  if(!sec||!rail)return;
+  var cards=[].slice.call(rail.querySelectorAll('.rl-card'));
+  if(!cards.length)return;
+  var dots=[].slice.call(document.querySelectorAll('#rl-dots .rl-dot'));
+  var prevBtn=document.getElementById('rl-prev');
+  var nextBtn=document.getElementById('rl-next');
+  var muteBtn=document.getElementById('rl-mute');
+  var PRM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  var active=0,inView=false,muted=true,naTimer=null,ticking=false,resizeT=null;
+
+  function vid(i){return cards[i]?cards[i].querySelector('video'):null;}
+  function clamp(i){return Math.max(0,Math.min(cards.length-1,i));}
+
+  /* Pad the rail so the first/last card can still rest dead centre. */
+  function pad(){
+    var w=rail.clientWidth;
+    rail.style.setProperty('--rl-ps',Math.max(0,(w-cards[0].offsetWidth)/2)+'px');
+    rail.style.setProperty('--rl-pe',Math.max(0,(w-cards[cards.length-1].offsetWidth)/2)+'px');
+  }
+
+  function centerOn(i,instant){
+    var c=cards[i];if(!c)return;
+    var left=c.offsetLeft-(rail.clientWidth-c.offsetWidth)/2;
+    if(rail.scrollTo){rail.scrollTo({left:left,behavior:(instant||PRM)?'auto':'smooth'});}
+    else{rail.scrollLeft=left;}
+  }
+  function advance(){centerOn((active+1)%cards.length);}
+
+  /* Only the centre clip plays; everything else is paused (cheap blur, cool phone). */
+  function sync(){
+    if(naTimer){clearTimeout(naTimer);naTimer=null;}
+    for(var i=0;i<cards.length;i++){
+      var v=vid(i);if(!v)continue;
+      if(i===active&&inView&&!PRM){
+        v.muted=muted;
+        /* If the browser refuses to start (autoplay policy, decode stall),
+           surface a tap-to-play glyph rather than leaving the reel stuck. */
+        (function(card,el){
+          var p=el.play();
+          if(p&&p.catch)p.catch(function(){
+            /* Tell "this file isn't there / won't decode" apart from "the
+               browser refused to autoplay". The first should let the reel
+               roll on; the second should sit and wait for a tap. */
+            if(el.error||el.networkState===3){
+              card.classList.remove('rl-hold');
+              card.classList.add('rl-na');
+              if(card===cards[active]&&inView&&!PRM){
+                if(naTimer)clearTimeout(naTimer);
+                naTimer=setTimeout(advance,5000);
+              }
+            }else{
+              card.classList.add('rl-hold');
+            }
+          });
+        })(cards[i],v);
+      }else if(!v.paused){
+        v.pause();
+      }
+    }
+    /* If the centre file isn't there yet, keep the reel moving anyway. */
+    if(inView&&!PRM&&cards[active].classList.contains('rl-na')){
+      naTimer=setTimeout(advance,5000);
+    }
+  }
+
+  /* First time the reel is seen, let the off-centre clips fetch their
+     metadata: that settles each card's true aspect ratio up front and
+     surfaces any file that isn't in assets/video/ yet. The centre clip is
+     skipped — sync() is about to play it and load() would abort that. */
+  var primed=false;
+  function prime(){
+    if(primed)return;primed=true;
+    for(var i=0;i<cards.length;i++){
+      var v=vid(i);
+      if(v&&i!==active&&v.readyState===0)v.load();
+    }
+  }
+
+  function setActive(i){
+    active=i;
+    for(var j=0;j<cards.length;j++)cards[j].classList.toggle('is-active',j===i);
+    for(var k=0;k<dots.length;k++){
+      dots[k].classList.toggle('on',k===i);
+      dots[k].setAttribute('aria-current',k===i?'true':'false');
+    }
+    /* A film restarts from its first frame when it takes centre stage,
+       instead of resuming wherever it was last left. */
+    var nv=vid(i);
+    if(nv&&nv.currentTime){try{nv.currentTime=0;}catch(e){}}
+    sync();
+  }
+
+  /* Write each card's distance-from-centre; CSS turns it into scale/blur/dim. */
+  function paint(){
+    var rc=rail.getBoundingClientRect();
+    var mid=rc.left+rc.width/2,half=(rc.width/2)||1;
+    var bi=0,bd=Infinity;
+    for(var i=0;i<cards.length;i++){
+      var b=cards[i].getBoundingClientRect();
+      var d=Math.abs((b.left+b.width/2)-mid)/half;
+      if(d<bd){bd=d;bi=i;}
+      cards[i].style.setProperty('--d',Math.min(1,d).toFixed(3));
+    }
+    if(bi!==active)setActive(bi);
+    if(prevBtn)prevBtn.disabled=rail.scrollLeft<=2;
+    if(nextBtn)nextBtn.disabled=rail.scrollLeft>=rail.scrollWidth-rail.clientWidth-2;
+  }
+
+  rail.addEventListener('scroll',function(){
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(function(){ticking=false;paint();});
+  },{passive:true});
+
+  cards.forEach(function(c,i){
+    var v=c.querySelector('video');
+    if(!v){c.classList.add('rl-na');return;}
+    /* Match the frame to the real file, whatever ratio it turns out to be. */
+    v.addEventListener('loadedmetadata',function(){
+      if(v.videoWidth&&v.videoHeight){
+        c.style.setProperty('--ar',(v.videoWidth/v.videoHeight).toFixed(4));
+        pad();requestAnimationFrame(paint);
+      }
+    });
+    v.addEventListener('playing',function(){c.classList.remove('rl-hold');});
+    v.addEventListener('ended',function(){if(i===active&&!PRM)advance();});
+    v.addEventListener('error',function(){c.classList.add('rl-na');if(i===active)sync();});
+    v.addEventListener('timeupdate',function(){
+      if(i!==active||!v.duration)return;
+      var bar=c.querySelector('.rl-prog');
+      if(bar)bar.style.width=((v.currentTime/v.duration)*100).toFixed(2)+'%';
+    });
+    c.addEventListener('click',function(){
+      if(i!==active){centerOn(i);return;}
+      if(!v.paused){v.pause();}else{var p=v.play();if(p&&p.catch)p.catch(function(){});}
+    });
+  });
+
+  if(prevBtn)prevBtn.addEventListener('click',function(){centerOn(clamp(active-1));});
+  if(nextBtn)nextBtn.addEventListener('click',function(){centerOn(clamp(active+1));});
+  dots.forEach(function(d,i){d.addEventListener('click',function(){centerOn(i);});});
+
+  rail.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'){e.preventDefault();centerOn(clamp(active+1));}
+    else if(e.key==='ArrowLeft'){e.preventDefault();centerOn(clamp(active-1));}
+  });
+
+  if(muteBtn){
+    muteBtn.addEventListener('click',function(e){
+      e.stopPropagation();
+      muted=!muted;
+      muteBtn.classList.toggle('on',!muted);
+      muteBtn.setAttribute('aria-pressed',String(!muted));
+      muteBtn.setAttribute('aria-label',muted?'Unmute reel':'Mute reel');
+      var v=vid(active);
+      if(v){v.muted=muted;if(!muted){var p=v.play();if(p&&p.catch)p.catch(function(){});}}
+    });
+  }
+
+  window.addEventListener('resize',function(){
+    clearTimeout(resizeT);
+    resizeT=setTimeout(function(){pad();centerOn(active,true);paint();},150);
+  },{passive:true});
+
+  if('IntersectionObserver' in window){
+    new IntersectionObserver(function(es){
+      inView=es[0].isIntersecting;
+      if(inView)prime();
+      sync();
+    },{threshold:0.3}).observe(sec);
+  }else{inView=true;}
+
+  cards[0].classList.add('is-active');
+  requestAnimationFrame(function(){pad();centerOn(0,true);paint();});
+})();
+</script>
 <!-- ============================================================
      001.5 — TOOLKIT  (interactive skills bento)
      Six discipline cards in a CSS-grid bento layout, inspired by the
