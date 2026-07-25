@@ -1571,30 +1571,34 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
   </div>
 </div>
 <!-- ============================================================
-     001.4 — REAL ESTATE REEL  (auto-playing film carousel)
+     001.4 — REAL ESTATE REEL  (auto-playing Vimeo film carousel)
      Proof-of-work films from real-estate development: one 16:9 opener
-     followed by four 9:16 verticals, shown as a centre-focused rail.
+     followed by three 9:16 verticals, shown as a centre-focused rail.
      The middle card sits forward, sharp and playing; its neighbours
      fall back, dimmed and blurred — but their titles stay crisp, so
      you can always read what's coming next.
 
-     Sizing follows the SOURCE video, not a guess: each card carries an
-     --ar custom property (a sensible default from its class, then the
-     exact ratio read off `loadedmetadata`), so the frame always matches
-     the real file with no letterboxing and no cropping.
+     The clips are hosted on Vimeo, so the page ships no video bytes.
+     Vimeo's Player SDK (player.js) is what makes the hands-off
+     behaviour possible: unlike a bare Drive/YouTube iframe it exposes
+     play/pause/ended/timeupdate, so the centre film can autoplay
+     (muted) and the rail can roll to the next one when it finishes.
 
-     Playback: the centre film autoplays muted + playsinline once the
-     section scrolls into view, and on `ended` the rail rolls to the
-     next card by itself. Only the centre video ever plays — the others
-     stay paused, which also keeps the blur cheap — and everything
-     pauses when the section leaves the viewport. Scroll-driven work is
-     rAF-throttled and passive (no continuous loop, so it's safe on
-     phones); prefers-reduced-motion disables autoplay + auto-advance.
-     Drive/swipe/arrows/dots/keyboard all steer the same state.
+     Each card's --ar comes from the exact padding ratio in the Vimeo
+     embed, so frames match the source with no letterboxing or crop.
 
-     The .mp4 files are NOT committed — drop them in assets/video/ under
-     the filenames below. Until they exist each card degrades to a
-     styled placeholder that links out to the original.
+     Cost control: the iframes carry data-src and only become real
+     players the first time the section scrolls into view, so nothing
+     is fetched for visitors who never reach it. Only the centre film
+     ever plays; the rest are paused, which keeps the blur affordable.
+
+     Degrades in three steps. Each card starts as a styled placeholder
+     carrying a real "Watch ↗" link, and only reveals its player once
+     the SDK has shaken hands with the iframe — so if Vimeo is blocked
+     outright, or JS is off, the card stays useful instead of going
+     blank. If player.js alone never arrives the reel becomes
+     manual-but-navigable, and a refused autoplay shows a tap-to-play
+     glyph rather than freezing.
      ============================================================ -->
 <style>
 /* ── 001.4 — REAL ESTATE REEL ── */
@@ -1619,7 +1623,8 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 .rl-rail:focus-visible{outline:1px solid rgba(245,158,11,.5);outline-offset:6px;border-radius:8px}
 
 /* Card. --d is the normalised distance from centre (0 = centred, 1 = far),
-   written by JS on scroll; every depth cue below reads from it. */
+   written by JS on scroll; every depth cue below reads from it.
+   --ar is set per card from the film's real Vimeo aspect ratio. */
 .rl-card{--d:1;--ar:1.7778;--rl-mw:88vw;
   position:relative;flex:0 0 auto;scroll-snap-align:center;
   width:min(var(--rl-mw),calc(var(--rl-h) * var(--ar)));
@@ -1629,7 +1634,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
   transform:scale(calc(1 - var(--d)*0.13)) translateY(calc(var(--d)*20px));
   transition:transform .55s var(--EQ),border-color .55s var(--EQ),box-shadow .55s var(--EQ);
   will-change:transform}
-.rl-tall{--ar:0.5625;--rl-mw:64vw}
+.rl-tall{--rl-mw:64vw}
 .rl-card.is-active{border-color:rgba(245,158,11,.3);z-index:2;
   box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(245,158,11,.14)}
 
@@ -1637,25 +1642,30 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 .rl-media{position:absolute;inset:0;overflow:hidden;border-radius:inherit;
   filter:blur(calc(var(--d) * var(--rl-blur))) brightness(calc(1 - var(--d)*0.34));
   transition:filter .55s var(--EQ);will-change:filter}
-.rl-media video{width:100%;height:100%;object-fit:cover;display:block;background:#000}
+.rl-media iframe{width:100%;height:100%;display:block;border:0;background:#000}
 
-/* Placeholder shown when a file isn't in assets/video/ yet */
-.rl-fb{position:absolute;inset:0;display:none;flex-direction:column;
+/* Placeholder: what shows before the players are primed, and what a
+   visitor with JS off sees — a real link to the film on Vimeo. */
+.rl-fb{position:absolute;inset:0;display:flex;flex-direction:column;
   align-items:center;justify-content:center;gap:10px;text-align:center;padding:20px;
   background:radial-gradient(120% 90% at 50% 22%,rgba(245,158,11,.15),transparent 62%),
     linear-gradient(160deg,#14100a,#070604)}
-.rl-card.rl-na .rl-fb{display:flex}
-.rl-card.rl-na video{opacity:0}
+.rl-card.rl-live .rl-fb{display:none}
 .rl-fb-ico{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
   border:1px solid rgba(245,158,11,.35);color:var(--amber)}
 .rl-fb-ico svg{width:16px;height:16px;margin-left:2px}
 .rl-fb-a{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.16em;
   text-transform:uppercase;color:var(--amber);border-bottom:1px solid rgba(245,158,11,.4);
-  padding-bottom:2px}
+  padding-bottom:2px;position:relative;z-index:7}
 .rl-card:not(.is-active) .rl-fb-a{pointer-events:none}
 
+/* Transparent click layer. Doubles as a shield: with it on top, Vimeo's
+   player never sees the pointer, so its chrome stays hidden. */
+.rl-hit{position:absolute;inset:0;z-index:6;background:none;border:0;padding:0}
+#reel.rl-manual .rl-hit{display:none}
+
 /* Auto-advance progress — sits above the blur layer */
-.rl-prog{position:absolute;left:0;top:0;height:2px;width:0;z-index:5;opacity:0;
+.rl-prog{position:absolute;left:0;top:0;height:2px;width:0;z-index:9;opacity:0;
   border-radius:var(--rl-r) 0 0 0;
   background:linear-gradient(90deg,var(--amber),var(--ember));
   transition:opacity .3s}
@@ -1663,7 +1673,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 
 /* Shown when the browser refuses autoplay (iOS Low Power Mode, browser
    settings, a decode stall): the reel waits for a tap instead of freezing. */
-.rl-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:5;
+.rl-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:7;
   width:62px;height:62px;border-radius:50%;display:none;place-items:center;
   pointer-events:none;color:var(--amber);
   background:rgba(10,8,4,.6);border:1px solid rgba(245,158,11,.5);
@@ -1672,7 +1682,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 .rl-play svg{width:22px;height:22px;margin-left:3px}
 
 /* Caption — always crisp, always legible (dark scrim in both themes) */
-.rl-cap{position:absolute;left:0;right:0;bottom:0;z-index:4;
+.rl-cap{position:absolute;left:0;right:0;bottom:0;z-index:8;pointer-events:none;
   padding:clamp(13px,1.8vw,22px);
   border-radius:0 0 var(--rl-r) var(--rl-r);
   background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 48%,transparent 100%);
@@ -1684,7 +1694,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
   color:#f4ede1;text-shadow:0 2px 12px rgba(0,0,0,.85)}
 
 /* Arrows */
-.rl-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:6;
+.rl-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;
   width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
   background:rgba(10,8,4,.72);border:1px solid var(--line);color:var(--ink);
   backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
@@ -1716,6 +1726,7 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 .rl-mute.on .rl-i-on{display:block}
 .rl-mute.on .rl-i-off{display:none}
 .rl-mute:focus-visible{outline:1px solid var(--amber);outline-offset:3px}
+#reel.rl-manual .rl-mute{display:none}      /* Vimeo's own controls take over */
 @media(hover:hover){.rl-mute:hover{color:var(--ink);border-color:rgba(245,158,11,.35)}}
 
 /* Phones: blur is the priciest part of this section — dial it back */
@@ -1755,74 +1766,72 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
     <div class="rl-rail" id="rl-rail" tabindex="0" role="group"
          aria-roledescription="carousel" aria-label="Real estate films — use arrow keys to move between films">
 
-      <article class="rl-card rl-wide" aria-label="Location">
+      <article class="rl-card rl-wide" style="--ar:1.7778" data-vid="1212856420" aria-label="Location">
         <div class="rl-media">
-          <video src="assets/video/location.mp4" muted playsinline webkit-playsinline
-                 preload="metadata" disableremoteplayback></video>
+          <iframe class="rl-if" title="Location" loading="lazy" frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+            referrerpolicy="strict-origin-when-cross-origin"
+            data-src="https://player.vimeo.com/video/1212856420?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;muted=1&amp;playsinline=1&amp;dnt=1"></iframe>
           <div class="rl-fb">
             <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-            <a class="rl-fb-a" href="https://drive.google.com/file/d/1qfNoUIEiI0hDIhSXcpxNxnU8k_pqNO1K/view" target="_blank" rel="noopener">Watch ↗</a>
+            <a class="rl-fb-a" href="https://vimeo.com/1212856420" target="_blank" rel="noopener">Watch ↗</a>
           </div>
         </div>
         <span class="rl-prog"></span>
         <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <button class="rl-hit" type="button" aria-label="Play or pause Location"></button>
         <div class="rl-cap"><span class="rl-num">01</span><h3 class="rl-ttl">Location</h3></div>
       </article>
 
-      <article class="rl-card rl-tall" aria-label="New Area of Work">
+      <article class="rl-card rl-tall" style="--ar:0.5625" data-vid="1212856422" aria-label="The New Era of Work">
         <div class="rl-media">
-          <video src="assets/video/new-area-of-work.mp4" muted playsinline webkit-playsinline
-                 preload="metadata" disableremoteplayback></video>
+          <iframe class="rl-if" title="The New Era of Work" loading="lazy" frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+            referrerpolicy="strict-origin-when-cross-origin"
+            data-src="https://player.vimeo.com/video/1212856422?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;muted=1&amp;playsinline=1&amp;dnt=1"></iframe>
           <div class="rl-fb">
             <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-            <a class="rl-fb-a" href="https://drive.google.com/file/d/1m8FSTk2tu_a1TcMg0yD3iyilBEyvKeQ5/view" target="_blank" rel="noopener">Watch ↗</a>
+            <a class="rl-fb-a" href="https://vimeo.com/1212856422" target="_blank" rel="noopener">Watch ↗</a>
           </div>
         </div>
         <span class="rl-prog"></span>
         <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-        <div class="rl-cap"><span class="rl-num">02</span><h3 class="rl-ttl">New Area of Work</h3></div>
+        <button class="rl-hit" type="button" aria-label="Play or pause The New Era of Work"></button>
+        <div class="rl-cap"><span class="rl-num">02</span><h3 class="rl-ttl">The New Era of Work</h3></div>
       </article>
 
-      <article class="rl-card rl-tall" aria-label="The World's First AI-Designed District">
+      <article class="rl-card rl-tall" style="--ar:0.5625" data-vid="1212856421" aria-label="World's First AI-Designed District">
         <div class="rl-media">
-          <video src="assets/video/ai-designed-district.mp4" muted playsinline webkit-playsinline
-                 preload="metadata" disableremoteplayback></video>
+          <iframe class="rl-if" title="World's First AI-Designed District" loading="lazy" frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+            referrerpolicy="strict-origin-when-cross-origin"
+            data-src="https://player.vimeo.com/video/1212856421?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;muted=1&amp;playsinline=1&amp;dnt=1"></iframe>
           <div class="rl-fb">
             <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-            <a class="rl-fb-a" href="https://drive.google.com/file/d/1gCgNlPvh9SvcoKTt9u3WuGAyd_9SFeeU/view" target="_blank" rel="noopener">Watch ↗</a>
+            <a class="rl-fb-a" href="https://vimeo.com/1212856421" target="_blank" rel="noopener">Watch ↗</a>
           </div>
         </div>
         <span class="rl-prog"></span>
         <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <button class="rl-hit" type="button" aria-label="Play or pause World's First AI-Designed District"></button>
         <div class="rl-cap"><span class="rl-num">03</span><h3 class="rl-ttl">World's First AI-Designed District</h3></div>
       </article>
 
-      <article class="rl-card rl-tall" aria-label="D11 Golden Place">
+      <article class="rl-card rl-tall" style="--ar:0.5602" data-vid="1212856419" aria-label="D11 Golden Place">
         <div class="rl-media">
-          <video src="assets/video/d11-golden-place.mp4" muted playsinline webkit-playsinline
-                 preload="metadata" disableremoteplayback></video>
+          <iframe class="rl-if" title="D11 Golden Place" loading="lazy" frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+            referrerpolicy="strict-origin-when-cross-origin"
+            data-src="https://player.vimeo.com/video/1212856419?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;muted=1&amp;playsinline=1&amp;dnt=1"></iframe>
           <div class="rl-fb">
             <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-            <a class="rl-fb-a" href="https://drive.google.com/file/d/1_Ed02ZccUHVWHW4i4KBxz9Cd3bQV8RxW/view" target="_blank" rel="noopener">Watch ↗</a>
+            <a class="rl-fb-a" href="https://vimeo.com/1212856419" target="_blank" rel="noopener">Watch ↗</a>
           </div>
         </div>
         <span class="rl-prog"></span>
         <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <button class="rl-hit" type="button" aria-label="Play or pause D11 Golden Place"></button>
         <div class="rl-cap"><span class="rl-num">04</span><h3 class="rl-ttl">D11 Golden Place</h3></div>
-      </article>
-
-      <article class="rl-card rl-tall" aria-label="Lifestyle">
-        <div class="rl-media">
-          <video src="assets/video/lifestyle.mp4" muted playsinline webkit-playsinline
-                 preload="metadata" disableremoteplayback></video>
-          <div class="rl-fb">
-            <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-            <a class="rl-fb-a" href="https://drive.google.com/file/d/1WoFNT0UhQAeUjoLRjO1vdmLN9JgGvLJc/view" target="_blank" rel="noopener">Watch ↗</a>
-          </div>
-        </div>
-        <span class="rl-prog"></span>
-        <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
-        <div class="rl-cap"><span class="rl-num">05</span><h3 class="rl-ttl">Lifestyle</h3></div>
       </article>
 
     </div>
@@ -1835,10 +1844,9 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
   <div class="rl-ctrl">
     <div class="rl-dots" id="rl-dots">
       <button class="rl-dot on" type="button" aria-label="Go to film 1 — Location"><i></i></button>
-      <button class="rl-dot" type="button" aria-label="Go to film 2 — New Area of Work"><i></i></button>
+      <button class="rl-dot" type="button" aria-label="Go to film 2 — The New Era of Work"><i></i></button>
       <button class="rl-dot" type="button" aria-label="Go to film 3 — World's First AI-Designed District"><i></i></button>
       <button class="rl-dot" type="button" aria-label="Go to film 4 — D11 Golden Place"><i></i></button>
-      <button class="rl-dot" type="button" aria-label="Go to film 5 — Lifestyle"><i></i></button>
     </div>
     <button class="rl-mute" id="rl-mute" type="button" aria-pressed="false" aria-label="Unmute reel">
       <svg class="rl-i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg>
@@ -1847,8 +1855,9 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
     </button>
   </div>
 </section>
+<script src="https://player.vimeo.com/api/player.js" defer></script>
 <script>
-/* Real Estate Reel — centre-focus rail with hands-off playback.
+/* Real Estate Reel — centre-focus rail driving Vimeo players.
    No continuous rAF loop: work happens on passive scroll ticks only. */
 (function(){
   var sec=document.getElementById('reel');
@@ -1862,9 +1871,10 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
   var muteBtn=document.getElementById('rl-mute');
   var PRM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-  var active=0,inView=false,muted=true,naTimer=null,ticking=false,resizeT=null;
+  var players=new Array(cards.length);
+  var active=0,inView=false,muted=true,primed=false,manual=false,ticking=false,resizeT=null;
+  function noop(){}
 
-  function vid(i){return cards[i]?cards[i].querySelector('video'):null;}
   function clamp(i){return Math.max(0,Math.min(cards.length-1,i));}
 
   /* Pad the rail so the first/last card can still rest dead centre. */
@@ -1882,53 +1892,22 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
   }
   function advance(){centerOn((active+1)%cards.length);}
 
-  /* Only the centre clip plays; everything else is paused (cheap blur, cool phone). */
+  /* Only the centre film plays; everything else is paused (cheap blur, cool phone). */
   function sync(){
-    if(naTimer){clearTimeout(naTimer);naTimer=null;}
     for(var i=0;i<cards.length;i++){
-      var v=vid(i);if(!v)continue;
-      if(i===active&&inView&&!PRM){
-        v.muted=muted;
-        /* If the browser refuses to start (autoplay policy, decode stall),
-           surface a tap-to-play glyph rather than leaving the reel stuck. */
-        (function(card,el){
-          var p=el.play();
-          if(p&&p.catch)p.catch(function(){
-            /* Tell "this file isn't there / won't decode" apart from "the
-               browser refused to autoplay". The first should let the reel
-               roll on; the second should sit and wait for a tap. */
-            if(el.error||el.networkState===3){
-              card.classList.remove('rl-hold');
-              card.classList.add('rl-na');
-              if(card===cards[active]&&inView&&!PRM){
-                if(naTimer)clearTimeout(naTimer);
-                naTimer=setTimeout(advance,5000);
-              }
-            }else{
-              card.classList.add('rl-hold');
-            }
+      var p=players[i];
+      if(!p)continue;
+      if(i===active&&inView&&!PRM&&!manual){
+        p.setMuted(muted).catch(noop);
+        (function(card,pl){
+          pl.play().catch(function(){
+            /* Autoplay refused — wait for a tap instead of freezing the reel. */
+            card.classList.add('rl-hold');
           });
-        })(cards[i],v);
-      }else if(!v.paused){
-        v.pause();
+        })(cards[i],p);
+      }else{
+        p.pause().catch(noop);
       }
-    }
-    /* If the centre file isn't there yet, keep the reel moving anyway. */
-    if(inView&&!PRM&&cards[active].classList.contains('rl-na')){
-      naTimer=setTimeout(advance,5000);
-    }
-  }
-
-  /* First time the reel is seen, let the off-centre clips fetch their
-     metadata: that settles each card's true aspect ratio up front and
-     surfaces any file that isn't in assets/video/ yet. The centre clip is
-     skipped — sync() is about to play it and load() would abort that. */
-  var primed=false;
-  function prime(){
-    if(primed)return;primed=true;
-    for(var i=0;i<cards.length;i++){
-      var v=vid(i);
-      if(v&&i!==active&&v.readyState===0)v.load();
     }
   }
 
@@ -1941,8 +1920,10 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
     }
     /* A film restarts from its first frame when it takes centre stage,
        instead of resuming wherever it was last left. */
-    var nv=vid(i);
-    if(nv&&nv.currentTime){try{nv.currentTime=0;}catch(e){}}
+    var p=players[i];
+    if(p)p.setCurrentTime(0).catch(noop);
+    var bar=cards[i].querySelector('.rl-prog');
+    if(bar)bar.style.width='0%';
     sync();
   }
 
@@ -1962,32 +1943,74 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
     if(nextBtn)nextBtn.disabled=rail.scrollLeft>=rail.scrollWidth-rail.clientWidth-2;
   }
 
+  /* Nothing is fetched from Vimeo until the reel is actually reached. */
+  function prime(){
+    if(primed)return;primed=true;
+    cards.forEach(function(c){
+      var f=c.querySelector('iframe');
+      if(f&&!f.getAttribute('src')&&f.dataset.src)f.setAttribute('src',f.dataset.src);
+    });
+    waitForSDK(0);
+  }
+
+  function buildPlayers(){
+    if(!window.Vimeo||!window.Vimeo.Player)return false;
+    cards.forEach(function(c,i){
+      if(players[i])return;
+      var f=c.querySelector('iframe');
+      if(!f)return;
+      var p;
+      try{p=new window.Vimeo.Player(f);}catch(e){return;}
+      players[i]=p;
+      /* Only drop the placeholder once the SDK has actually shaken hands with
+         the iframe — that proves Vimeo really loaded. If it never does, the
+         card keeps its "Watch ↗" link instead of going blank. */
+      if(p.ready)p.ready().then(function(){c.classList.add('rl-live');}).catch(noop);
+      else c.classList.add('rl-live');
+      p.setMuted(true).catch(noop);
+      p.on('ended',function(){if(i===active&&!PRM)advance();});
+      p.on('play',function(){c.classList.remove('rl-hold');});
+      p.on('timeupdate',function(d){
+        if(i!==active||!d)return;
+        var bar=c.querySelector('.rl-prog');
+        if(bar&&d.percent!=null)bar.style.width=(d.percent*100).toFixed(2)+'%';
+      });
+    });
+    return true;
+  }
+
+  /* player.js is deferred and third-party — poll briefly, then degrade. */
+  function waitForSDK(tries){
+    if(buildPlayers()){sync();return;}
+    if(tries>40){degrade();return;}
+    setTimeout(function(){waitForSDK(tries+1);},200);
+  }
+
+  /* player.js never arrived — almost always because vimeo.com itself is
+     unreachable (firewall, script blocker), in which case the iframes are
+     dead too. Keep the placeholders, which carry a real "Watch ↗" link, and
+     drop the click-shield so that link is reachable. The rail still scrolls,
+     snaps and navigates — it just won't drive itself. */
+  function degrade(){
+    manual=true;
+    sec.classList.add('rl-manual');
+  }
+
   rail.addEventListener('scroll',function(){
     if(ticking)return;ticking=true;
     requestAnimationFrame(function(){ticking=false;paint();});
   },{passive:true});
 
   cards.forEach(function(c,i){
-    var v=c.querySelector('video');
-    if(!v){c.classList.add('rl-na');return;}
-    /* Match the frame to the real file, whatever ratio it turns out to be. */
-    v.addEventListener('loadedmetadata',function(){
-      if(v.videoWidth&&v.videoHeight){
-        c.style.setProperty('--ar',(v.videoWidth/v.videoHeight).toFixed(4));
-        pad();requestAnimationFrame(paint);
-      }
-    });
-    v.addEventListener('playing',function(){c.classList.remove('rl-hold');});
-    v.addEventListener('ended',function(){if(i===active&&!PRM)advance();});
-    v.addEventListener('error',function(){c.classList.add('rl-na');if(i===active)sync();});
-    v.addEventListener('timeupdate',function(){
-      if(i!==active||!v.duration)return;
-      var bar=c.querySelector('.rl-prog');
-      if(bar)bar.style.width=((v.currentTime/v.duration)*100).toFixed(2)+'%';
-    });
-    c.addEventListener('click',function(){
+    var hit=c.querySelector('.rl-hit');
+    if(!hit)return;
+    hit.addEventListener('click',function(){
       if(i!==active){centerOn(i);return;}
-      if(!v.paused){v.pause();}else{var p=v.play();if(p&&p.catch)p.catch(function(){});}
+      var p=players[i];
+      if(!p)return;
+      p.getPaused().then(function(isPaused){
+        if(isPaused)p.play().catch(noop);else p.pause().catch(noop);
+      }).catch(noop);
     });
   });
 
@@ -2007,8 +2030,8 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
       muteBtn.classList.toggle('on',!muted);
       muteBtn.setAttribute('aria-pressed',String(!muted));
       muteBtn.setAttribute('aria-label',muted?'Unmute reel':'Mute reel');
-      var v=vid(active);
-      if(v){v.muted=muted;if(!muted){var p=v.play();if(p&&p.catch)p.catch(function(){});}}
+      var p=players[active];
+      if(p){p.setMuted(muted).catch(noop);if(!muted)p.play().catch(noop);}
     });
   }
 
@@ -2023,7 +2046,7 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
       if(inView)prime();
       sync();
     },{threshold:0.3}).observe(sec);
-  }else{inView=true;}
+  }else{inView=true;prime();}
 
   cards[0].classList.add('is-active');
   requestAnimationFrame(function(){pad();centerOn(0,true);paint();});

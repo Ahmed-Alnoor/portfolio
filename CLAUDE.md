@@ -53,22 +53,32 @@ node /tmp/imgopt/optimize.mjs      # resizes/compresses referenced images in pla
 Delete unused assets — confirm a file is unreferenced first:
 `grep -F 'filename.ext' index.html` (ignore matches that are only in comments).
 
-## Videos (`assets/video/`)
+## Videos (Vimeo-hosted)
 
-The **001.4 — Real Estate Reel** section streams `.mp4` files from `assets/video/`. The files
-themselves are **not committed** — see `assets/video/README.md` for the expected filenames and
-the `ffmpeg` recipe. Rules for anything video-related:
+The **001.4 — Real Estate Reel** section plays films from Vimeo — **no video bytes live in this
+repo**, so don't commit `.mp4`s. Rules for anything video-related:
 
-- Always `muted` + `playsinline` + `preload="metadata"`, or iOS refuses to autoplay inline.
-- Never assume a clip's aspect ratio in CSS alone. Cards carry an `--ar` custom property that JS
-  overwrites from the real `videoWidth/videoHeight` on `loadedmetadata`, so the frame matches the
-  source file. Keep that behaviour if you add clips.
-- A `play()` promise can reject for two very different reasons — the file is missing/undecodable
-  (`el.error` or `networkState === 3`) versus the browser refused autoplay. Handle them
-  separately: the first advances the reel, the second shows a tap-to-play glyph. Swallowing the
-  rejection silently leaves the reel frozen.
-- Only the centre clip ever plays; the rest stay paused. That's what keeps the blur affordable on
-  phones — don't start them all.
+- **Use the Player SDK, not a bare iframe.** A plain Vimeo/YouTube/Drive iframe is cross-origin
+  and cannot tell you when a film ends, which kills the auto-advance. `player.js` +
+  `new Vimeo.Player(iframe)` exposes `play` / `pause` / `ended` / `timeupdate`. Drive has no
+  equivalent — don't move the clips there.
+- **Autoplay needs `muted=1` + `playsinline=1`** in the embed URL, or iOS refuses inline.
+- **Never assume a clip's aspect ratio.** Each card sets `--ar` from the film's real ratio
+  (`100 ÷ the padding-top %` in the embed snippet Vimeo gives you). Add a new clip → add its
+  `--ar`, or the frame will letterbox.
+- **Adding a film** = one `<article class="rl-card">` (copy an existing one: swap the video id in
+  `data-src` + the `Watch ↗` href, set `--ar`, set `rl-wide` or `rl-tall`) **plus** one more
+  `.rl-dot` button. The JS picks up card and dot counts on its own.
+- **Keep the three fallbacks working**: a card only drops its `Watch ↗` placeholder once
+  `player.ready()` resolves (proof Vimeo actually loaded — don't set `rl-live` just because the
+  `src` was assigned, or a blocked Vimeo leaves blank black cards); no `player.js` calls
+  `degrade()`, which keeps those placeholders and hides the `.rl-hit` shield so the link is
+  clickable; and a refused `play()` shows the tap-to-play glyph. Silently swallowing a rejected
+  `play()` freezes the reel.
+- **Lazy by default.** Iframes carry `data-src` and only get a real `src` when the section first
+  scrolls into view. Don't move that to a plain `src` — it would load four players on every page
+  load. Only the centre film ever plays; the rest stay paused, which is what keeps the blur
+  affordable on phones.
 
 ## Local preview
 
