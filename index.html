@@ -1572,8 +1572,8 @@ html.light .cs-tag{border-color:rgba(26,21,16,.15);color:rgba(26,21,16,.45)}
 </div>
 <!-- ============================================================
      001.4 — REAL ESTATE REEL  (auto-playing Vimeo film carousel)
-     Proof-of-work films from real-estate development: one 16:9 opener
-     followed by three 9:16 verticals, shown as a centre-focused rail.
+     Proof-of-work films from real-estate development: two 16:9 films
+     and three 9:16 verticals, shown as a centre-focused rail.
      The middle card sits forward, sharp and playing; its neighbours
      fall back, dimmed and blurred — but their titles stay crisp, so
      you can always read what's coming next.
@@ -1817,6 +1817,23 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
         <div class="rl-cap"><span class="rl-num">03</span><h3 class="rl-ttl">World's First AI-Designed District</h3></div>
       </article>
 
+      <article class="rl-card rl-wide" style="--ar:1.7778" data-vid="1213826850" aria-label="Showcase">
+        <div class="rl-media">
+          <iframe class="rl-if" title="Showcase" loading="lazy" frameborder="0"
+            allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+            referrerpolicy="strict-origin-when-cross-origin"
+            data-src="https://player.vimeo.com/video/1213826850?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;muted=1&amp;playsinline=1&amp;dnt=1"></iframe>
+          <div class="rl-fb">
+            <span class="rl-fb-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+            <a class="rl-fb-a" href="https://vimeo.com/1213826850" target="_blank" rel="noopener">Watch ↗</a>
+          </div>
+        </div>
+        <span class="rl-prog"></span>
+        <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+        <button class="rl-hit" type="button" aria-label="Play or pause Showcase"></button>
+        <div class="rl-cap"><span class="rl-num">04</span><h3 class="rl-ttl">Showcase</h3></div>
+      </article>
+
       <article class="rl-card rl-tall" style="--ar:0.5602" data-vid="1212856419" aria-label="D11 Golden Place">
         <div class="rl-media">
           <iframe class="rl-if" title="D11 Golden Place" loading="lazy" frameborder="0"
@@ -1831,7 +1848,7 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
         <span class="rl-prog"></span>
         <span class="rl-play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
         <button class="rl-hit" type="button" aria-label="Play or pause D11 Golden Place"></button>
-        <div class="rl-cap"><span class="rl-num">04</span><h3 class="rl-ttl">D11 Golden Place</h3></div>
+        <div class="rl-cap"><span class="rl-num">05</span><h3 class="rl-ttl">D11 Golden Place</h3></div>
       </article>
 
     </div>
@@ -1846,7 +1863,8 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
       <button class="rl-dot on" type="button" aria-label="Go to film 1 — Location"><i></i></button>
       <button class="rl-dot" type="button" aria-label="Go to film 2 — The New Era of Work"><i></i></button>
       <button class="rl-dot" type="button" aria-label="Go to film 3 — World's First AI-Designed District"><i></i></button>
-      <button class="rl-dot" type="button" aria-label="Go to film 4 — D11 Golden Place"><i></i></button>
+      <button class="rl-dot" type="button" aria-label="Go to film 4 — Showcase"><i></i></button>
+      <button class="rl-dot" type="button" aria-label="Go to film 5 — D11 Golden Place"><i></i></button>
     </div>
     <button class="rl-mute" id="rl-mute" type="button" aria-pressed="false" aria-label="Unmute reel">
       <svg class="rl-i-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="m23 9-6 6"/><path d="m17 9 6 6"/></svg>
@@ -1872,8 +1890,26 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
   var PRM=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
   var players=new Array(cards.length);
-  var active=0,inView=false,muted=true,primed=false,manual=false,ticking=false,resizeT=null;
+  /* Two different things, deliberately kept apart. `wantSound` is what the
+     visitor asked for and survives moving between films; the button's own
+     look is painted from the player's REAL muted state. Conflating the two is
+     what made the button claim "sound on" while a film played silently. */
+  var wantSound=false;
+  var active=0,inView=false,primed=false,manual=false,ticking=false,resizeT=null;
   function noop(){}
+
+  /* Single place the button is allowed to change appearance — and it only ever
+     takes the value the player reports back, never what we hoped for. */
+  function paintSound(isMuted){
+    if(!muteBtn)return;
+    muteBtn.classList.toggle('on',!isMuted);
+    muteBtn.setAttribute('aria-pressed',String(!isMuted));
+    muteBtn.setAttribute('aria-label',isMuted?'Unmute reel':'Mute reel');
+  }
+  function readSound(p,i){
+    if(!p||!p.getMuted)return;
+    p.getMuted().then(function(m){if(i===active)paintSound(m);}).catch(noop);
+  }
 
   function clamp(i){return Math.max(0,Math.min(cards.length-1,i));}
 
@@ -1898,13 +1934,29 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
       var p=players[i];
       if(!p)continue;
       if(i===active&&inView&&!PRM&&!manual){
-        p.setMuted(muted).catch(noop);
-        (function(card,pl){
-          pl.play().catch(function(){
-            /* Autoplay refused — wait for a tap instead of freezing the reel. */
-            card.classList.add('rl-hold');
+        (function(card,pl,idx){
+          /* Mute is applied AFTER playback actually starts: play() is what the
+             autoplay policy inspects, and a browser that refuses sound will
+             quietly re-mute underneath us. Then read the state back and paint
+             the button from that, so it always matches what you can hear. */
+          pl.play().then(function(){
+            return pl.setMuted(!wantSound);
+          }).then(function(){
+            return pl.getMuted();
+          }).then(function(m){
+            if(idx===active)paintSound(m);
+          }).catch(function(){
+            if(wantSound){
+              /* Refused with sound on — play it muted rather than not at all,
+                 and say so on the button instead of claiming sound is on. */
+              pl.setMuted(true).then(function(){return pl.play();})
+                .then(function(){if(idx===active)paintSound(true);})
+                .catch(function(){card.classList.add('rl-hold');});
+            }else{
+              card.classList.add('rl-hold');
+            }
           });
-        })(cards[i],p);
+        })(cards[i],p,i);
       }else{
         p.pause().catch(noop);
       }
@@ -1924,7 +1976,17 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
     if(p)p.setCurrentTime(0).catch(noop);
     var bar=cards[i].querySelector('.rl-prog');
     if(bar)bar.style.width='0%';
-    sync();
+    /* Wrapping 5 -> 1 slides the rail past every card in between, and each one
+       briefly becomes the centre. Commit playback only once the rail settles,
+       or those pass-throughs each fire a play() that is cancelled milliseconds
+       later — five players' worth of churn for one intended change. */
+    scheduleSync();
+  }
+
+  var syncT=null;
+  function scheduleSync(){
+    if(syncT)clearTimeout(syncT);
+    syncT=setTimeout(function(){syncT=null;sync();},170);
   }
 
   /* Write each card's distance-from-centre; CSS turns it into scale/blur/dim. */
@@ -1968,6 +2030,9 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
       if(p.ready)p.ready().then(function(){c.classList.add('rl-live');}).catch(noop);
       else c.classList.add('rl-live');
       p.setMuted(true).catch(noop);
+      /* Vimeo can change its own volume/mute (its UI, or an autoplay
+         fallback) — mirror that onto the button so it never goes stale. */
+      p.on('volumechange',function(){readSound(p,i);});
       p.on('ended',function(){if(i===active&&!PRM)advance();});
       p.on('play',function(){c.classList.remove('rl-hold');});
       p.on('timeupdate',function(d){
@@ -2026,12 +2091,21 @@ html.light .rl-mute{color:rgba(26,21,16,.62);border-color:rgba(26,21,16,.14)}
   if(muteBtn){
     muteBtn.addEventListener('click',function(e){
       e.stopPropagation();
-      muted=!muted;
-      muteBtn.classList.toggle('on',!muted);
-      muteBtn.setAttribute('aria-pressed',String(!muted));
-      muteBtn.setAttribute('aria-label',muted?'Unmute reel':'Mute reel');
+      /* Flip what the button is actually SHOWING, not the remembered intent.
+         After a browser-forced re-mute the two disagree, and toggling intent
+         would mute a film that is already silent — the second wasted click. */
+      wantSound=!muteBtn.classList.contains('on');
       var p=players[active];
-      if(p){p.setMuted(muted).catch(noop);if(!muted)p.play().catch(noop);}
+      if(!p){paintSound(!wantSound);return;}
+      p.setMuted(!wantSound).then(function(){
+        if(wantSound)return p.play();      /* asking for sound implies playing */
+      }).then(function(){
+        return p.getMuted();
+      }).then(function(m){
+        paintSound(m);                     /* report reality, not the request */
+      }).catch(function(){
+        readSound(p,active);
+      });
     });
   }
 
